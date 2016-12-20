@@ -5,47 +5,98 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+    //读取缓存
+    try {
+      var data = wx.getStorageSync('cache')
+      if (data) {
+        _this.cache = data;
+      }
+    } catch (e) { }
   },
-  getUserInfo:function(cb){
-    var that = this
-    if(this.globalData.userInfo){
-      typeof cb == "function" && cb(this.globalData.userInfo)
-    }else{
-      //调用登录接口
-      wx.login({
-        success: function () {
-          wx.getUserInfo({
-            success: function (res) {
-              that.globalData.userInfo = res.userInfo;
-              that._user.wx = res.userInfo;
-              typeof cb == "function" && cb(that.globalData.userInfo)
-            }
-          })
+  //后台切换至前台时
+  onShow: function () {
+
+  },
+  //getUser函数，在index中调用
+  getUser: function (update_cb, bind) {
+    var _this = this;
+    wx.login({
+      success: function (res) {
+        if (res.code) {
+          //调用函数获取微信用户信息
+          _this.getUserInfo(function (info) {
+            _this.user.wxinfo = info.userInfo;
+            //发送code与微信用户信息，获取学生数据
+            wx.request({
+              method: 'POST',
+              url: _this.server + '/api/users/get_info',
+              data: {
+                code: res.code,
+                key: info.encryptedData,
+                iv: info.iv
+              },
+              success: function (res) {
+                if (res.data && res.statusCode >= 200 && res.statusCode < 400) {
+                  var status = false;
+                  //判断缓存是否有更新
+                  if (!_this.cache || _this.cache != res.msg) {
+                    wx.setStorage({
+                      key: "cache",
+                      data: res.msg
+                    });
+                    status = true;
+                  }
+                  //如果缓存有更新，则执行回调函数
+                  if (status) {
+                    typeof update_cb == "function" && update_cb();
+                  }
+                } else {
+                  //清除缓存
+                  if (_this.cache) {
+                    wx.removeStorage({ key: 'cache' });
+                    _this.cache = '';
+                  }
+                }
+              },
+              fail: function (res) {
+                //清除缓存
+                if (_this.cache) {
+                  wx.removeStorage({ key: 'cache' });
+                  _this.cache = '';
+                }
+              }
+            });
+          });
         }
-      })
-    }
+      }
+    });
   },
-  showErrorModal: function(content, title){
+  getUserInfo: function (cb) {
+    //获取微信用户信息
+    wx.getUserInfo({
+      success: function (res) {
+        typeof cb == "function" && cb(res);
+      }
+    });
+  },
+  showErrorModal: function (content, title) {
     wx.showModal({
       title: title || '加载失败',
       content: content || '未知错误',
       showCancel: false
     });
   },
-  showLoadToast: function(title, duration){
+  showLoadToast: function (title, duration) {
     wx.showToast({
       title: title || '加载中',
       icon: 'loading',
       duration: duration || 10000
     });
   },
-  _server: 'https://sr.lastfighting.cn',
-  globalData:{
-    userInfo:null
-  },
-  _user: {
+  server: 'https://xiaomiao.lastfighting.com',
+  user: {
     //微信数据
-    wx: { },
+    wxinfo: {},
     //学生\老师数据
     school: {}
   }

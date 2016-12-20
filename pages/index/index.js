@@ -12,15 +12,31 @@ Page({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
-    console.log('onLoad')
-    var that = this
-    //调用应用实例的方法获取全局数据
-    app.getUserInfo(function (userInfo) {
-      //更新数据
-      that.setData({
-        userInfo: userInfo
-      })
-    })
-  }
+  onLoad: function(){
+    this.login();
+  },
+  login: function(){
+    var _this = this;
+    //如果有缓存
+    if(!!app.cache){
+      try{
+        _this.response();
+      }catch(e){
+        //报错则清除缓存
+        wx.removeStorage({ key: 'cache' });
+      }
+    }
+    //然后通过登录用户, 如果缓存更新将执行该回调函数
+    app.getUser(_this.response);
+  },
+  response: function(){
+    var _this = this;
+    _this.setData({
+      userInfo: app.user.wxinfo
+    });
+  },
+  //下拉更新
+  onPullDownRefresh: function () {
+
+  },
 })

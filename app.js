@@ -106,7 +106,7 @@ App({
       duration: duration || 10000
     });
   },
-  server: 'https://sr.lastfighting.com',
+  server: require('config').server,
   user: {
     //微信数据
     wxinfo: {},

@@ -36,7 +36,7 @@ App({
                 iv: info.iv
               },
               success: function (res) {
-                if (res.data && res.statusCode >= 200 && res.statusCode < 400) {
+                if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
                   var status = false;
                   //判断缓存是否有更新
                   if (!_this.cache || _this.cache != res.data.msg) {
@@ -45,6 +45,7 @@ App({
                       data: res.data.msg
                     });
                     status = true;
+                    _this.processData(res.data.msg);
                   }
                   //如果缓存有更新，则执行回调函数
                   if (status) {
@@ -79,16 +80,14 @@ App({
       }
     });
   },
-  processData: function (key) {
+  processData: function (msg) {
     var _this = this;
-    var data = JSON.parse(_this.util.base64.decode(key));
-    _this._user.is_bind = data.is_bind;
-    _this._user.openid = data.user.openid;
-    _this._user.teacher = data.user.type == '教职工';
-    _this._user.we = data.user;
-    _this._time = data.time;
-    _this._t = data['\x74\x6f\x6b\x65\x6e'];
-    return data;
+    //var data = JSON.parse(msg);
+    //_this.user.is_bind = data.is_bind;
+    _this.user.wxinfo.openid = msg.user.openid;
+    //_this.user.teacher = data.user.type == '教职工';
+    //_this._t = data['\x74\x6f\x6b\x65\x6e'];
+    //return data;
   },
   showErrorModal: function (content, title) {
     wx.showModal({
@@ -104,7 +103,7 @@ App({
       duration: duration || 10000
     });
   },
-  server: 'https://xiaomiao.lastfighting.com',
+  server: 'https://sr.lastfighting.com',
   user: {
     //微信数据
     wxinfo: {},

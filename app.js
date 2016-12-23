@@ -45,7 +45,7 @@ App({
                       data: res.data.msg
                     });
                     status = true;
-                    _this.processData(res.data.msg);
+                    _this.user.wxinfo.id = res.data.msg.session_id;
                   }
                   //如果缓存有更新，则执行回调函数
                   if (status) {
@@ -87,7 +87,7 @@ App({
     var _this = this;
     //var data = JSON.parse(msg);
     //_this.user.is_bind = data.is_bind;
-    _this.user.wxinfo.openid = msg.user.openid;
+    _this.user.wxinfo.id = msg.session_3rd;
     //_this.user.teacher = data.user.type == '教职工';
     //_this._t = data['\x74\x6f\x6b\x65\x6e'];
     //return data;

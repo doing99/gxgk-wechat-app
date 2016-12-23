@@ -38,9 +38,9 @@ Page({
     app.showLoadToast('绑定中');
     wx.request({
       method: 'POST',
-      url: 'https://xiaomiao.lastfighting.com/api/users/bind',
+      url: app.server + '/api/users/bind',
       data: {
-        openid: app._user.wx.openid,
+        session_id: app.user.wxinfo.id,
         studentid: _this.data.userid,
         studentpwd: _this.data.passwd
       },

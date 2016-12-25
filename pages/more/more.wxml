@@ -1,13 +1,13 @@
 <!--more.wxml-->
 <view class="container">
   <view class="user-info-box">
-    <block wx:if="{{is_bind}}">
+    <block wx:if="{{user.is_bind}}">
       <view class="user-info">
         <view class="info-hd">
           <image class="user-avatar" src="{{user.wxinfo.avatarUrl}}"></image>
           <view class="user-title">
-            <text class="user-name">{{student.info.name}}</text>
-            <text class="user-id">{{student.info.id}}</text>
+            <text class="user-name">{{user.school.name}}</text>
+            <text class="user-id">{{user.school.id}}</text>
           </view>
           <view class="time-box">
             <text class="time-term">{{time.term}}</text>
@@ -16,19 +16,19 @@
         </view>
         <view class="info-bd" wx:if="{{!user.teacher}}">
           <view class="info-bd-left">
-            <text class="user-text">性别：{{student.more.sex}}</text>
-            <text class="user-text">年级：{{student.more.nj}}级</text>
-            <text class="user-text">班级：{{student.more.bj}}班</text>
+            <text class="user-text">性别：{{user.wxinfo.gender?'男':'女'}}</text>
+            <text class="user-text">年级：{{user.school.grade}}级</text>
+            <text class="user-text">班级：{{user.school.class}}</text>
           </view>
           <view class="info-bd-right">
-            <text class="user-text">学号：{{user.we.ykth}}</text>
+            <text class="user-text">学号：{{user.school.id}}</text>
             <text class="user-text">系别：{{user.we.info.yxm}}</text>
             <text class="user-text">专业：{{user.we.more.zym}}</text>
           </view>
         </view>
         <view class="info-bd" wx:else>
           <view class="info-bd-left">
-            <text class="user-text">学号：{{user.we.ykth}}</text>
+            <text class="user-text">学号：{{user.school.id}}</text>
           </view>
           <view class="info-bd-right">
             <text class="user-text">系别：{{user.we.info.yxm}}</text>
@@ -91,7 +91,7 @@
   </view>
 
   <navigator url="login" class="login-btn">
-    <text wx:if="{{is_bind}}">切换绑定</text>
+    <text wx:if="{{user.is_bind}}">切换绑定</text>
     <text wx:else>立即绑定</text>
   </navigator>
 

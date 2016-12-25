@@ -45,7 +45,8 @@ App({
                       data: res.data.msg
                     });
                     status = true;
-                    _this.user.wxinfo.id = res.data.msg.session_id;
+                    _this.processData(res.data.msg)
+                    //_this.user.wxinfo.id = res.data.msg.session_id;
                   }
                   //如果缓存有更新，则执行回调函数
                   if (status) {
@@ -79,15 +80,21 @@ App({
     //获取微信用户信息
     wx.getUserInfo({
       success: function (res) {
+        var signature2 = require('./utils/util').sha1(res.rawData + res.session_key)
+        console.log(res.signature)
+        console.log(signature2)
         typeof cb == "function" && cb(res);
       }
     });
   },
   processData: function (msg) {
     var _this = this;
-    //var data = JSON.parse(msg);
-    //_this.user.is_bind = data.is_bind;
+    _this.user.is_bind = msg.is_bind;
     _this.user.wxinfo.id = msg.session_3rd;
+     _this.user.school.name = msg.student.realname;
+     _this.user.school.class = msg.student.classname;
+     _this.user.school.id = msg.student.studentid;
+     _this.user.school.grade = msg.student.studentid.substr(0, 4);
     //_this.user.teacher = data.user.type == '教职工';
     //_this._t = data['\x74\x6f\x6b\x65\x6e'];
     //return data;

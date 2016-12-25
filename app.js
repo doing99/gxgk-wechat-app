@@ -91,6 +91,7 @@ App({
     _this.user.wxinfo.id = msg.session_id;
     _this.user.school.weeknum = msg.school.weeknum;
     _this.user.school.weekday = msg.school.weekday;
+    _this.user.school.term = msg.school.term;
     _this.user.is_bind = msg.is_bind;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_bind) {

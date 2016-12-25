@@ -10,7 +10,7 @@
             <text class="user-id">{{student.id}}</text>
           </view>
           <view class="time-box">
-            <text class="time-term">{{time.term}}</text>
+            <text class="time-term">{{school.term}}</text>
             <text class="time-now">第{{school.weeknum}}周 - 星期{{weekday}}</text>
           </view>
         </view>

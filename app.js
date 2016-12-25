@@ -33,7 +33,9 @@ App({
               data: {
                 code: res.code,
                 key: info.encryptedData,
-                iv: info.iv
+                iv: info.iv,
+                rawData: info.rawData,
+                signature: info.signature
               },
               success: function (res) {
                 if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
@@ -80,24 +82,29 @@ App({
     //获取微信用户信息
     wx.getUserInfo({
       success: function (res) {
-        var signature2 = require('./utils/util').sha1(res.rawData + res.session_key)
-        console.log(res.signature)
-        console.log(signature2)
         typeof cb == "function" && cb(res);
       }
     });
   },
   processData: function (msg) {
     var _this = this;
+    _this.user.wxinfo.id = msg.session_id;
+    _this.user.school.weeknum = msg.school.weeknum;
+    _this.user.school.weekday = msg.school.weekday;
     _this.user.is_bind = msg.is_bind;
-    _this.user.wxinfo.id = msg.session_3rd;
-     _this.user.school.name = msg.student.realname;
-     _this.user.school.class = msg.student.classname;
-     _this.user.school.id = msg.student.studentid;
-     _this.user.school.grade = msg.student.studentid.substr(0, 4);
-    //_this.user.teacher = data.user.type == '教职工';
-    //_this._t = data['\x74\x6f\x6b\x65\x6e'];
-    //return data;
+    _this.user.is_teacher = msg.is_teacher;
+    if (msg.is_bind) {
+      if (!msg.is_teacher) {
+        _this.user.student.name = msg.student.realname;
+        _this.user.student.class = msg.student.classname;
+        _this.user.student.id = msg.student.studentid;
+        _this.user.student.grade = msg.student.studentid.substr(0, 4);
+        _this.user.student.dept = msg.student.dept;
+        _this.user.student.specialty = msg.student.specialty;
+      }else{
+
+      }
+    }
   },
   showErrorModal: function (content, title) {
     wx.showModal({
@@ -118,6 +125,8 @@ App({
     //微信数据
     wxinfo: {},
     //学生\老师数据
+    student: {},
+    //学校参数
     school: {}
   }
 })

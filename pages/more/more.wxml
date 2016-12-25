@@ -1,34 +1,32 @@
 <!--more.wxml-->
 <view class="container">
   <view class="user-info-box">
-    <block wx:if="{{user.is_bind}}">
+    <block wx:if="{{is_bind}}">
       <view class="user-info">
         <view class="info-hd">
-          <image class="user-avatar" src="{{user.wxinfo.avatarUrl}}"></image>
+          <image class="user-avatar" src="{{wxinfo.avatarUrl}}"></image>
           <view class="user-title">
-            <text class="user-name">{{user.school.name}}</text>
-            <text class="user-id">{{user.school.id}}</text>
+            <text class="user-name">{{student.name}}</text>
+            <text class="user-id">{{student.id}}</text>
           </view>
           <view class="time-box">
             <text class="time-term">{{time.term}}</text>
-            <text class="time-now">第{{time.week}}周 - 星期{{time.day}}</text>
+            <text class="time-now">第{{school.weeknum}}周 - 星期{{weekday}}</text>
           </view>
         </view>
         <view class="info-bd" wx:if="{{!user.teacher}}">
           <view class="info-bd-left">
-            <text class="user-text">性别：{{user.wxinfo.gender?'男':'女'}}</text>
-            <text class="user-text">年级：{{user.school.grade}}级</text>
-            <text class="user-text">班级：{{user.school.class}}</text>
+            <text class="user-text">年级：{{student.grade}}级</text>
+            <text class="user-text">班级：{{student.class}}</text>
           </view>
           <view class="info-bd-right">
-            <text class="user-text">学号：{{user.school.id}}</text>
-            <text class="user-text">系别：{{user.we.info.yxm}}</text>
-            <text class="user-text">专业：{{user.we.more.zym}}</text>
+            <text class="user-text">系别：{{student.dept}}</text>
+            <text class="user-text">专业：{{student.specialty}}</text>
           </view>
         </view>
         <view class="info-bd" wx:else>
           <view class="info-bd-left">
-            <text class="user-text">学号：{{user.school.id}}</text>
+            <text class="user-text">学号：{{student.id}}</text>
           </view>
           <view class="info-bd-right">
             <text class="user-text">系别：{{user.we.info.yxm}}</text>
@@ -47,9 +45,9 @@
     </block>
     <navigator url="/pages/more/login" class="user-info" wx:else>
       <view class="info-hd">
-        <image class="user-avatar" src="{{user.wxinfo.avatarUrl}}"></image>
+        <image class="user-avatar" src="{{wxinfo.avatarUrl}}"></image>
         <view class="user-title">
-          <text class="user-name">{{user.wxinfo.nickName}}</text>
+          <text class="user-name">{{wxinfo.nickName}}</text>
           <text class="user-id">请先绑定教务系统</text>
         </view>
         <text class="bind-btn">前往绑定</text>
@@ -91,7 +89,7 @@
   </view>
 
   <navigator url="login" class="login-btn">
-    <text wx:if="{{user.is_bind}}">切换绑定</text>
+    <text wx:if="{{is_bind}}">切换绑定</text>
     <text wx:else>立即绑定</text>
   </navigator>
 

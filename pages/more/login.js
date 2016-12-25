@@ -96,7 +96,7 @@ Page({
     this.setData({
       userid: e.detail.value
     });
-    if(e.detail.value.length >= 13){
+    if(e.detail.value.length >= 11){
       wx.hideKeyboard();
     }
   },

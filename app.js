@@ -10,6 +10,7 @@ App({
       var data = wx.getStorageSync('cache')
       if (data) {
         _this.cache = data;
+        _this.processData(data);
       }
     } catch (e) { }
   },
@@ -48,7 +49,6 @@ App({
                     });
                     status = true;
                     _this.processData(res.data.msg)
-                    //_this.user.wxinfo.id = res.data.msg.session_id;
                   }
                   //如果缓存有更新，则执行回调函数
                   if (status) {
@@ -104,7 +104,7 @@ App({
         _this.user.student.grade = msg.student.studentid.substr(0, 4);
         _this.user.student.dept = msg.student.dept;
         _this.user.student.specialty = msg.student.specialty;
-      }else{
+      } else {
 
       }
     }

@@ -35,7 +35,7 @@
         </view>
       </view>
       <navigator url="append?type=library" class="append-link" wx:if="{{!is_teacher}}">
-        <view class="more-btn" wx:if="{{is_bind_library}}">
+        <view class="more-btn" wx:if="{{!is_bind_library}}">
           <image class="btn-icon" src="/images/more/append.png"></image>
           <text class="btn-text">绑定图书证</text>
           <view class="btn-open">

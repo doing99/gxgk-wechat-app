@@ -1,0 +1,14 @@
+/**append.wxss**/
+@import './login.wxss';
+.append-title {
+  position: absolute;
+  top: 75rpx;
+  width: 100%;
+  color: #777;
+  font-size: 22pt;
+  line-height: 200%;
+  text-align: center;
+}
+.append-form {
+  padding: 150rpx 0 50rpx;
+}

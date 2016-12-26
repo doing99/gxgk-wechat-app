@@ -1,3 +1,4 @@
+
 <!--more.wxml-->
 <view class="container">
   <view class="user-info-box">
@@ -33,10 +34,19 @@
           </view>
         </view>
       </view>
-      <navigator url="append" class="append-link" wx:if="{{!user.teacher}}">
-        <view class="more-btn">
+      <navigator url="append?type=library" class="append-link" wx:if="{{!is_teacher}}">
+        <view class="more-btn" wx:if="{{is_bind_library}}">
           <image class="btn-icon" src="/images/more/append.png"></image>
-          <text class="btn-text">完善信息</text>
+          <text class="btn-text">绑定图书证</text>
+          <view class="btn-open">
+            <image class="btn-enter" src="/images/more/enter.png"></image>
+          </view>
+        </view>
+        </navigator>
+        <navigator url="append?type=mealcard" class="append-link" wx:if="{{!is_teacher}}">
+        <view class="more-btn" wx:if="{{is_bind_mealcard}}">
+          <image class="btn-icon" src="/images/more/append.png"></image>
+          <text class="btn-text">绑定饭卡</text>
           <view class="btn-open">
             <image class="btn-enter" src="/images/more/enter.png"></image>
           </view>
@@ -57,7 +67,6 @@
       </view>
     </navigator>
   </view>
-
   <view class="more-list">
     <navigator url="/pages/more/issues" class="issue-link">
       <view class="more-btn">
@@ -73,7 +82,7 @@
         <image class="btn-icon" src="/images/more/about.png"></image>
         <text class="btn-text">关于小喵</text>
         <view class="btn-open">
-            <image class="btn-enter" src="/images/more/enter.png"></image>
+          <image class="btn-enter" src="/images/more/enter.png"></image>
         </view>
       </view>
     </navigator>
@@ -82,15 +91,13 @@
         <image class="btn-icon" src="/images/more/about.png"></image>
         <text class="btn-text">关于莞香</text>
         <view class="btn-open">
-            <image class="btn-enter" src="/images/more/enter.png"></image>
+          <image class="btn-enter" src="/images/more/enter.png"></image>
         </view>
       </view>
     </navigator>
   </view>
-
   <navigator url="login" class="login-btn">
     <text wx:if="{{is_bind}}">切换绑定</text>
     <text wx:else>立即绑定</text>
   </navigator>
-
 </view>

@@ -93,6 +93,8 @@ App({
     _this.user.school.weekday = msg.school.weekday;
     _this.user.school.term = msg.school.term;
     _this.user.is_bind = msg.is_bind;
+    _this.user.is_bind_mealcard = msg.is_bind_mealcard;
+    _this.user.is_bind_library = msg.is_bind_library;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_bind) {
       if (!msg.is_teacher) {

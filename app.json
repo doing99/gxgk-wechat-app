@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/news/news",
     "pages/more/more",
-    "pages/more/login"
+    "pages/more/login",
+    "pages/more/append"
   ],
   "window":{
     "navigationBarBackgroundColor": "#079df2",

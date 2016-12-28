@@ -20,8 +20,8 @@
     <view class="describe" wx:if="{{!showLog}}">
         <text class="desc-title">简介</text>
         <view class="desc-list">
-          <text class="desc-list-item">官网：https://we.cqu.pt、http://we.cqupt.edu.cn</text>
-          <text class="desc-list-item">Github：https://github.com/lanshan-studio/wecqupt</text>
+          <text class="desc-list-item">官网：http://www.gxgk.cc</text>
+          <text class="desc-list-item">Github：https://github.com/paicha/gxgk-wechat-server</text>
         </view>
         <text class="desc-content">We重邮是一个微信小程序，是有别于订阅号/服务号的一种全新的连接用户与服务的方式，可以在微信内被便捷地获取和传播，同时具有出色的使用体验。</text>
         <text class="desc-content">We重邮是碎片式信息一体化校园移动门户，适用于学生和教师，集课表、成绩、考试、空教室、学生、一卡通、借阅、学费、电费、报修、公告等各功能于一身。</text>

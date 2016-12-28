@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/core/kb/kb",
     "pages/logs/logs",
     "pages/news/news",
     "pages/more/more",

@@ -96,16 +96,18 @@ App({
     _this.user.is_bind_mealcard = msg.is_bind_mealcard;
     _this.user.is_bind_library = msg.is_bind_library;
     _this.user.is_teacher = msg.is_teacher;
+    //当天课表
+    _this.user.today_schedule = msg.today_schedule
     if (msg.is_bind) {
-      if (!msg.is_teacher) {
+      if (msg.is_teacher) {
+
+      } else {
         _this.user.student.name = msg.student.realname;
         _this.user.student.class = msg.student.classname;
         _this.user.student.id = msg.student.studentid;
         _this.user.student.grade = msg.student.studentid.substr(0, 4);
         _this.user.student.dept = msg.student.dept;
         _this.user.student.specialty = msg.student.specialty;
-      } else {
-
       }
     }
   },
@@ -131,5 +133,6 @@ App({
     student: {},
     //学校参数
     school: {}
-  }
+  },
+  util: require('./utils/util')
 })

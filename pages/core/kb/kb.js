@@ -12,14 +12,6 @@ Page({
       { begin: '14:40', end: '16:15', beginTop: 204, endTop: 204 },
       { begin: '16:30', end: '18:05', beginTop: 208, endTop: 408 },
       { begin: '19:30', end: '21:05', beginTop: 414, endTop: 414 },
-      { begin: '14:00', end: '15:40', beginTop: 420, endTop: 620 },
-      { begin: '15:41', end: '16:04', beginTop: 624, endTop: 624 },
-      { begin: '16:05', end: '17:45', beginTop: 628, endTop: 828 },
-      { begin: '17:46', end: '18:59', beginTop: 834, endTop: 834 },
-      { begin: '19:00', end: '20:40', beginTop: 840, endTop: 1040 },
-      { begin: '20:41', end: '20:49', beginTop: 1044, endTop: 1044 },
-      { begin: '20:50', end: '22:30', beginTop: 1048, endTop: 1248 },
-      { begin: '22:31', end: '23:59', beginTop: 1254, endTop: 1254 },
     ],
     timelineTop: 0,
     scroll: {
@@ -250,13 +242,14 @@ Page({
       data: data,
       success: function (res) {
         if (res.data && res.statusCode === 200) {
-          var _data = res.data;
+          var _data = res.data.msg;
+          console.log(_data);
           var colors = ['red', 'green', 'purple', 'yellow'];
 
           var today = parseInt(_data.day);  //0周日,1周一
           today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
-          var week = app.user.school.weekday;
-          var lessons = _data.lessons;
+          var week = app.user.school.week;
+          var lessons = _data;
 
           _this.setData({
             today: today,

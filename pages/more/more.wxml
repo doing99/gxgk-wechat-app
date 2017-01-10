@@ -42,8 +42,8 @@
             <image class="btn-enter" src="/images/more/enter.png"></image>
           </view>
         </view>
-        </navigator>
-        <navigator url="append?type=mealcard" class="append-link" wx:if="{{!is_teacher}}">
+      </navigator>
+      <navigator url="append?type=mealcard" class="append-link" wx:if="{{!is_teacher}}">
         <view class="more-btn" wx:if="{{!is_bind_mealcard}}">
           <image class="btn-icon" src="/images/more/append.png"></image>
           <text class="btn-text">绑定饭卡</text>

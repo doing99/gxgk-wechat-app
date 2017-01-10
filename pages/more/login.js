@@ -46,8 +46,7 @@ Page({
         bind_type: 'login'
       },
       success: function(res){
-        if(res.data && res.data.status === 200){
-          console.log(res)
+        if (res.statusCode === 200 && res.data.errmsg == 'ok') {
           app.showLoadToast('请稍候');
           //清除缓存
           if(app.cache){
@@ -60,7 +59,16 @@ Page({
               icon: 'success',
               duration: 1500
             });
-            if(!app.user.is_teacher){
+            if (!app.user.is_teacher) {
+              if (!app.user.is_bind_mealcard) {
+                jump_url = 'append?type=mealcard';
+              } else if (!app.user.is_bind_library){
+                jump_url = 'append?type=library';
+              }
+              else {
+                wx.navigateBack();
+                return;
+              }
               setTimeout(function(){
                 wx.showModal({
                   title: '提示',
@@ -70,7 +78,7 @@ Page({
                   success: function(res) {
                     if (res.confirm) {
                       wx.redirectTo({
-                        url: 'append'
+                        url: jump_url
                       });
                     } else {
                       wx.navigateBack();
@@ -84,7 +92,7 @@ Page({
           });
         }else{
           wx.hideToast();
-          app.showErrorModal(res.data.message, '绑定失败');
+          app.showErrorModal(res.data.errmsg, '绑定失败');
         }
       },
       fail: function(res){

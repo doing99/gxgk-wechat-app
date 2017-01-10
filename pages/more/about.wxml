@@ -23,9 +23,8 @@
           <text class="desc-list-item">官网：http://www.gxgk.cc</text>
           <text class="desc-list-item">Github：https://github.com/paicha/gxgk-wechat-server</text>
         </view>
-        <text class="desc-content">We重邮是一个微信小程序，是有别于订阅号/服务号的一种全新的连接用户与服务的方式，可以在微信内被便捷地获取和传播，同时具有出色的使用体验。</text>
-        <text class="desc-content">We重邮是碎片式信息一体化校园移动门户，适用于学生和教师，集课表、成绩、考试、空教室、学生、一卡通、借阅、学费、电费、报修、公告等各功能于一身。</text>
-        <text class="desc-content">We重邮更是/更有... （搜人利器、点名神器、一卡通消费、学费信息、最好用的课表...）</text>
+        
+        <text class="desc-content">莞香小喵</text>
     </view>
     <view class="log-list" wx:else>
       <view class="describe">
@@ -33,14 +32,9 @@
             <text class="desc-v">v0.0.9 公测先行版</text>
             <text class="desc-time">2016.12.17</text>
           </view>
-          <text class="desc-content">修复BUG</text>
-          <text class="desc-content">优化完善</text>
+          <text class="desc-content">莞香小喵</text>
           <view class="desc-list">
-            <text class="desc-list-item">资讯设置权限，不同用户群体可访问不同类别，学生不再能访问会议通知</text>
-            <text class="desc-list-item">考试安排去掉了没有用处的教学班项</text>
-            <text class="desc-list-item">物业报修新增历史报修数，以及服务申报按钮优化</text>
-            <text class="desc-list-item">绑定、完善信息、关于新增"We重邮"字体图片</text>
-            <text class="desc-list-item">更多其他细节优化</text>
+            <text class="desc-list-item">莞香小喵</text>
           </view>
       </view>
       <view class="describe">

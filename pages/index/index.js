@@ -137,7 +137,7 @@ Page({
     var show = true;
     var nothing = true;
     var user = app.user;
-    if (user.today_schedule.length != 0) {
+    if (user.today_schedule != null && user.today_schedule.length != 0) {
       nothing = false;
     }
     //获取课表数据
@@ -145,6 +145,12 @@ Page({
       'card.kb.data': user.today_schedule,
       'card.kb.show': show,
       'card.kb.nothing': nothing,
+      'remind': ''
+    });
+    _this.setData({
+      'card.ykt.data.last_time': last_time,
+      'card.ykt.data.balance': parseFloat(last.balance),
+      'card.ykt.show': true,
       'remind': ''
     });
   }

@@ -241,6 +241,12 @@ Page({
       method: 'POST',
       data: data,
       success: function (res) {
+        if(res.data.msg == null){
+          _this.setData({
+            remind: '暂无课表'
+          });
+          return;
+        }
         if (res.data && res.statusCode === 200) {
           var _data = res.data.msg;
           console.log(_data);

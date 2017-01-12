@@ -1,101 +1,90 @@
 
 <!--more.wxml-->
 <view class="container">
-  <view class="user-info-box">
-    <block wx:if="{{is_bind}}">
-      <view class="user-info">
-        <view class="info-hd">
-          <image class="user-avatar" src="{{wxinfo.avatarUrl}}"></image>
-          <view class="user-title">
-            <text class="user-name">{{student.name}}</text>
-            <text class="user-id">{{student.id}}</text>
-          </view>
-          <view class="time-box">
-            <text class="time-term">{{school.term}}</text>
-            <text class="time-now">第{{school.weeknum}}周 - 星期{{weekday}}</text>
-          </view>
+  <view class="top-bgcolor"> </view>
+  <block wx:if="{{is_bind}}">
+    <view class="user-info-box"> 
+      <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
+      <text class="user-name">{{student.name}}</text>
+      <view class="user-infos">
+        <view class="info1">
+          <view>{{student.id}}</view>
+          <view class="xuehao">学号</view>
         </view>
-        <view class="info-bd" wx:if="{{!user.teacher}}">
-          <view class="info-bd-left">
-            <text class="user-text">年级：{{student.grade}}级</text>
-            <text class="user-text">班级：{{student.class}}</text>
-          </view>
-          <view class="info-bd-right">
-            <text class="user-text">系别：{{student.dept}}</text>
-            <text class="user-text">专业：{{student.specialty}}</text>
-          </view>
+        <view class="info2">
+          <view>{{student.dept}}</view>
+          <view class="xibie">系别</view>
         </view>
-        <view class="info-bd" wx:else>
-          <view class="info-bd-left">
-            <text class="user-text">学号：{{student.id}}</text>
-          </view>
-          <view class="info-bd-right">
-            <text class="user-text">系别：{{user.we.info.yxm}}</text>
-          </view>
+        <view class="info3">
+          <view>{{student.class}}</view>
+          <view class="banji">班级</view>
         </view>
       </view>
-      <navigator url="append?type=library" class="append-link" wx:if="{{!is_teacher}}">
-        <view class="more-btn" wx:if="{{!is_bind_library}}">
-          <image class="btn-icon" src="/images/more/append.png"></image>
-          <text class="btn-text">绑定图书证</text>
-          <view class="btn-open">
-            <image class="btn-enter" src="/images/more/enter.png"></image>
-          </view>
+    </view>
+    <view class="more-info">
+       <navigator url="#">
+        <view class="more-info-btn">
+          <image class="btn-icon" src="/images/more/setting.png"></image>
+          <text class="btn-text">个人设置</text>
         </view>
       </navigator>
-      <navigator url="append?type=mealcard" class="append-link" wx:if="{{!is_teacher}}">
-        <view class="more-btn" wx:if="{{!is_bind_mealcard}}">
-          <image class="btn-icon" src="/images/more/append.png"></image>
+      <navigator url="append?type=mealcard">
+        <view class="more-info-btn" wx:if="{{!is_bind_mealcard}}">
+          <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">绑定饭卡</text>
-          <view class="btn-open">
-            <image class="btn-enter" src="/images/more/enter.png"></image>
+        </view>
+      </navigator>
+      <navigator url="append?type=library">
+         <view class="more-info-btn"wx:if="{{!is_bind_library}}">
+          <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
+          <text class="btn-text">绑定图书证</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="more-info">
+      <navigator url="/pages/more/issues">
+        <view class="more-info-btn">
+          <image class="btn-icon" src="/images/more/envelope.png"></image>
+          <text class="btn-text">用户反馈</text>
+        </view>
+      </navigator>
+      <navigator url="about">
+        <view class="more-info-btn">
+          <image class="btn-icon" src="/images/more/aboutmiao.png"></image>
+          <text class="btn-text">关于小喵</text>
+        </view>
+      </navigator>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="user-info-box">
+      <navigator url="/pages/more/login" class="user-info">
+        <view>
+          <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
+          <text class="user-name">{{wxinfo.nickName}}</text>
+          <view class="user-infos">
+            <view class="info2">
+              <view class="xibie">请先绑定教务系统 | 前往绑定 <image class="btn-enter" src="/images/more/enter.png"></image></view>
+            </view>
           </view>
         </view>
       </navigator>
-    </block>
-    <navigator url="/pages/more/login" class="user-info" wx:else>
-      <view class="info-hd">
-        <image class="user-avatar" src="{{wxinfo.avatarUrl}}"></image>
-        <view class="user-title">
-          <text class="user-name">{{wxinfo.nickName}}</text>
-          <text class="user-id">请先绑定教务系统</text>
+    </view>
+    <view class="more-info">
+      <navigator url="/pages/more/issues">
+        <view class="more-info-btn">
+          <image class="btn-icon" src="/images/more/envelope.png"></image>
+          <text class="btn-text">用户反馈</text>
         </view>
-        <text class="bind-btn">前往绑定</text>
-        <view class="btn-open">
-          <image class="btn-enter" src="/images/more/enter.png"></image>
+      </navigator>
+      <navigator url="about">
+        <view class="more-info-btn">
+          <image class="btn-icon" src="/images/more/aboutmiao.png"></image>
+          <text class="btn-text">关于小喵</text>
         </view>
-      </view>
-    </navigator>
-  </view>
-  <view class="more-list">
-    <navigator url="/pages/more/issues" class="issue-link">
-      <view class="more-btn">
-        <image class="btn-icon" src="/images/more/issue.png"></image>
-        <text class="btn-text">反馈信息</text>
-        <view class="btn-open">
-          <image class="btn-enter" src="/images/more/enter.png"></image>
-        </view>
-      </view>
-    </navigator>
-    <navigator url="about" class="about-link">
-      <view class="more-btn">
-        <image class="btn-icon" src="/images/more/about.png"></image>
-        <text class="btn-text">关于小喵</text>
-        <view class="btn-open">
-          <image class="btn-enter" src="/images/more/enter.png"></image>
-        </view>
-      </view>
-    </navigator>
-    <navigator url="about" class="about-link">
-      <view class="more-btn">
-        <image class="btn-icon" src="/images/more/about.png"></image>
-        <text class="btn-text">关于莞香</text>
-        <view class="btn-open">
-          <image class="btn-enter" src="/images/more/enter.png"></image>
-        </view>
-      </view>
-    </navigator>
-  </view>
+      </navigator>
+    </view>
+  </block>
   <navigator url="login" class="login-btn">
     <text wx:if="{{is_bind}}">切换绑定</text>
     <text wx:else>立即绑定</text>

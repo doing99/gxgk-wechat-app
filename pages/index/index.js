@@ -134,24 +134,45 @@ Page({
   },
   getCardData: function () {
     var _this = this;
-    var show = true;
-    var nothing = true;
     var user = app.user;
+
+    var kb_show = true;
+    var kb_nothing = true;
     if (user.today_schedule != null && user.today_schedule.length != 0) {
       nothing = false;
     }
     //获取课表数据
     _this.setData({
       'card.kb.data': user.today_schedule,
-      'card.kb.show': show,
-      'card.kb.nothing': nothing,
+      'card.kb.show': kb_show,
+      'card.kb.nothing': kb_nothing,
       'remind': ''
     });
-    _this.setData({
-      'card.ykt.data.last_time': last_time,
-      'card.ykt.data.balance': parseFloat(last.balance),
-      'card.ykt.show': true,
-      'remind': ''
+    //获取一卡通数据
+    wx.request({
+      url: app.server + '/api/users/get_mealcard',
+      method: 'POST',
+      data: {
+        session_id: app.user.wxinfo.id
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data && res.statusCode === 200) {
+          var data = res.data;
+          if (data.errmsg != null || data.msg.error != null) {
+            //错误信息
+          }
+          else {
+            var data = res.data.msg;
+            _this.setData({
+              'card.ykt.data.last_time': '',
+              'card.ykt.data.balance': data.mainFare,
+              'card.ykt.show': true,
+              'remind': ''
+            });
+          }
+        }
+      }
     });
   }
 });

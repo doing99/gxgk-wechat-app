@@ -58,7 +58,7 @@
   </block>
   <block wx:else>
     <view class="user-info-box">
-      <navigator url="/pages/more/login" class="user-info">
+      <navigator url="/pages/more/login">
         <view>
           <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
           <text class="user-name">{{wxinfo.nickName}}</text>

@@ -5,19 +5,19 @@
 }
 .top-bgcolor {
   width: 100%;
-  height: 80px;
+  height: 160rpx;
   background-color: #079df2;
 }
 .user-info-box {
   width: 95%;
-  height: 130px;
+  height: 260rpx;
   margin: 0 auto;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   box-shadow: 2px 2px 5px #e5e5e5;
   background-color: #fff;
   position: relative;
-  top: -30px;
+  top: -60rpx;
 }
 .user-image{
   width: 120rpx;
@@ -25,14 +25,15 @@
   border: 2px solid #fff;
   border-radius: 50%;
   position: absolute;
-  left: 42%;
-  top: -30px;
+  left: 50%;
+  margin-left: -2.5em;
+  top: -60rpx;
   display: block;
 }
 .user-name {
   position: absolute;
   width: 100%;
-  top: 40px;
+  top: 80rpx;
   font-size: 14pt;
   color: #5d9e9d;
   font-family: '微软雅黑';
@@ -43,7 +44,7 @@
   position: absolute;
   width:100%;
   display: flex;
-  top: 75px;
+  top: 150rpx;
 }
 .info1,.info2,.info3 {
   flex: 1;
@@ -53,26 +54,25 @@
   font-family: '华文细黑';
 }
 .xuehao,.xibie,.banji {
-  margin-top: 10px;
+  margin-top: 20rpx;
   font-family: '微软雅黑';
 }
 .more-info {
   width: 95%;
-  height: 100%;
-  background-color: #fff;
-  margin: 0 auto;
-  border-radius: 5px;
+  margin: 0 auto 40rpx auto;
+  border-radius: 10rpx;
   border: 1px solid #e5e5e5;
   box-shadow: 2px 2px 5px #e5e5e5;
-  margin-bottom: 20px;
 }
 .more-info-btn {
   display: flex;
   min-height: 85rpx;
   align-items: center;
+  background-color: #fff;
   font-size: 11pt;
   font-family: '微软雅黑';
   padding: 0 30rpx;
+  border-radius: 10rpx;
   border-bottom: 1px solid #e5e5e5;
 }
 .btn-icon {
@@ -98,7 +98,7 @@
   text-align: center;
   border-radius: 5px;
   width: 95%;
-  margin: 0 9px 15px 9px;
+  margin: 0 18rpx 30rpx 18rpx;
   position: absolute;
   bottom: 0;
   font-family: '微软雅黑';
@@ -119,7 +119,7 @@
     border-radius: 5px;
     width: 95%;
     display: block;
-    margin: 15px 9px 15px 9px;
+    margin: 30rpx 18rpx;
     position: static;
     font-family: '微软雅黑';
   }

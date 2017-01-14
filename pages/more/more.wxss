@@ -97,11 +97,32 @@
   color: #fff;
   text-align: center;
   border-radius: 5px;
-  margin: 40rpx 3%;
+  width: 95%;
+  margin: 0 9px 15px 9px;
+  position: absolute;
+  bottom: 0;
+  font-family: '微软雅黑';
 }
 .btn-enter {
   width: 18rpx;
   height: 27rpx;
+}
+
+@media only screen and (max-device-height: 465px) {
+  .login-btn {
+    font-size: 13pt;
+    line-height: 85rpx;
+    height: 85rpx;
+    background: #e55c5c;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    width: 95%;
+    display: block;
+    margin: 15px 9px 15px 9px;
+    position: static;
+    font-family: '微软雅黑';
+  }
 }
 
 

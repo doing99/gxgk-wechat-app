@@ -76,18 +76,6 @@
             <text class="ykt-balance-value">{{card.ykt.data.balance}}</text>
             <text class="ykt-balance-text">元</text>
           </view>
-          <block wx:if="{{card.ykt.data.cost_status}}">
-            <text class="ykt-title">今日消费：</text>
-            <view class="ykt-cost">
-              <block wx:for="{{card.ykt.data.today_cost.value}}" wx:key="*this">
-                <text class="ykt-cost-value">{{item}}</text>
-                <text class="ykt-cost-text" wx:if="{{ index != card.ykt.data.today_cost.value.length - 1}}">+</text>
-              </block>
-              <text class="ykt-cost-text">=</text>
-              <text class="ykt-cost-total">{{card.ykt.data.today_cost.total}}</text>
-              <text class="ykt-cost-text">元</text>
-            </view>
-          </block>
         </view>
       </navigator>
     </view>

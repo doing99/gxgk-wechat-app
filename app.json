@@ -2,6 +2,7 @@
   "pages":[
     "pages/index/index",
     "pages/core/kb/kb",
+    "pages/core/ykt/ykt",
     "pages/logs/logs",
     "pages/news/news",
     "pages/more/more",

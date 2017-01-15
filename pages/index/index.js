@@ -135,18 +135,40 @@ Page({
   getCardData: function () {
     var _this = this;
     var user = app.user;
-
-    var kb_show = true;
-    var kb_nothing = true;
-    if (user.today_schedule != null && user.today_schedule.length != 0) {
-      nothing = false;
-    }
     //获取课表数据
-    _this.setData({
-      'card.kb.data': user.today_schedule,
-      'card.kb.show': kb_show,
-      'card.kb.nothing': kb_nothing,
-      'remind': ''
+    wx.request({
+      url: app.server + '/api/users/get_schedule',
+      method: 'POST',
+      data: {
+        session_id: app.user.wxinfo.id,
+        week: app.user.school.weeknum,
+        weekday: app.user.school.weekday
+      },
+      success: function (res) {
+        wx.stopPullDownRefresh();
+        if (res.data && res.statusCode === 200) {
+          var data = res.data;
+          if (data.errmsg != null || data.msg == null) {
+            //错误信息
+          }
+          else {
+            var data = res.data.msg;
+            if (data == null && data.length == 0) {
+              kb_show = false;
+              nothing = false;
+            } else {
+              var kb_show = true;
+              var kb_nothing = true;
+              _this.setData({
+                'card.kb.data': data,
+                'card.kb.show': kb_show,
+                'card.kb.nothing': kb_nothing,
+                'remind': ''
+              });
+            }
+          }
+        }
+      }
     });
     //获取一卡通数据
     wx.request({

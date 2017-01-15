@@ -96,8 +96,6 @@ App({
     _this.user.is_bind_mealcard = msg.is_bind_mealcard;
     _this.user.is_bind_library = msg.is_bind_library;
     _this.user.is_teacher = msg.is_teacher;
-    //当天课表
-    _this.user.today_schedule = msg.today_schedule
     if (msg.is_bind) {
       if (msg.is_teacher) {
 

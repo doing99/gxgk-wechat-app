@@ -4,9 +4,7 @@ var app = getApp();
 Page({
   data: {
     remind: '加载中',
-    cjInfo: [
-
-    ],
+    cjInfo: [],
     xqNum: {
       grade: '',
       semester: ''

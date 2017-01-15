@@ -165,7 +165,7 @@ Page({
           else {
             var data = res.data.msg;
             _this.setData({
-              'card.ykt.data.last_time': '',
+              'card.ykt.data.last_time': data.lasttime,
               'card.ykt.data.balance': data.mainFare,
               'card.ykt.show': true,
               'remind': ''

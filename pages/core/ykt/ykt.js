@@ -46,7 +46,7 @@ Page({
                 session_id: app.user.wxinfo.id
             },
             success: function (res) {
-                if (res.data && res.statusCode === 200) {
+                if (res.data && res.statusCode == 200) {
                     var data = res.data;
                     if (data.errmsg != null) {
                         _this.setData({

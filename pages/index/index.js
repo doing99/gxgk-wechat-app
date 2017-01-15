@@ -8,13 +8,13 @@ Page({
       { id: 'kb', name: '课表查询', disabled: false, teacher_disabled: false },
       { id: 'cj', name: '成绩查询', disabled: false, teacher_disabled: true },
       { id: 'ks', name: '考试安排', disabled: false, teacher_disabled: false },
-      { id: 'kjs', name: '空教室', disabled: false, teacher_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: false, teacher_disabled: false },
+      { id: 'kjs', name: '空教室', disabled: true, teacher_disabled: false },
+      { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false },
       { id: 'ykt', name: '一卡通', disabled: false, teacher_disabled: false },
       { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false },
       { id: 'xf', name: '学费信息', disabled: false, teacher_disabled: true },
-      { id: 'sdf', name: '电费查询', disabled: false, teacher_disabled: true },
-      { id: 'bx', name: '物业报修', disabled: false, teacher_disabled: false }
+      { id: 'sdf', name: '电费查询', disabled: true, teacher_disabled: true },
+      { id: 'bx', name: '物业报修', disabled: true, teacher_disabled: false }
     ],
     card: {
       'kb': {
@@ -65,23 +65,35 @@ Page({
   },
   onShow: function () {
     var _this = this;
-    //判断绑定状态
-    if (!app.user.is_bind) {
-      _this.setData({
-        'remind': '未绑定'
-      });
-    } else {
-      _this.setData({
-        'remind': '加载中'
-      });
-      //清空数据
-      _this.setData({
-        user: app._user,
-        'card.kb.show': false,
-        'card.ykt.show': false,
-        'card.jy.show': false,
-        'card.sdf.show': false
-      });
+    function isEmptyObject(obj) { for (var key in obj) { return false; } return true; }
+    function isEqualObject(obj1, obj2) { if (JSON.stringify(obj1) != JSON.stringify(obj2)) { return false; } return true; }
+    var l_user = _this.data.user,  //本页用户数据
+      g_user = app.user; //全局用户数据
+    //排除第一次加载页面的情况（全局用户数据未加载完整 或 本页用户数据与全局用户数据相等）
+    if (isEmptyObject(l_user) || !g_user.session_id || isEqualObject(l_user.student, g_user.student)) {
+      return false;
+    }
+    //全局用户数据和本页用户数据不一致时，重新获取卡片数据
+    if (!isEqualObject(l_user.student, g_user.student)) {
+      //判断绑定状态
+      if (!app.user.is_bind) {
+        _this.setData({
+          'remind': '未绑定'
+        });
+      } else {
+        _this.setData({
+          'remind': '加载中'
+        });
+        //清空数据
+        _this.setData({
+          user: app.user,
+          'card.kb.show': false,
+          'card.ykt.show': false,
+          'card.jy.show': false,
+          'card.sdf.show': false
+        });
+        _this.getCardData();
+      }
     }
   },
   onLoad: function () {
@@ -145,8 +157,7 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh();
-        console.log(res.data)
-        if (res.data && res.statusCode === 200) {
+        if (res.data && res.statusCode == 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg == null) {
             //错误信息
@@ -179,8 +190,7 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh();
-        console.log(res.data)
-        if (res.data && res.statusCode === 200) {
+        if (res.data && res.statusCode == 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg.error != null) {
             //错误信息

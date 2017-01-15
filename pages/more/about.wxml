@@ -2,8 +2,7 @@
 <view class="container">
   <view class="header">
     <view class="black-cover"></view>
-    <image class="logo" src="/images/more/logo.png"></image>
-    <image class="title" src="/images/more/title.png"></image>
+    <image class="about_bg" src="https://sr.lastfighting.com/static/images/app/about_bg.jpg"></image>
   </view>
   <view class="content">
     <view class="version">

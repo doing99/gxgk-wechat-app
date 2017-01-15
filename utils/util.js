@@ -15,15 +15,6 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
-function sha1(data) {
-  var jsSHA = require("sha.js");
-  var shaObj = new jsSHA("SHA-1", "TEXT");
-  shaObj.update(data);
-  var hash = shaObj.getHash("HEX");
-  return hash
-}
-
 module.exports = {
   formatTime: formatTime,
-  sha1: sha1
 }

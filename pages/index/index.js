@@ -82,7 +82,6 @@ Page({
         'card.jy.show': false,
         'card.sdf.show': false
       });
-      _this.getCardData();
     }
   },
   onLoad: function () {
@@ -146,6 +145,7 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh();
+        console.log(res.data)
         if (res.data && res.statusCode === 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg == null) {
@@ -179,6 +179,7 @@ Page({
       },
       success: function (res) {
         wx.stopPullDownRefresh();
+        console.log(res.data)
         if (res.data && res.statusCode === 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg.error != null) {

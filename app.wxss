@@ -23,9 +23,8 @@ page{
   padding-bottom: 300rpx;
 }
 .remind-img {
-  width: 250rpx;
-  height: 250rpx;
-  padding-bottom: 25rpx;
+  width: 293rpx;
+  height: 200rpx;
 }
 .remind-text {
   font-size: 12pt;

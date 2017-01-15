@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/core/kb/kb",
     "pages/core/ykt/ykt",
+    "pages/core/cj/cj",
     "pages/logs/logs",
     "pages/news/news",
     "pages/more/more",

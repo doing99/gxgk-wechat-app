@@ -46,11 +46,15 @@ Page({
                 session_id: app.user.wxinfo.id
             },
             success: function (res) {
-                if (res.statusCode === 200) {
+                if (res.data && res.statusCode === 200) {
                     var data = res.data;
-                    if (data.errmsg != null || data.msg.error != null) {
+                    if (data.errmsg != null) {
                         _this.setData({
-                            remind: res.data.message || '未知错误'
+                            remind: data.errmsg || '未知错误'
+                        });
+                    } else if(data.msg.error != null){
+                        _this.setData({
+                            remind: data.msg.error || '未知错误'
                         });
                     } else {
                         var data = data.msg;

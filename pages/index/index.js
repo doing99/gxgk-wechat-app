@@ -121,7 +121,7 @@ Page({
     this.login();
   },
   login: function () {
-        var _this = this;
+    var _this = this;
     //如果有缓存，则提前加载缓存
     if (app.cache.version === app.version) {
       try {
@@ -183,10 +183,13 @@ Page({
   },
   getCardData: function () {
     var _this = this;
+    var loadsum = 0; //正在请求连接数
     var user = app.user;
     //判断并读取缓存
     if (app.cache.kb) { kbRender(app.cache.kb); }
     if (app.cache.ykt) { yktRender(app.cache.ykt); }
+    if (_this.data.offline) { return; }
+    wx.showNavigationBarLoading();
     //获取课表数据
     //课表渲染
     function kbRender(info) {
@@ -197,6 +200,7 @@ Page({
         'remind': ''
       });
     }
+    loadsum++; //新增正在请求连接
     wx.request({
       url: app.server + '/api/users/get_schedule',
       method: 'POST',
@@ -223,7 +227,16 @@ Page({
         }
       },
       complete: function () {
-        wx.stopPullDownRefresh();
+        loadsum--; //减少正在请求连接
+        if(!loadsum){
+          if(_this.data.remind){
+            _this.setData({
+              remind: '首页暂无展示'
+            });
+          }
+          wx.hideNavigationBarLoading();
+          wx.stopPullDownRefresh();
+        }
       }
     });
     //一卡通渲染
@@ -235,6 +248,7 @@ Page({
         'remind': ''
       });
     }
+    loadsum++; //新增正在请求连接
     //获取一卡通数据
     wx.request({
       url: app.server + '/api/users/get_mealcard',
@@ -257,7 +271,60 @@ Page({
         }
       },
       complete: function () {
-        wx.stopPullDownRefresh();
+        loadsum--; //减少正在请求连接
+        if(!loadsum){
+          if(_this.data.remind){
+            _this.setData({
+              remind: '首页暂无展示'
+            });
+          }
+          wx.hideNavigationBarLoading();
+          wx.stopPullDownRefresh();
+        }
+      }
+    });
+
+    //借阅信息渲染
+    function jyRender(info) {
+      _this.setData({
+        'card.jy.data': info,
+        'card.jy.show': true,
+        'remind': ''
+      });
+    }
+    loadsum++; //新增正在请求连接
+    //获取借阅信息
+    wx.request({
+      url: app.server + "/api/users/get_user_library",
+      method: 'POST',
+      data: {
+        session_id: app.user.wxinfo.id
+      },
+      success: function (res) {
+        if (res.data && res.statusCode == 200) {
+          var data = res.data;
+          if (data.errmsg != null || data.msg.error != null) {
+            //错误信息
+          }
+          var info = res.data.msg;
+          if (info) {
+            //保存借阅缓存
+            app.saveCache('jy', info);
+            jyRender(info);
+          }
+        } else { app.removeCache('jy'); }
+      },
+      complete: function () {
+        loadsum--; //减少正在请求连接
+        if(!loadsum){
+          if(_this.data.remind){
+            _this.setData({
+              remind: '首页暂无展示'
+            });
+          }
+          wx.hideNavigationBarLoading();
+          wx.stopPullDownRefresh();
+        }
       }
     });
   }

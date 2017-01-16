@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/core/kb/kb",
     "pages/core/ykt/ykt",
@@ -7,39 +7,45 @@
     "pages/core/jy/jy",
     "pages/logs/logs",
     "pages/news/news",
+    "pages/news/oa/oa_detail",
+    "pages/news/new/new_detail",
     "pages/more/more",
     "pages/more/login",
     "pages/more/append",
     "pages/more/about"
   ],
-  "window":{
+  "window": {
     "navigationBarBackgroundColor": "#079df2",
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "莞香小喵",
-    "backgroundColor": "#079df2", 
+    "backgroundColor": "#079df2",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": true
   },
-    "tabBar": {
+  "tabBar": {
     "color": "#7f848a",
     "selectedColor": "#079df2",
     "backgroundColor": "#f7f6fb",
-    "list": [{
-      "pagePath": "pages/index/index",
-      "text": "首页",
-      "iconPath": "images/index/index.png",
-      "selectedIconPath": "images/index/index@active.png"
-    }, {
-      "pagePath": "pages/news/news",
-      "text": "新闻",
-      "iconPath": "images/index/news.png",
-      "selectedIconPath": "images/index/news@active.png"
-    }, {
-      "pagePath": "pages/more/more",
-      "text": "个人",
-      "iconPath": "images/index/more.png",
-      "selectedIconPath": "images/index/more@active.png"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/index/index.png",
+        "selectedIconPath": "images/index/index@active.png"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "新闻",
+        "iconPath": "images/index/news.png",
+        "selectedIconPath": "images/index/news@active.png"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "个人",
+        "iconPath": "images/index/more.png",
+        "selectedIconPath": "images/index/more@active.png"
+      }
+    ]
   },
   "networkTimeout": {
     "request": 20000,

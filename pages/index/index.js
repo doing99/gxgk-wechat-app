@@ -3,18 +3,19 @@
 var app = getApp();
 Page({
   data: {
+    offline: false,
     remind: '加载中',
     core: [
-      { id: 'kb', name: '课表查询', disabled: false, teacher_disabled: false },
-      { id: 'cj', name: '成绩查询', disabled: false, teacher_disabled: true },
-      { id: 'ks', name: '考试安排', disabled: false, teacher_disabled: false },
-      { id: 'kjs', name: '空教室', disabled: true, teacher_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false },
-      { id: 'ykt', name: '一卡通', disabled: false, teacher_disabled: false },
-      { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false },
-      { id: 'xf', name: '学费信息', disabled: false, teacher_disabled: true },
-      { id: 'sdf', name: '电费查询', disabled: true, teacher_disabled: true },
-      { id: 'bx', name: '物业报修', disabled: true, teacher_disabled: false }
+      { id: 'kb', name: '课表查询', disabled: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'cj', name: '成绩查询', disabled: false, teacher_disabled: true, offline_disabled: false },
+      { id: 'ks', name: '考试安排', disabled: true, teacher_disabled: false, offline_disabled: false },
+      { id: 'kjs', name: '空教室', disabled: true, teacher_disabled: false, offline_disabled: true },
+      { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false, offline_disabled: true },
+      { id: 'ykt', name: '一卡通', disabled: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'xf', name: '学费信息', disabled: true, teacher_disabled: true, offline_disabled: false },
+      { id: 'sdf', name: '电费查询', disabled: true, teacher_disabled: true, offline_disabled: false },
+      { id: 'bx', name: '物业报修', disabled: true, teacher_disabled: false, offline_disabled: true }
     ],
     card: {
       'kb': {
@@ -57,20 +58,40 @@ Page({
     user: {},
     disabledItemTap: false //点击了不可用的页面
   },
+  //分享
+  onShareAppMessage: function () {
+    return {
+      title: '莞香小喵',
+      desc: '广东科技学院唯一的小程序',
+      path: '/pages/index/index'
+    };
+  },
   //下拉更新
   onPullDownRefresh: function () {
     if (app.user.is_bind) {
-      this.login();
+      this.getCardData();
+    } else {
+      wx.stopPullDownRefresh();
     }
   },
   onShow: function () {
     var _this = this;
-    function isEmptyObject(obj) { for (var key in obj) { return false; } return true; }
+    //离线模式重新登录
+    if (_this.data.offline) {
+      _this.login();
+      return false;
+    }
+    function isEmptyObject(obj) {
+      for (var key in obj) {
+        return false;
+      }
+      return true;
+    }
     function isEqualObject(obj1, obj2) { if (JSON.stringify(obj1) != JSON.stringify(obj2)) { return false; } return true; }
     var l_user = _this.data.user,  //本页用户数据
       g_user = app.user; //全局用户数据
     //排除第一次加载页面的情况（全局用户数据未加载完整 或 本页用户数据与全局用户数据相等）
-    if (isEmptyObject(l_user) || !g_user.session_id || isEqualObject(l_user.student, g_user.student)) {
+    if (!isEmptyObject(l_user) || !g_user.wxinfo.id || isEqualObject(l_user.wxinfo, g_user.wxinfo)) {
       return false;
     }
     //全局用户数据和本页用户数据不一致时，重新获取卡片数据
@@ -100,21 +121,38 @@ Page({
     this.login();
   },
   login: function () {
-    var _this = this;
-    //如果有缓存
-    if (!!app.cache) {
+        var _this = this;
+    //如果有缓存，则提前加载缓存
+    if (app.cache.version === app.version) {
       try {
         _this.response();
       } catch (e) {
         //报错则清除缓存
-        wx.removeStorage({ key: 'cache' });
+        app.cache = {};
+        wx.clearStorage();
       }
     }
-    //然后通过登录用户, 如果缓存更新将执行该回调函数
-    app.getUser(_this.response);
+    //然后再尝试登录用户, 如果缓存更新将执行该回调函数
+    app.getUser(function (status) {
+      _this.response.call(_this, status);
+    });
   },
   response: function () {
     var _this = this;
+    if (status) {
+      if (status != '离线缓存模式') {
+        //错误
+        _this.setData({
+          'remind': status
+        });
+        return;
+      } else {
+        //离线缓存模式
+        _this.setData({
+          offline: true
+        });
+      }
+    }
     _this.setData({
       user: app.user
     });
@@ -146,7 +184,19 @@ Page({
   getCardData: function () {
     var _this = this;
     var user = app.user;
+    //判断并读取缓存
+    if (app.cache.kb) { kbRender(app.cache.kb); }
+    if (app.cache.ykt) { yktRender(app.cache.ykt); }
     //获取课表数据
+    //课表渲染
+    function kbRender(info) {
+      _this.setData({
+        'card.kb.data': info,
+        'card.kb.show': true,
+        'card.kb.nothing': !info.length,
+        'remind': ''
+      });
+    }
     wx.request({
       url: app.server + '/api/users/get_schedule',
       method: 'POST',
@@ -156,7 +206,6 @@ Page({
         weekday: app.user.school.weekday
       },
       success: function (res) {
-        wx.stopPullDownRefresh();
         if (res.data && res.statusCode == 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg == null) {
@@ -164,23 +213,28 @@ Page({
           }
           else {
             var data = res.data.msg;
-            if (data == null && data.length == 0) {
-              kb_show = false;
-              nothing = false;
+            if (data == null) {
+              app.removeCache('kb');
             } else {
-              var kb_show = true;
-              var kb_nothing = true;
-              _this.setData({
-                'card.kb.data': data,
-                'card.kb.show': kb_show,
-                'card.kb.nothing': kb_nothing,
-                'remind': ''
-              });
+              app.saveCache('kb', data);
+              kbRender(data);
             }
           }
         }
+      },
+      complete: function () {
+        wx.stopPullDownRefresh();
       }
     });
+    //一卡通渲染
+    function yktRender(data) {
+      _this.setData({
+        'card.ykt.data.last_time': data.lasttime,
+        'card.ykt.data.balance': data.mainFare,
+        'card.ykt.show': true,
+        'remind': ''
+      });
+    }
     //获取一卡通数据
     wx.request({
       url: app.server + '/api/users/get_mealcard',
@@ -189,7 +243,6 @@ Page({
         session_id: app.user.wxinfo.id
       },
       success: function (res) {
-        wx.stopPullDownRefresh();
         if (res.data && res.statusCode == 200) {
           var data = res.data;
           if (data.errmsg != null || data.msg.error != null) {
@@ -197,14 +250,14 @@ Page({
           }
           else {
             var data = res.data.msg;
-            _this.setData({
-              'card.ykt.data.last_time': data.lasttime,
-              'card.ykt.data.balance': data.mainFare,
-              'card.ykt.show': true,
-              'remind': ''
-            });
+            //保存一卡通缓存
+            app.saveCache('ykt', data);
+            yktRender(data)
           }
         }
+      },
+      complete: function () {
+        wx.stopPullDownRefresh();
       }
     });
   }

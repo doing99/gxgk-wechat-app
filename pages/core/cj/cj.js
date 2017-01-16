@@ -4,7 +4,9 @@ var app = getApp();
 Page({
   data: {
     remind: '加载中',
-    cjInfo: [],
+    cjInfo: [
+
+    ],
     xqNum: {
       grade: '',
       semester: ''
@@ -26,6 +28,16 @@ Page({
       id: app.user.student.id,
       name: app.user.student.name
     });
+    //判断并读取缓存
+    if (app.cache.cj) { cjRender(app.cache.cj); }
+    function cjRender(data) {
+      _this.setData({
+        cjInfo: data.msg,
+        xqName: app.user.school.term,
+        remind: ''
+      });
+    }
+    wx.showNavigationBarLoading();
     wx.request({
       url: app.server + "/api/users/get_score",
       method: 'POST',
@@ -36,42 +48,33 @@ Page({
         if (res.data && res.statusCode == 200) {
           var data = res.data;
           if (data.errmsg != null) {
+            app.removeCache('cj');
             _this.setData({
               remind: data.errmsg || '未知错误'
             });
           } else if (data.msg.error != null) {
+            app.removeCache('cj');
             _this.setData({
               remind: data.msg.error || '未知错误'
             });
           } else {
-            _this.setData({
-              cjInfo: data.msg,
-              xqName: app.user.school.term,
-              remind: ''
-            });
+            //保存成绩缓存
+            app.saveCache('cj', data);
+            cjRender(data);
           }
         }
-
       },
-
       fail: function (res) {
-        app.showErrorModal(res.errMsg);
-        _this.setData({
-          remind: '网络错误'
-        });
+        if (_this.data.remind == '加载中') {
+          _this.setData({
+            remind: '网络错误'
+          });
+        }
+        console.warn('网络错误');
+      },
+      complete: function () {
+        wx.hideNavigationBarLoading();
       }
     });
-
-    function changeNum(num) {
-      var china = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
-      var arr = [];
-      var n = ''.split.call(num, '');
-      for (var i = 0; i < n.length; i++) {
-        arr[i] = china[n[i]];
-      }
-      return arr.join("")
-    }
-
-
   }
 });

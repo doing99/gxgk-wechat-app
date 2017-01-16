@@ -1,32 +1,78 @@
 //app.js
 App({
+  version: 'v0.0.1', //版本号
   onLaunch: function () {
-    //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    var _this = this;
     //读取缓存
     try {
-      var data = wx.getStorageSync('cache')
-      if (data) {
-        _this.cache = data;
-        _this.processData(data);
+      var data = wx.getStorageInfoSync();
+      if (data && data.keys.length) {
+        data.keys.forEach(function (key) {
+          var value = wx.getStorageSync(key);
+          if (value) {
+            _this.cache[key] = value;
+          }
+        });
+        if (_this.cache.version !== _this.version) {
+          _this.cache = {};
+          wx.clearStorage();
+        } else {
+          _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
+          _this.processData(_this.cache.userdata);
+        }
       }
-    } catch (e) { }
+    } catch (e) { console.warn('获取缓存失败'); }
+  },
+  //保存缓存
+  saveCache: function (key, value) {
+    if (!key || !value) { return; }
+    var _this = this;
+    _this.cache[key] = value;
+    wx.setStorage({
+      key: key,
+      data: value
+    });
+  },
+  //清除缓存
+  removeCache: function (key) {
+    if (!key) { return; }
+    var _this = this;
+    _this.cache[key] = '';
+    wx.removeStorage({
+      key: key
+    });
   },
   //后台切换至前台时
   onShow: function () {
 
   },
-  //getUser函数，在index中调用
-  getUser: function (update_cb, bind) {
+  //判断是否有登录信息，让分享时自动登录
+  loginLoad: function (onLoad) {
     var _this = this;
+    if (!_this._t) {  //无登录信息
+      _this.getUser(function (e) {
+        typeof onLoad == "function" && onLoad(e);
+      });
+    } else {  //有登录信息
+      typeof onLoad == "function" && onLoad();
+    }
+  },
+  //getUser函数，在index中调用
+  getUser: function(response) {
+    var _this = this;
+    wx.showNavigationBarLoading();
     wx.login({
       success: function (res) {
         if (res.code) {
           //调用函数获取微信用户信息
           _this.getUserInfo(function (info) {
+            _this.saveCache('userinfo', info);
             _this.user.wxinfo = info.userInfo;
+            if (!info.encryptedData || !info.iv) {
+              _this.g_status = '无关联AppID';
+              typeof response == "function" && response(_this.g_status);
+              return;
+            }
             //发送code与微信用户信息，获取学生数据
             wx.request({
               method: 'POST',
@@ -40,35 +86,49 @@ App({
               },
               success: function (res) {
                 if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
-                  var status = false;
+                  var status = false, data = res.data.msg;
                   //判断缓存是否有更新
-                  if (!_this.cache || _this.cache != res.data.msg) {
-                    wx.setStorage({
-                      key: "cache",
-                      data: res.data.msg
-                    });
+                  if (_this.cache.version !== _this.version || _this.cache.userdata !== data) {
+                    _this.saveCache('version', _this.version);
+                    _this.saveCache('userdata', data);
+                    _this.processData(data);
                     status = true;
-                    _this.processData(res.data.msg)
+                  }
+                  // 未绑定，跳转到登录
+                  if (!_this.user.is_bind) {
+                    wx.navigateTo({
+                      url: '/pages/more/login'
+                    });
                   }
                   //如果缓存有更新，则执行回调函数
                   if (status) {
-                    typeof update_cb == "function" && update_cb();
+                    typeof response == "function" && response();
                   }
                 } else {
                   //清除缓存
                   if (_this.cache) {
-                    wx.removeStorage({ key: 'cache' });
-                    _this.cache = '';
+                    _this.cache = {};
+                    wx.clearStorage();
                   }
+                  typeof response == "function" && response(res.data.errmsg || '加载失败');
                 }
               },
               fail: function (res) {
-                //清除缓存
-                if (_this.cache) {
-                  wx.removeStorage({ key: 'cache' });
-                  _this.cache = '';
+                var status = '';
+                // 判断是否有缓存
+                if (_this.cache.version === _this.version) {
+                  status = '离线缓存模式';
+                } else {
+                  status = '网络错误';
                 }
+                _this.g_status = status;
+                typeof response == "function" && response(status);
+                console.warn(status);
+              },
+              complete: function () {
+                wx.hideNavigationBarLoading();
               }
+
             });
           });
         }
@@ -79,10 +139,15 @@ App({
     });
   },
   getUserInfo: function (cb) {
+    var _this = this;
     //获取微信用户信息
     wx.getUserInfo({
       success: function (res) {
         typeof cb == "function" && cb(res);
+      },
+      fail: function (res) {
+        _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+        _this.g_status = '未授权';
       }
     });
   },
@@ -120,9 +185,11 @@ App({
     wx.showToast({
       title: title || '加载中',
       icon: 'loading',
+      mask: true,
       duration: duration || 10000
     });
   },
+  cache: {},
   server: require('config').server,
   user: {
     //微信数据

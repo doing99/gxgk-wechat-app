@@ -123,7 +123,9 @@
 }
 
 .kb-cards-ctn{
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     flex: 1;
     width: 910rpx;
     height: 1248rpx;
@@ -155,8 +157,10 @@
     background: -webkit-gradient(linear, left top, left bottom, from(#eff7ff), color-stop(0.5, #8cc4ff), to(#eff7ff));
     z-index: 1;
     opacity: .6;
+    transition: all .1s;
 }
 .kb-timeline{
+    display: none;
     position: absolute;
     left: 0;
     right: 0;

@@ -7,11 +7,19 @@ Page({
     _days: ['一', '二', '三', '四', '五', '六', '日'],
     _weeks: ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周', '十一周', '十二周', '十三周', '十四周', '十五周', '十六周', '十七周', '十八周', '十九周', '二十周'],
     _time: [ //课程时间与指针位置的映射，{begin:课程开始,end:结束时间,top:指针距开始top格数}
-      { begin: '8:30', end: '10:05', beginTop: -4, endTop: -4 },
-      { begin: '10:25', end: '12:00', beginTop: 0, endTop: 200 },
-      { begin: '14:40', end: '16:15', beginTop: 204, endTop: 204 },
-      { begin: '16:30', end: '18:05', beginTop: 208, endTop: 408 },
-      { begin: '19:30', end: '21:05', beginTop: 414, endTop: 414 },
+      { begin: '0:00', end: '7:59', beginTop: -4, endTop: -4 },
+      { begin: '8:00', end: '9:40', beginTop: 0, endTop: 200 },
+      { begin: '9:41', end: '10:04', beginTop: 204, endTop: 204 },
+      { begin: '10:05', end: '11:45', beginTop: 208, endTop: 408 },
+      { begin: '11:46', end: '13:59', beginTop: 414, endTop: 414 },
+      { begin: '14:00', end: '15:40', beginTop: 420, endTop: 620 },
+      { begin: '15:41', end: '16:04', beginTop: 624, endTop: 624 },
+      { begin: '16:05', end: '17:45', beginTop: 628, endTop: 828 },
+      { begin: '17:46', end: '18:59', beginTop: 834, endTop: 834 },
+      { begin: '19:00', end: '20:40', beginTop: 840, endTop: 1040 },
+      { begin: '20:41', end: '20:49', beginTop: 1044, endTop: 1044 },
+      { begin: '20:50', end: '22:30', beginTop: 1048, endTop: 1248 },
+      { begin: '22:31', end: '23:59', beginTop: 1254, endTop: 1254 },
     ],
     timelineTop: 0,
     scroll: {
@@ -32,7 +40,24 @@ Page({
     dates: [],     //本周日期
     teacher: false   //是否为教师课表
   },
+  //分享
+  onShareAppMessage: function () {
+    var name = this.data.name || app.user.we.info.name,
+      id = this.data.id || app._user.we.info.id;
+    return {
+      title: name + '的课表',
+      desc: '莞香小喵 - 课表查询',
+      path: '/pages/core/kb/kb?id=' + id + '&name=' + name
+    };
+  },
   onLoad: function (options) {
+    var _this = this;
+    app.loginLoad(function () {
+      _this.loginHandler.call(_this, options);
+    });
+  },
+  //让分享时自动登录
+  loginHandler: function (options) {
     var _this = this;
     _this.setData({
       'term': app.user.school.term,
@@ -46,12 +71,12 @@ Page({
       });
       return false;
     }
-    _this.get_kb(id);
     if (options.id && options.name) {
       _this.setData({
         name: options.name
       });
     }
+    _this.get_kb(id);
   },
   onShow: function () {
     var _this = this;
@@ -184,13 +209,14 @@ Page({
       week: current + 1
     });
   },
-  touchStartDetail: function (e) {
+  catchMoveDetail: function () { /*阻止滑动穿透*/ },
+  bindStartDetail: function (e) {
     this.setData({
       startPoint: [e.touches[0].pageX, e.touches[0].pageY]
     });
   },
   //滑动切换课程详情
-  touchEndDetail: function (e) {
+  bindMoveDetail: function (e) {
     var _this = this;
     var curPoint = [e.changedTouches[0].pageX, e.changedTouches[0].pageY],
       startPoint = _this.data.startPoint, i = 0;
@@ -231,53 +257,137 @@ Page({
     }
     // 根据获取课表
     var _this = this, data = {
-      session_id: id,
-      week: app.user.school.weeknum,
-      weekday: app.user.school.weekday
+      session_id: app.user.wxinfo.id
     };
-    if (app.user.is_teacher) { data.type = 'teacher'; }
+    if (app.user.is_teacher && !_this.data.name) { data.type = 'teacher'; }
+    //判断并读取缓存
+    if (app.cache.kb && !_this.data.name) { kbRender(app.cache.kb); }
+    //课表渲染
+    function kbRender(_data) {
+      var colors = ['red', 'green', 'purple', 'yellow'];
+      var i, ilen, j, jlen, k, klen;
+      var colorsDic = {};
+      var _lessons = _data.lessons;
+      var _colors = colors.slice(0); //暂存一次都未用过的颜色
+      // 循环课程
+      for (i = 0, ilen = _lessons.length; i < ilen; i++) {
+        for (j = 0, jlen = _lessons[i].length; j < jlen; j++) {
+          for (k = 0, klen = _lessons[i][j].length; k < klen; k++) {
+            if (_lessons[i][j][k] && _lessons[i][j][k].class_id) {
+              // 找出冲突周数,及课程数
+              var conflictWeeks = {};
+              _lessons[i][j][k].weeks.forEach(function (e) {
+                for (var n = 0; n < klen; n++) {
+                  if (n !== k && _lessons[i][j][n].weeks.indexOf(e) !== -1) {
+                    !conflictWeeks[e] ? conflictWeeks[e] = 2 : conflictWeeks[e]++;
+                  }
+                }
+              });
+              _lessons[i][j][k].conflictWeeks = conflictWeeks;
+              _lessons[i][j][k].klen = klen;
+              _lessons[i][j][k].xf_num = _lessons[i][j][k].xf ? parseFloat(_lessons[i][j][k].xf).toFixed(1) : '';
+              // 为课程上色
+              if (!colorsDic[_lessons[i][j][k].class_id]) { //如果该课还没有被上色
+                var iColors = !_colors.length ? colors.slice(0) : _colors.slice(0); // 本课程可选颜色
+                if (!_colors.length) { //未用过的颜色还没用过，就优先使用
+                  // 剔除掉其上边和左边的课程的可选颜色，如果i!==0则可剔除左边课程颜色，如果j!==0则可剔除上边课程颜色
+                  var m, mlen;
+                  if (i !== 0) {
+                    for (m = 0, mlen = _lessons[i - 1][j].length; m < mlen; m++) {
+                      iColors = removeByValue(iColors, _lessons[i - 1][j][m].color);
+                    }
+                  }
+                  if (j !== 0 && _lessons[i][j - 1][k] && _lessons[i][j - 1][k].color) {
+                    for (m = 0, mlen = _lessons[i][j - 1].length; m < mlen; m++) {
+                      iColors = removeByValue(iColors, _lessons[i][j - 1][m].color);
+                    }
+                  }
+                  // 如果k!==0则剔除之前所有课程的颜色
+                  if (k !== 0) {
+                    for (m = 0; m < k; m++) {
+                      iColors = removeByValue(iColors, _lessons[i][j][m].color);
+                    }
+                  }
+                  //如果为空，则重新补充可选颜色
+                  if (!iColors.length) { iColors = colors.slice(0); }
+                }
+                //剩余可选颜色随机/固定上色
+                // var iColor = iColors[Math.floor(Math.random()*iColors.length)];
+                var iColor = iColors[0];
+                _lessons[i][j][k].color = iColor;
+                colorsDic[_lessons[i][j][k].class_id] = iColor;
+                if (_colors.length) { _colors = removeByValue(_colors, iColor); }
+              } else {
+                //该课继续拥有之前所上的色
+                _lessons[i][j][k].color = colorsDic[_lessons[i][j][k].class_id];
+              }
+            }
+          }
+        }
+      }
+      var today = parseInt(_data.day);  //0周日,1周一
+      today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
+      var week = _data.week;
+      var lessons = _data.lessons;
+      //各周日期计算
+      var nowD = new Date(),
+        nowMonth = nowD.getMonth() + 1,
+        nowDate = nowD.getDate();
+      var dates = _this.data._weeks.slice(0);  //0:第1周,1:第2周,..19:第20周
+      dates = dates.map(function (e, m) {
+        var idates = _this.data._days.slice(0);  //0:周一,1:周二,..6:周日
+        idates = idates.map(function (e, i) {
+          var d = (m === (week - 1) && i === today) ? nowD : new Date(nowD.getFullYear(), nowD.getMonth(), nowD.getDate() - ((week - 1 - m) * 7 + (today - i)));
+          return {
+            month: d.getMonth() + 1,
+            date: d.getDate()
+          }
+        });
+        return idates;
+      });
+      _this.setData({
+        today: today,
+        week: week,
+        toweek: week,
+        lessons: lessons,
+        dates: dates,
+        remind: ''
+      });
+    }
+    wx.showNavigationBarLoading();
+    //获取课表
     wx.request({
-      url: app.server + "/api/users/get_schedule",
+      url: app.server + '/api/users/get_schedule',
       method: 'POST',
       data: data,
       success: function (res) {
-        if(res.data.msg == null){
-          _this.setData({
-            remind: '暂无课表'
-          });
-          return;
-        }
-        if (res.data && res.statusCode === 200) {
-          var _data = res.data.msg;
-          console.log(_data);
-          var colors = ['red', 'green', 'purple', 'yellow'];
-
-          var today = parseInt(_data.day);  //0周日,1周一
-          today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
-          var week = app.user.school.week;
-          var lessons = _data;
-
-          _this.setData({
-            today: today,
-            week: week,
-            toweek: week,
-            lessons: lessons,
-            dates: 'dates',
-            remind: ''
-          });
+        if (res.data && res.data.status === 200) {
+          var _data = res.data.data;
+          if (_data) {
+            if (!_this.data.name) {
+              //保存课表缓存
+              app.saveCache('kb', _data);
+            }
+            kbRender(_data);
+          } else { _this.setData({ remind: '暂无数据' }); }
 
         } else {
+          app.removeCache('kb');
           _this.setData({
             remind: res.data.message || '未知错误'
           });
         }
-
       },
       fail: function (res) {
-        app.showErrorModal(res.errMsg);
-        _this.setData({
-          remind: '网络错误'
-        });
+        if (_this.data.remind == '加载中') {
+          _this.setData({
+            remind: '网络错误'
+          });
+        }
+        console.warn('网络错误');
+      },
+      complete: function () {
+        wx.hideNavigationBarLoading();
       }
     });
   }

@@ -9,6 +9,11 @@ Page({
         count: 10,         // 展示的消费次数
         width: 0,          // 画布宽
         height: 300,       // 画布高, wxss给定canvas高300px
+        dict: [],          // 所有消费数据
+        points: [],        // 点的集合（包括点的横坐标x、纵坐标y、当前点的详情detail）
+        costArr: [],       // 消费金额集合
+        balanceArr: [],    // 余额金额集合
+        tapDetail: {},     // 每个点对应的详情集合
         lineLeft: 0,       // 详情垂直线的初始左边距
         gridMarginLeft: 35,// 表格左边距
         gridMarginTop: 20, // 表格上边距
@@ -39,6 +44,16 @@ Page({
             });
             return false;
         }
+        //判断并读取缓存
+        if (app.cache.ykt) { yktRender(app.cache.ykt); }
+        function yktRender(data) {
+            _this.setData({
+                balance: data.mainFare,
+                last_time: data.lasttime,
+                ykt_id: data.outid,
+                remind: '',
+            });
+        }
         wx.request({
             url: app.server + '/api/users/get_mealcard',
             method: 'POST',
@@ -49,31 +64,35 @@ Page({
                 if (res.data && res.statusCode == 200) {
                     var data = res.data;
                     if (data.errmsg != null) {
+                        app.removeCache('ykt');
                         _this.setData({
                             remind: data.errmsg || '未知错误'
                         });
-                    } else if(data.msg.error != null){
+                    } else if (data.msg.error != null) {
+                        app.removeCache('ykt');
                         _this.setData({
                             remind: data.msg.error || '未知错误'
                         });
                     } else {
                         var data = data.msg;
-                        _this.setData({
-                            balance: data.mainFare,
-                            last_time: data.lasttime,
-                            ykt_id: data.outid,
-                            remind: '',
-                        });
+                        //保存一卡通缓存
+                        app.saveCache('ykt', info);
+                        yktRender(data)
                     }
                 }
             },
-            fail: function (res) {
-                app.showErrorModal(res.errMsg);
-                _this.setData({
-                    remind: '网络错误'
-                });
-            },
-        });
+          fail: function(res){
+            if(_this.data.remind == '加载中'){
+            _this.setData({
+                remind: '网络错误'
+            });
+            }
+            console.warn('网络错误');
+        },
+        complete: function() {
+            wx.hideNavigationBarLoading();
+        }
+      });
     },
 
 

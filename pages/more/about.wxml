@@ -2,13 +2,13 @@
 <view class="container">
   <view class="header">
     <view class="black-cover"></view>
-    <image class="about_bg" src="https://sr.lastfighting.com/static/images/app/about_bg.jpg"></image>
+    <image class="about_bg" src="https://xmcdn.gxgk.cc/static/images/app/about_bg.jpg"></image>
   </view>
   <view class="content">
     <view class="version">
       <view class="version-title">
         <text class="title-name">莞香小喵</text>
-        <text class="version-text">v0.0.1</text>
+        <text class="version-text">{{version}}</text>
         <text class="version-text">内测</text>
       </view>
       <view bindtap="toggleLog">
@@ -50,6 +50,6 @@
         <image src="/images/more/lanshan.png"></image>
         <text>莞香广科</text>
     </view>
-    <text>Copyright @ 2012-2016 All Rights Reserved</text>
+    <text>Copyright @ 2012-{{year}} All Rights Reserved</text>
   </view>
 </view>

@@ -3,10 +3,14 @@
 var app = getApp();
 Page({
   data: {
+    version: '',
     showLog: false
   },
   onLoad: function(){
-
+    this.setData({
+      version: app.version,
+      year: new Date().getFullYear()
+    });
   },
   onShareAppMessage: function () {
     return {

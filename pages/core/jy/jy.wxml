@@ -39,14 +39,19 @@
             <text wx:if="{{!message}}" class="current-type">当前借阅记录</text>
             <block wx:for="{{jyData.book}}" wx:key="name" wx:for-item="itemName">
                 <view class="book-wraper">
-                    <view class="book-info">
-                        <text class="book-name">{{itemName.book_name}}</text>
-                        <view class="book-date">
-                            <text>典藏部门：{{itemName.book_type}}</text>
-                            <text>应还日期：{{itemName.return_time}}</text>
-                        </view>                
+                    <view class="book-name">
+                        {{itemName.book_name}}
                     </view>
-                    <image class="book-img" src="/images/core/jy.png"></image>
+                    <view class="book-date">
+                        <view>
+                            <text>典藏部门：</text>
+                            <text>{{itemName.book_type}}</text>
+                        </view>
+                        <view>
+                            <text>应还日期：</text>
+                            <text class="yhrq-value">{{itemName.return_time}}</text>
+                        </view>
+                    </view>
                 </view>
             </block>
         </view>

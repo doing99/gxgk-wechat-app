@@ -27,33 +27,60 @@ Page({
       });
       return false;
     }
+    //判断并读取缓存
+    if (app.cache.jy) { jyRender(app.cache.jy); }
+    function jyRender(info) {
+      _this.setData({
+        jyData: info,
+        remind: ''
+      });
+    }
+    wx.showNavigationBarLoading();
     wx.request({
       url: app.server + "/api/users/get_user_library",
       method: 'POST',
       data: {
-         session_id: app.user.wxinfo.id
-          },
+        session_id: app.user.wxinfo.id
+      },
       success: function (res) {
         if (res.data && res.statusCode == 200) {
-          var info = res.data.msg;
-         _this.setData({
-            jyData: info,
-            remind: ''
-          });
+          var data = res.data;
+          if (data.errmsg != null) {
+            app.removeCache('cj');
+            _this.setData({
+              remind: data.errmsg || '未知错误'
+            });
+          } else if (data.msg.error != null) {
+            app.removeCache('cj');
+            _this.setData({
+              remind: data.msg.error || '未知错误'
+            });
+          }
+          else {
+            var info = res.data.msg;
+            if (info.book.length) {
+              //保存借阅缓存
+              app.saveCache('jy', info);
+              jyRender(info);
+            } else { _this.setData({ remind: '暂无数据' }); }
+          }
         } else {
+          app.removeCache('jy');
           _this.setData({
-            remind: res.data.message || '未知错误'
+            remind: res.data.errMsg || '未知错误'
           });
         }
       },
       fail: function (res) {
-        app.showErrorModal(res.errMsg);
-        _this.setData({
-          remind: '网络错误'
-        });
+        if (_this.data.remind == '加载中') {
+          _this.setData({
+            remind: '网络错误'
+          });
+        }
+        console.warn('网络错误');
       },
       complete: function () {
-        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading();
       }
     });
   },

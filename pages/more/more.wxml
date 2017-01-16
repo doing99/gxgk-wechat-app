@@ -3,7 +3,7 @@
 <view class="container">
   <view class="top-bgcolor"> </view>
   <block wx:if="{{is_bind}}">
-    <view class="user-info-box"> 
+    <view class="user-info-box">
       <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
       <text class="user-name">{{student.name}}</text>
       <view class="user-infos">
@@ -22,7 +22,7 @@
       </view>
     </view>
     <view class="more-info">
-       <navigator url="#">
+      <navigator url="#">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/setting.png"></image>
           <text class="btn-text">个人设置</text>
@@ -33,11 +33,19 @@
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">绑定饭卡</text>
         </view>
+        <view class="more-info-btn" wx:else>
+          <image class="btn-icon" src="/images/more/fanka.png"></image>
+          <text class="btn-text">改绑饭卡</text>
+        </view>
       </navigator>
       <navigator url="append?type=library">
-         <view class="more-info-btn"wx:if="{{!is_bind_library}}">
+        <view class="more-info-btn" wx:if="{{!is_bind_library}}">
           <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
           <text class="btn-text">绑定图书证</text>
+        </view>
+        <view class="more-info-btn" wx:else>
+          <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
+          <text class="btn-text">改绑图书证</text>
         </view>
       </navigator>
     </view>
@@ -64,7 +72,9 @@
           <text class="user-name">{{wxinfo.nickName}}</text>
           <view class="user-infos">
             <view class="info2">
-              <view class="xibie">请先绑定教务系统 | 前往绑定 <image class="btn-enter" src="/images/more/enter.png"></image></view>
+              <view class="xibie">请先绑定教务系统 | 前往绑定
+                <image class="btn-enter" src="/images/more/enter.png"></image>
+              </view>
             </view>
           </view>
         </view>

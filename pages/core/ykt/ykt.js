@@ -76,7 +76,7 @@ Page({
                     } else {
                         var data = data.msg;
                         //保存一卡通缓存
-                        app.saveCache('ykt', info);
+                        app.saveCache('ykt', data);
                         yktRender(data)
                     }
                 }

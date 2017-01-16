@@ -26,7 +26,7 @@ module.exports.ipage = {
     var _this = this;
     return {
       title: _this.data.title,
-      desc: 'We重邮 - 资讯详情',
+      desc: '莞香小喵 - 资讯详情',
       path: 'pages/news/'+_this.data.type+'/'+_this.data.type+'_detail?type='+_this.data.type+'&id='+_this.data.id
     }
   },
@@ -57,24 +57,17 @@ module.exports.ipage = {
       'type': options.type,
       id: options.id
     });
-    options.openid = app._user.openid;
+    options.session_id = app.user.wxinfo.id;
     wx.request({
-      url: app._server + '/api/get_news_detail.php',
+      url: app.server + '/api/get_news_detail',
       data: options,
       success: function(res){
-        if(res.data && res.data.status === 200){
+        if(res.data.data && res.statusCode == 200){
           var info = res.data.data;
-          // 提取信息中的时间，作者，阅读量
-          var author_info = [];
-          if(info.author){
-            author_info = info.author.split(' ').map(function(e){
-              return e.split(':')[1];
-            });
-          }
           _this.setData({
-            date: author_info[0] || info.time || "",  // 发布日期
-            author: author_info[1] || "",     // 发布作者
-            reading: author_info[2] || "",    // 阅读量
+            date: info.time || "",  // 发布日期
+            author: info.author || "",     // 发布作者
+            reading: info.reading || "",    // 阅读量
             title: info.title,            //新闻标题
             content: _this.convertHtmlToText(info.body),  // 新闻内容
             source: _this.data.sources[options.type],
@@ -94,9 +87,9 @@ module.exports.ipage = {
             });
           }
         }else{
-          app.showErrorModal(res.data.message);
+          app.showErrorModal(res.data.error);
           _this.setData({
-            remind: res.data.message || '未知错误'
+            remind: res.data.error || '未知错误'
           });
         }
       },

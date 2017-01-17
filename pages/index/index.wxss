@@ -9,6 +9,217 @@
   /*微信暂不支持静态bgimg文件，改用服务器url*/
   background-image: url('https://we.cqu.pt/app/images/index/tri.png');
 }
+.top-bgcolor {
+  width: 100%;
+  height: 130rpx;
+  background-color: #079df2;
+}
+.everywords {
+  width: 95%;
+  height: 130rpx;
+  margin: 0 auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #e5e5e5;
+  background-color: #fff;
+  position: relative;
+  top: -60rpx;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.everywords-image{
+  width: 80rpx;
+  height: 80rpx;
+  flex: 0 0 auto;
+  padding: 0 80rpx;
+}
+.everywords-text {
+  flex: 1 1 auto;
+  font-size: 16px;
+  color: #6DA0E1;
+}
+.main-box {
+  position: relative;
+}
+.content-box {
+  width: 95%;
+  margin: 0 auto 40rpx auto;
+  border-radius: 10rpx;
+  border: 1px solid #e5e5e5;
+  box-shadow: 2px 2px 5px #e5e5e5;
+  background-color: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  min-height: 440rpx;
+  padding-bottom: 30rpx;
+  position: relative;
+}
+.content-box-item{
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 25%;
+  height: 200rpx;
+}
+.content-box-item.disabled{
+  color: #9c9c9c;
+}
+.trans {
+  width: 90%;
+  height: 100rpx;
+  display: block;
+  position: absolute;
+  top: 440rpx;
+  margin-left: 36rpx;
+  z-index: 2;
+}
+.kb-nav {
+  width: 100%;
+}
+.today-class {
+  color: #4C71bf;
+  font-size: 18px;
+  width: 180rpx;
+  padding: 30rpx 0 10rpx 0;
+  margin: 0 auto;
+  border-bottom: 2px solid #4C71bf;
+  text-align: center;
+  display: block;
+}
+.kb-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10rpx 50rpx;
+  padding: 10rpx;
+  border-bottom: 1px solid #bbb;
+}
+.kb-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+.kb-name {
+  font-size: 15px;
+  color: #7ACFA6;
+}
+.kb-time {
+  color: #999;
+}
+.kb-place {
+  font-size: 15px;
+  flex: 0 0 auto;
+  color: #999;
+}
+.kb-more {
+  width: 400rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 20rpx auto 0 auto;
+  background-color: #7ACFA6;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+.ykt-main {
+  display: flex;
+  margin-top: 20rpx;
+}
+.ykt-ye {
+  display: flex;
+  flex: 0 0 auto;
+  padding-left: 40rpx;
+  font-size: 15px;
+}
+.ykt-money {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  height: 270rpx;
+  width: 200rpx;
+  justify-content: center;
+}
+.ykt-money-text {
+  font-size: 60px;
+  font-weight: bold;
+  color: #FEAD75;
+}
+.ykt-image {
+  display: flex;
+  width: 60rpx;
+  height: 60rpx;
+  flex: 0 0 80rpx;
+  padding-right: 30rpx;
+}
+.update-time {
+  color: #aaa;
+  text-align: center;
+  display: block;
+  margin-top: 15px;
+}
+.jy-main {
+  margin-top: 20rpx;
+}
+.jy-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.jy-kh {
+  display: flex;
+  flex: 1 1 auto;
+  font-size: 15px;
+  padding-left: 40rpx;
+}
+.jy-image {
+  display: flex;
+  width: 80rpx;
+  height: 80rpx;
+  flex: 0 0 80rpx;
+  padding-right: 30rpx;
+}
+.jy-card-current {
+  flex: 1 1 auto;
+}
+.jy-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.jy-current {
+  font-size: 15px;
+  padding-left: 40rpx;
+}
+.jy-books {
+  padding-top: 30rpx;
+  padding-left: 120rpx;
+}
+.jy-books-text {
+  font-size: 50px;
+  color: #FEAD75;
+}
+.jy-qf {
+  flex: 1 1 auto;
+  padding-left: 100rpx;
+}
+.jy-qf-current {
+  font-size: 15px;
+}
+.jy-qfs {
+  padding-top: 30rpx;
+  padding-left: 30rpx;
+}
+.jy-qf-text {
+  font-size: 50px;
+  color: #F73734;
+}
+
+
 /**功能导航**/
 .main-core{
   display: flex;
@@ -35,8 +246,8 @@
 }
 .core-item-icon{
   display: block;
-  width: 85rpx;
-  height: 85rpx;
+  width: 100rpx;
+  height: 100rpx;
   margin: 15rpx auto;
 }
 .core-item-name{

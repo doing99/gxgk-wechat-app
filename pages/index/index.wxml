@@ -1,6 +1,118 @@
 
 <!--index.wxml-->
 <view class="container">
+  <view class="top-bgcolor"> </view>
+  <view class="everywords">
+    <image class="everywords-image" src="/images/index/coffeecup.png"></image>
+    <text class="everywords-text">你若安好，便是晴天。</text>
+  </view>
+  <view wx:if="{{remind}}" class="remind-box">
+        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+        <block wx:else>
+          <image class="remind-img" src="/images/index/nothing.png"></image>
+          <text class="remind-text">{{remind}}</text>
+          <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
+        </block>
+  </view>
+  <view class="main-box">
+    
+    <view class="content-box">
+      <image class="trans" src="/images/index/trans.png"></image>
+      <block wx:for="{{core}}" wx:key="id">
+        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}" >
+          <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
+          <text class="core-item-name">{{item.name}}</text>
+        </navigator>
+        <view wx:else class="content-box-item disabled" bindtap="disabled_item">
+        <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
+        <text class="core-item-name">{{item.name}}</text>
+      </view>
+      </block>
+      <view class="fix_tip {{disabledItemTap?'active':''}}">
+        <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
+        <text wx:else>该服务不可用</text>
+      </view>
+    </view>
+      
+    <!-- 课表 -->
+    <view class="content-box">
+      <image class="trans" src="/images/index/trans.png"></image>
+      <block>
+        <navigator url="url" class="kb-nav">
+          <text class="today-class">今日课表</text>
+          <view class="kb-main">
+            <view class="kb-content">
+              <text class="kb-name">专业综合实训</text>
+              <text class="kb-time">5-6节(14:00-15:40)</text>
+            </view>
+            <view class="kb-place">
+              <text>教学楼1-305</text>
+            </view>
+          </view>
+          <view class="kb-main">
+            <view class="kb-content">
+              <text class="kb-name">专业综合实训</text>
+              <text class="kb-time">5-6节(14:00-15:40)</text>
+            </view>
+            <view class="kb-place">
+              <text>教学楼1-305</text>
+            </view>
+          </view>
+          <view class="kb-more">MORE</view>
+        </navigator>
+      </block>
+    </view>
+
+    <view class="content-box">
+      <image class="trans" src="/images/index/trans.png"></image>
+      <block>
+        <navigator url="url" class="kb-nav">
+          <text class="today-class">一卡通</text>
+          <view class="ykt-main">
+            <text class="ykt-ye">余额：</text>
+            <view class="ykt-money">
+              <text class="ykt-money-text">10.00</text>
+              <text>元</text>
+            </view>
+            <image class="ykt-image" src="/images/index/ykt-icon.png"></image>
+          </view>
+          <text class="update-time">更新时间：2017年1月2日</text>
+        </navigator>
+      </block>
+    </view>
+
+    <view class="content-box">
+      <block>
+        <navigator url="url" class="kb-nav">
+          <text class="today-class">借阅信息</text>
+          <view class="jy-main">
+            <view class="jy-card">
+              <text class="jy-kh">卡号：110110</text>
+              <image class="jy-image" src="/images/core/jy.png"></image>
+            </view>
+            <view class="jy-content">
+              <view class="jy-card-current">
+                <text class="jy-current">当前借阅</text>
+                <view class="jy-books">
+                  <text class="jy-books-text">3</text>
+                  <text>本</text>
+                </view>
+              </view>
+              <view class="jy-qf">
+                <text class="jy-qf-current">欠费情况</text>
+                <view class="jy-qfs">
+                  <text class="jy-qf-text">-46</text>
+                  <text>元</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <text class="update-time">更新时间：2017年1月2日</text>
+        </navigator>
+      </block>
+    </view>
+</view>
+  
 
   <!--功能导航-->
   <view class="main-core">

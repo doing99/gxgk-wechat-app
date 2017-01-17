@@ -13,9 +13,7 @@ Page({
       { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false, offline_disabled: true },
       { id: 'ykt', name: '一卡通', disabled: false, teacher_disabled: false, offline_disabled: false },
       { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'xf', name: '学费信息', disabled: true, teacher_disabled: true, offline_disabled: false },
-      { id: 'sdf', name: '电费查询', disabled: true, teacher_disabled: true, offline_disabled: false },
-      { id: 'bx', name: '物业报修', disabled: true, teacher_disabled: false, offline_disabled: true }
+      { id: 'xf', name: '学费信息', disabled: true, teacher_disabled: true, offline_disabled: false }
     ],
     card: {
       'kb': {

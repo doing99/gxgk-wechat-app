@@ -101,6 +101,12 @@ Page({
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {
+          if (res.data.data.error) {
+            app.showErrorModal(res.data.data.error);
+            _this.setData({
+              'active.remind': res.data.data.error || '加载失败'
+            });
+          }
           if (_this.data.active.id != typeId) { return false; }
           if (res.data.data) {
             if (!_this.data.page) {

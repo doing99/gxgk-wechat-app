@@ -135,7 +135,7 @@ Page({
             });
           }
         } else {
-          app.showErrorModal(res.data.data.error);
+          app.showErrorModal(res.errMsg);
           _this.setData({
             'active.remind': '加载失败'
           });

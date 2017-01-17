@@ -69,6 +69,7 @@ module.exports.ipage = {
             author: info.author || "",     // 发布作者
             reading: info.reading || "",    // 阅读量
             title: info.title,            //新闻标题
+            come_from: info.source,         //新闻来源
             content: _this.convertHtmlToText(info.body),  // 新闻内容
             source: _this.data.sources[options.type],
             remind: ''

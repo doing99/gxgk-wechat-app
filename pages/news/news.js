@@ -5,12 +5,12 @@ Page({
   data: {
     page: 0,
     list: [
-      { id: 0, 'type': 'all', name: '头条', storage: [], url: 'get_news_list', enabled: { guest: false, student: true, teacher: true } },
-      { id: 1, 'type': 'jw', name: '教务公告', storage: [], url: 'news/jw_list.php', enabled: { guest: false, student: true, teacher: true } },
-      { id: 2, 'type': 'oa', name: 'OA公告', storage: [], url: 'news/oa_list.php', enabled: { guest: false, student: true, teacher: true } },
-      { id: 3, 'type': 'hy', name: '会议通知', storage: [], url: 'news/hy_list.php', enabled: { guest: false, student: false, teacher: true } },
-      { id: 4, 'type': 'jz', name: '学术讲座', storage: [], url: 'news/jz_list.php', enabled: { guest: true, student: true, teacher: true } },
-      { id: 5, 'type': 'new', name: '综合新闻', storage: [], url: 'news/new_list.php', enabled: { guest: true, student: true, teacher: true } },
+      { id: 0, 'type': 'all', name: '头条', storage: [], enabled: { guest: false, student: true, teacher: true } },
+      { id: 1, 'type': 'xy', name: '学院新闻', storage: [], enabled: { guest: true, student: true, teacher: true } },
+      { id: 2, 'type': 'xb', name: '系部动态', storage: [], enabled: { guest: true, student: true, teacher: true } },
+      { id: 3, 'type': 'jw', name: '教务公告', storage: [], enabled: { guest: false, student: false, teacher: true } },
+      { id: 4, 'type': 'jz', name: '学术讲座', storage: [], enabled: { guest: true, student: true, teacher: true } },
+      { id: 5, 'type': 'sj', name: '数据分析', storage: [], enabled: { guest: true, student: true, teacher: true } },
     ],
     'active': {
       id: 0,
@@ -93,12 +93,20 @@ Page({
     });
     wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + '/api/' + _this.data.list[typeId].url,
+      url: app.server + '/api/get_news_list',
       data: {
+        session_id: app.user.wxinfo.id,
+        news_type: _this.data.list[typeId].type,
         page: _this.data.page + 1,
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {
+          if (res.data.data.error) {
+            app.showErrorModal(res.data.data.error);
+            _this.setData({
+              'active.remind': res.data.data.error || '加载失败'
+            });
+          }
           if (_this.data.active.id != typeId) { return false; }
           if (res.data.data) {
             if (!_this.data.page) {
@@ -133,7 +141,7 @@ Page({
             });
           }
         } else {
-          app.showErrorModal(res.data.message);
+          app.showErrorModal(res.errMsg);
           _this.setData({
             'active.remind': '加载失败'
           });

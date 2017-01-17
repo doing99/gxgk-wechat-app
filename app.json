@@ -7,7 +7,8 @@
     "pages/core/jy/jy",
     "pages/logs/logs",
     "pages/news/news",
-    "pages/news/oa/oa_detail",
+    "pages/news/xy/xy_detail",
+    "pages/news/xb/xb_detail",
     "pages/news/new/new_detail",
     "pages/more/more",
     "pages/more/login",
@@ -24,7 +25,7 @@
   },
   "tabBar": {
     "color": "#7f848a",
-    "selectedColor": "#079df2",
+    "selectedColor": "#648de2",
     "backgroundColor": "#f7f6fb",
     "list": [
       {

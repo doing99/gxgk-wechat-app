@@ -15,8 +15,8 @@ module.exports.ipage = {
     source: '',   // 附件来源
     sources: {
       'jw': '教务在线',
-      'oa': 'OA系统',
-      'hy': 'OA系统',
+      'xy': '学院新闻',
+      'xb': '系部动态',
       'jz': 'OA系统',
       'new': '新闻中心'
     }
@@ -69,6 +69,7 @@ module.exports.ipage = {
             author: info.author || "",     // 发布作者
             reading: info.reading || "",    // 阅读量
             title: info.title,            //新闻标题
+            originate: info.source,         //新闻来源
             content: _this.convertHtmlToText(info.body),  // 新闻内容
             source: _this.data.sources[options.type],
             remind: ''

@@ -26,7 +26,7 @@
             <view class="user-jy-item user-jy-dbet">
                 <text class="user-jy-hd">欠费</text>
                 <view class="user-jy-bd">
-                    <text class="user-jy-value">{{jyData.dbet}}</text>
+                    <text class="user-jy-value">{{jyData.arrears_money}}</text>
                     <text class="user-jy-text">元</text>
                 </view>
             </view>

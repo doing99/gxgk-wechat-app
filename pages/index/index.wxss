@@ -59,7 +59,7 @@
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
-  min-height: 440rpx;
+  min-height: 410rpx;
   padding-bottom: 30rpx;
   position: relative;
 }
@@ -83,7 +83,7 @@
   height: 100rpx;
   display: block;
   position: absolute;
-  top: 440rpx;
+  top: 410rpx;
   margin-left: 36rpx;
   z-index: 2;
 }

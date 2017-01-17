@@ -54,7 +54,7 @@
   font-family: '华文细黑';
 }
 .xuehao,.xibie,.banji {
-  margin-top: 20rpx;
+  margin-bottom: 15rpx;
   font-family: '微软雅黑';
 }
 .more-info {

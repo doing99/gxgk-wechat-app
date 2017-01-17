@@ -15,8 +15,8 @@ module.exports.ipage = {
     source: '',   // 附件来源
     sources: {
       'jw': '教务在线',
-      'oa': 'OA系统',
-      'hy': 'OA系统',
+      'xy': '学院新闻',
+      'xb': '系部动态',
       'jz': 'OA系统',
       'new': '新闻中心'
     }

@@ -46,8 +46,8 @@
     </view>
   </view>
   <view class="footer">
-    <view class="footer-lanshan">
-        <image src="/images/more/lanshan.png"></image>
+    <view class="footer-gx">
+        <image src="/images/more/gx.png"></image>
         <text>莞香广科</text>
     </view>
     <text>Copyright @ 2012-{{year}} All Rights Reserved</text>

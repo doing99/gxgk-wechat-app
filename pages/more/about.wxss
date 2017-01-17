@@ -129,7 +129,7 @@
     padding: 100rpx 0 15rpx;
     color: #c2c2c2;
 }
-.footer-lanshan{
+.footer-gx{
     height: 10pt;
     line-height: 10pt;
     display: flex;
@@ -137,7 +137,7 @@
     justify-content: center;
     margin-bottom: 5rpx;
 }
-.footer-lanshan image{
+.footer-gx image{
     width: 10pt;
     height: 10pt;
     margin-right: 5rpx;

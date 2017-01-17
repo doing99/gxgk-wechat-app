@@ -35,7 +35,7 @@
       },
       {
         "pagePath": "pages/news/news",
-        "text": "新闻",
+        "text": "资讯",
         "iconPath": "images/index/news.png",
         "selectedIconPath": "images/index/news@active.png"
       },

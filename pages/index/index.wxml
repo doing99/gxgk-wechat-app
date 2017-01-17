@@ -7,33 +7,32 @@
     <text class="everywords-text">你若安好，便是晴天。</text>
   </view>
   <view wx:if="{{remind}}" class="remind-box">
-        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
-        <block wx:else>
-          <image class="remind-img" src="/images/index/nothing.png"></image>
-          <text class="remind-text">{{remind}}</text>
-          <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
-        </block>
+    <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+    <block wx:else>
+      <image class="remind-img" src="/images/index/nothing.png"></image>
+      <text class="remind-text">{{remind}}</text>
+      <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
+    </block>
   </view>
   <view class="main-box">
-    
     <view class="content-box">
       <image class="trans" src="/images/index/trans.png"></image>
       <block wx:for="{{core}}" wx:key="id">
-        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}" >
+        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
           <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
           <text class="core-item-name">{{item.name}}</text>
         </navigator>
         <view wx:else class="content-box-item disabled" bindtap="disabled_item">
-        <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
-        <text class="core-item-name">{{item.name}}</text>
-      </view>
+          <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
+          <text class="core-item-name">{{item.name}}</text>
+        </view>
       </block>
       <view class="fix_tip {{disabledItemTap?'active':''}}">
         <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
         <text wx:else>该服务不可用</text>
       </view>
     </view>
-      
+
     <!-- 课表 -->
     <view class="content-box">
       <image class="trans" src="/images/index/trans.png"></image>
@@ -62,7 +61,6 @@
         </navigator>
       </block>
     </view>
-
     <view class="content-box">
       <image class="trans" src="/images/index/trans.png"></image>
       <block>
@@ -71,37 +69,36 @@
           <view class="ykt-main">
             <text class="ykt-ye">余额：</text>
             <view class="ykt-money">
-              <text class="ykt-money-text">10.00</text>
-              <text>元</text>
+              <text class="ykt-money-value">{{card.ykt.data.balance}}</text>
+              <text class="ykt-money-text">元</text>
             </view>
             <image class="ykt-image" src="/images/index/ykt-icon.png"></image>
           </view>
-          <text class="update-time">更新时间：2017年1月2日</text>
+          <text class="update-time">更新时间：{{card.ykt.data.last_time}}</text>
         </navigator>
       </block>
     </view>
-
     <view class="content-box">
       <block>
         <navigator url="url" class="kb-nav">
           <text class="today-class">借阅信息</text>
           <view class="jy-main">
             <view class="jy-card">
-              <text class="jy-kh">卡号：110110</text>
+              <text class="jy-kh">图书证卡号：{{card.jy.data.id}}</text>
               <image class="jy-image" src="/images/core/jy.png"></image>
             </view>
             <view class="jy-content">
               <view class="jy-card-current">
                 <text class="jy-current">当前借阅</text>
                 <view class="jy-books">
-                  <text class="jy-books-text">3</text>
+                  <text class="jy-books-text">{{card.jy.data.books_num}}</text>
                   <text>本</text>
                 </view>
               </view>
               <view class="jy-qf">
                 <text class="jy-qf-current">欠费情况</text>
                 <view class="jy-qfs">
-                  <text class="jy-qf-text">-46</text>
+                  <text class="jy-qf-text">{{card.jy.data.arrears_money}}</text>
                   <text>元</text>
                 </view>
               </view>
@@ -111,26 +108,9 @@
         </navigator>
       </block>
     </view>
-</view>
-  
+  </view>
 
   <!--功能导航-->
-  <view class="main-core">
-    <block wx:for="{{core}}" wx:key="id">
-      <navigator wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}" class="main-core-item" url="{{'/pages/core/'+item.id+'/'+item.id}}">
-        <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
-        <text class="core-item-name">{{item.name}}</text>
-      </navigator>
-      <view wx:else class="main-core-item disabled" bindtap="disabled_item">
-        <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
-        <text class="core-item-name">{{item.name}}</text>
-      </view>
-    </block>
-    <view class="fix_tip {{disabledItemTap?'active':''}}">
-      <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
-      <text wx:else>该服务不可用</text>
-    </view>
-  </view>
   <view wx:if="{{remind}}" class="remind-box">
     <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
     <block wx:else>
@@ -193,47 +173,6 @@
     </view>
 
     <!--借阅信息-->
-    <view class="main-card-item" id="jy" wx:if="{{card.jy.show}}">
-      <navigator url="/pages/core/jy/jy">
-        <view class="card-item-hd">
-          <image class="card-item-icon" src="/images/core/jy.png"></image>
-          <text class="card-item-name">借阅信息</text>
-        </view>
-        <view class="card-item-bd">
-          <view class="card-info-hd">
-            <view class="card-info-left">
-              <text class="card-info-name">{{user.we.info.name}}</text>
-              <text class="card-info-number">{{user.we.info.id}}</text>
-            </view>
-            <view class="card-info-right">
-              <text>当前借阅：{{card.jy.data.books_num}}</text>
-              <text>欠费金额：{{card.jy.data.dbet}}</text>
-            </view>
-          </view>
-          <view class="jy-list">
-            <view class="jy-item" wx:for="{{card.jy.data.book}}" wx:key="book_name">
-              <view class="jy-book">
-                <view class="jy-pickup-time">
-                  <text class="jy-pickup-time-value">{{item.jsrq}}</text>
-                  <text class="jy-pickup-time-text">借</text>
-                </view>
-                <text class="jy-book-name">{{item.book}}</text>
-              </view>
-              <view class="jy-return-time">
-                <text class="jy-return-time-value">{{item.yhrq}}</text>
-                <text class="jy-return-time-text">还</text>
-              </view>
-              <view class="jy-timing">
-                <text class="jy-timing-text" wx:if="{{item.timing>=0}}">还有</text>
-                <text class="jy-timing-text" wx:else>已超过</text>
-                <text class="jy-timing-value">{{item.timing>=0?item.timing:-item.timing}}</text>
-                <text class="jy-timing-text">天</text>
-              </view>
-            </view>
-          </view>
-        </view>
-      </navigator>
-    </view>
   </view>
   <view class="main-ending">
     <view class="main-ending-line"></view>

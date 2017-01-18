@@ -49,7 +49,7 @@
             <image class="item-content-image" src="{{item.headImg}}"></image>
             <view class="item-content-state">
               <view class="content-state-name">
-                <text class="state-name-active">{{item.activeName}}</text>{{item.normalXm}}
+                {{item.title}}
               </view>
               <view class="content-state-stuId">责任者：{{item.author}}</view>
             </view>
@@ -73,7 +73,7 @@
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">详情</text>
-            <navigator open-type="redirect" url="/pages/core/zs/detail/detail?url={{item.url}}&name={{item.normalXm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+            <navigator open-type="redirect" url="/pages/core/zs/detail/detail?url={{item.url}}&name={{item.title}}" class="ul-li-more ul-li-kb">点击查看</navigator>
           </view>
         </view>
       </view>

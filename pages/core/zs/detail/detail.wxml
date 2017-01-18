@@ -1,0 +1,65 @@
+
+<!--xs.wxml-->
+<view class="container {{main.mainDisplay?'home':'active'}}">
+
+  <!--页面主体部分-->
+  <view class="main" wx:if="{{main.total}}">
+
+    <!--主体部分标题-->
+    <view class="main-title">
+      <text class="title-text">书籍信息：{{main.total}}本</text>
+    </view>
+
+    <!--主体部分内容列表-->
+    <view class="main-list" wx:for="{{testData}}" wx:key="xh">
+
+      <!--列表的一个元素的模板结构-->
+      <view class="list-item">
+
+        <!--信息直接显示部分-->
+        <view class="item" data-index="{{index}}" bindtap="bindOpenList">
+          <view class="item-content">
+            <image class="item-content-image" src="{{item.headImg}}"></image>
+            <view class="item-content-state">
+              <view class="content-state-name">
+                {{item.normalXm}}
+              </view>
+              <view class="content-state-stuId">责任者：{{item.author}}</view>
+            </view>
+          </view>
+
+          <!--信息直接显示部分的下拉标识-->
+          <view class="list-sign">
+            <image class="list-sign-icon {{!item.display ? 'list-sign-icon-show' : ''}}" src="/images/core/common/up.png"></image>
+          </view>
+        </view>
+
+        <!--信息隐藏的下拉列表-->
+        <view class="item-ul" hidden="{{!item.display}}">
+          <view class="item-ul-gendor item-ul-li">
+            <text class="ul-li-label">出版社</text>
+            <text class="ul-li-content">{{item.press}}</text>
+          </view>
+          <view class="item-ul-college item-ul-li">
+            <text class="ul-li-label">出版年</text>
+            <text class="ul-li-content">{{item.pub_year}}</text>
+          </view>
+          <view class="item-ul-more item-ul-li">
+            <text class="ul-li-label">该书详情</text>
+            <navigator open-type="redirect" url="/pages/core/kb/kb?name={{item.normalXm}}&url={{item.url}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!--提示消息-->
+    <view class="search-message">
+      <text class="message-title">{{main.message}}</text>
+    </view>
+  </view>
+
+  <!--提示消息-->
+  <view class="search-message" hidden="{{messageObj.messageDisplay}}">
+    <text class="message-title">{{messageObj.message}}</text>
+  </view>
+</view>

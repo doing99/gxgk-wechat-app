@@ -6,6 +6,8 @@
     "pages/core/cj/cj",
     "pages/core/jy/jy",
     "pages/core/xs/xs",
+    "pages/core/zs/zs",
+    "pages/core/zs/detail/detail",
     "pages/logs/logs",
     "pages/news/news",
     "pages/news/xy/xy_detail",

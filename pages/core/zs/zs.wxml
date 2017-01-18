@@ -91,13 +91,9 @@
         <image class="box-close" src="/images/more/close.png" bindtap="hideHelp"></image>
       </view>
       <view class="box-bd">
-        <view class="help-q">1、根据姓名、学号、班级、专业等查询</view>
+        <view class="help-q">根据题名/作者/主题词等查询</view>
         <view class="help-a">
-          <text>您可以通过输入姓名、学号、班级、专业等学生信息的完整关键词进行精确搜索，也可以输入学生信息的前一部分进行模糊搜索。例如搜索 “陈” ，将会搜索到所有姓‘陈’的同学。</text>
-        </view>
-        <view class="help-q">2、根据课程教学班查询</view>
-        <view class="help-a">
-          <text>您可以通过输入 ‘教学班:’+教学班号 进行精确搜索。如搜索 “14软工1班” ，将会搜索到14软工1班的学生名单。</text>
+          <text>例如：围城，可搜索到所有带有围城字样的书籍</text>
         </view>
       </view>
     </view>

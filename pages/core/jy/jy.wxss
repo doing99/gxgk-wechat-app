@@ -48,10 +48,25 @@
     padding: 25rpx 30rpx;
 }
 .current-type {
-    color: #777;
-    font-size: 10pt;
+    color: #fff;
     line-height: 200%;
     margin-bottom: 15rpx;
+    background-color: #5496F4;
+    width: 25%;
+    border-radius: 10px;
+    font-size: 10pt;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+.yuan-dian {
+    width: 10rpx;
+    height: 10rpx;
+    border-radius: 5rpx;
+    background-color: #fff;
+}
+.jyjl {
+    padding-left: 10rpx;
 }
 .book-wraper {
     display: flex;
@@ -67,7 +82,9 @@
 .book-name {  
     font-size: 15pt;
     line-height: 135%;
-    word-break: break-all;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
 }
 .book-date {
     display: flex;
@@ -78,12 +95,35 @@
     color: #888;
 }
 .yhrq-value{
-    font-size: 13pt;
+    font-size: 10pt;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
 }
-
+.dept-name {
+    
+}
 .book-img {
     height: 13pt;
     width: 13pt;
     margin-top: 2pt;
     margin-right: 10rpx;
+}
+.yjxj {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50rpx;
+    box-shadow:2px 2px 5px #999;
+    background-color: #5496F4;
+    position: fixed;
+    left: 75%;
+    top: 60%;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+.yjxj text {
+    color: #fff;
+    font-size: 13px;
+    width: 30px;
 }

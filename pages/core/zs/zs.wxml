@@ -4,7 +4,7 @@
 
   <!--头部-->
   <view class="header">
-    <image class="xs-logo" src="/images/core/xs.png"></image>
+    <image class="xs-logo" src="/images/core/zs.png"></image>
     <view class="header-more">
       <view class="login-help" bindtap="showHelp">
         <text>帮助</text>
@@ -18,7 +18,7 @@
         <image class="search-icon" src="/images/core/xs/search-sign.png"></image>
       </view>
       <form class="input-form" bindreset="bindClearSearchTap" bindsubmit="bindConfirmSearchTap">
-        <input class="input-text" value="{{header.defaultValue}}" focus="{{!header.defaultValue}}" bindinput="bindSearchInput" type="text" name="search" placeholder="题名 / 作者 / 主题词 /ISBN" bindconfirm="bindConfirmSearchTap" />
+        <input class="input-text" value="{{header.defaultValue}}" focus="{{!header.defaultValue}}" bindinput="bindSearchInput" type="text" name="search" placeholder="题名 / 作者 / 主题词" bindconfirm="bindConfirmSearchTap" />
         <button class="input-clear-button" formType="reset" hover-class="none" wx:if="{{header.inputValue}}">
           <image class="clear-icon" src="/images/core/xs/clear.png"></image>
         </button>
@@ -73,7 +73,7 @@
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">详情</text>
-            <navigator open-type="redirect" url="/pages/core/zs/detail/detail?id={{item.url}}&name={{item.xm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+            <navigator open-type="redirect" url="/pages/core/zs/detail/detail?url={{item.url}}&name={{item.normalXm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
           </view>
         </view>
       </view>

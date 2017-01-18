@@ -1,286 +1,88 @@
-//xs.js
+//detail.js
 //获取应用实例
 var app = getApp();
-
 Page({
   data: {
-    header: {
-      defaultValue: '',
-      inputValue: '',
-      help_status: false
-    },
-    main: {
-      mainDisplay: true, // main 显示的变化标识
-      total: 0,
-      sum: 0,
-      page: 0,
-      message: '上滑加载更多'
-    },
-    testData: [],
-    messageObj: { // 查询失败的提示信息展示对象
-      messageDisplay: true,
-      message: '' 
-    }
+    remind: '加载中',
+    xfData: [], // 书籍数据
+    listAnimation: {} // 列表动画
   },
 
-  bindClearSearchTap: function (e) {
-    this.setData({
-      'main.mainDisplay': true,
-      'main.total': 0,
-      'main.sum': 0,
-      'main.page': 0,
-      'main.message': '上滑加载更多',
-      'testData': [],
-      'header.inputValue': ''
+  // 页面加载
+  onLoad: function (options) {
+    var _this = this;
+    _this.setData({
+      book_name: options.name
     });
-  },
-
-  bindSearchInput: function(e) {
-    this.setData({
-      'header.inputValue': e.detail.value,
-      'main.total': 0,
-      'main.sum': 0,
-      'main.page': 0,
-      'main.message': '上滑加载更多',
-      'testData': []
-    });
-    if(!this.data.messageObj.messageDisplay){
-      this.setData({
-        'messageObj.messageDisplay': true,
-        'messageObj.message': ''
+    //判断并读取缓存
+    //if (app.cache.xf) { xfRender(app.cache.xf); }
+    function xfRender(info) {
+      // 为每一本书设置是否显示当前数据详情的标志open, false表示不显示
+      var list = info.rows;
+      for (var i = 0, len = list.length; i < len; ++i) {
+        list[i].open = false;
+      }
+      list[0].open = true;
+      _this.setData({
+        remind: '',
+        xfData: list,
+        catalog: info.catalog
       });
     }
-    return e.detail.value;
-  },
-
-  // 点击搜索
-  bindConfirmSearchTap: function () {
-    this.setData({
-      'main.total': 0,
-      'main.sum': 0,
-      'main.page': 0,
-      'main.message': '上滑加载更多',
-      'testData': []
-    });
-    this.search();
-  },
-
-  // 上滑加载更多
-  onReachBottom: function(){
-    if(this.data.main.message != '已全部加载' && this.data.main.message != '正在加载中'){
-      this.search();
-    }
-  },
-
-  // 搜索
-  search: function (key) {
-
-    var that = this,
-        inputValue = key || that.data.header.inputValue,
-        messageDisplay = false,
-        message = '',
-        reDdata = null,
-        numberSign = false; // 用户输入的是姓名还是学号的标识
-      
-    // 消除字符串首尾的空格
-    function trim(str) {
-
-      return str.replace(/(^\s*)|(\s*$)/g, '');
-    }
-
-    inputValue = trim(inputValue);
-
-    // 抽离对messageObj的设置成一个单独的函数
-    function setMessageObj(messageDisplay, message) {
-
-      that.setData({
-        'messageObj.messageDisplay': messageDisplay,
-        'messageObj.message': message
-      });
-    }
-
-    // 对输入的是空格或未进行输入进行处理
-    if (inputValue === '') {
-
-      this.setData({
-        'main.mainDisplay': true
-      });
-
-      return false;
-    }
-
-    // 防止注入攻击
-    function checkData(v) {
-
-        var temp = v;
-          
-        v = v.replace(/\\|\/|\.|\'|\"|\<|\>/g, function (str) { return ''; });
-        v = trim(v);
-
-        messageDisplay = v.length < temp.length ? false : true;
-        message = '请勿输入非法字符!';
-
-        return v;
-    }
-
-    // 对输入进行过滤
-    inputValue = checkData(inputValue);
-
-    setMessageObj(messageDisplay, message);
-    this.setData({
-       'header.inputValue': inputValue
-    });
-
-    // 存在非法输入只会提示错误消息而不会发送搜索请求
-    if (messageDisplay === false) { 
-      return false;
-    }
-
-    // 对输入类型进行处理 inputValue:String
-    if (!isNaN(parseInt(inputValue, 10))) {
-
-      numberSign = true;
-    }
-
-    // 处理成功返回的数据
-    function doSuccess(data, messageDisplay) {
-
-      var rows = data.rows;
-      // 对数据进行自定义加工 给每个数据对象添加一些自定义属性
-      function doData(data) {
-
-        var curData = null,
-            curXm = null,
-            curXh = null,
-            len = data.length;
-
-        // 若查询没有查出结果，则直接显示提示信息并退出
-        if (len === 0) {
-          doFail();
-          return false;
-        }
-
-        for (var i = 0; i < len; i++) {
-
-          curData = data[ i ];
-          curData.display = false; // 添加控制隐藏列表信息显示的标识
-          curData.headImg = curData.headImg || '/images/core/xs.png';
-          curData.normalXm = curData.title;
-        }
-
-        return data;
-      }
-     
-      reDdata = doData(rows);
-      
-      // 若reDdata===false, 查询没有结果
-      if (reDdata === false) {
-        return false;
-      }
-
-      that.setData({
-        'testData': that.data.testData.concat(reDdata),
-        'main.mainDisplay': false,
-        'main.total': data.total,
-        'main.sum': that.data.main.sum + data.rows.length,
-        'messageObj.messageDisplay': messageDisplay,
-        'main.message': '上滑加载更多'
-      });
-      wx.hideToast();
-
-      if (reDdata.length === 1) {
-        that.bindOpenList(0);
-      }
-
-      if(data.total <= that.data.main.sum) {
-        that.setData({
-          'main.message': '已全部加载'
-        });
-      }
-
-    }
-    
-    // 处理没找到搜索到结果或错误情况
-    function doFail(err) {
-
-      var message = typeof err === 'undefined' ? '未搜索到相关结果' : err;
-      
-      setMessageObj(false, message);
-      wx.hideToast();
-    }
-    
-    that.setData({
-      'main.message': '正在加载中',
-      'main.page': that.data.main.page + 1
-    });
-    app.showLoadToast();
+    wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + '/api/search_book',
+      url: app.server + "/api/get_book_detail",
       method: 'POST',
       data: {
         session_id: app.user.wxinfo.id,
-        key: inputValue,
-        page: that.data.main.page
+        url: options.url
       },
-      success: function(res) {
-        
-        if(res.data && res.data.status === 200) {
+      success: function (res) {
 
-          doSuccess(res.data.data, true);
-        }else{
+        if (res.data && res.data.status === 200) {
+          var info = res.data.data;
+          if (info) {
+            xfRender(info);
+          } else { _this.setData({ remind: '暂无数据' }); }
 
-          app.showErrorModal(res.data.message);
-          doFail(res.data.message);
+        } else {
+          app.removeCache('xf');
+          _this.setData({
+            remind: res.data.message || '未知错误'
+          });
         }
+
       },
-      fail: function(res) {
-        
-        app.showErrorModal(res.errMsg);
-        doFail(res.errMsg);
+      fail: function (res) {
+        if (_this.data.remind == '加载中') {
+          _this.setData({
+            remind: '网络错误'
+          });
+        }
+        console.warn('网络错误');
+      },
+      complete: function () {
+        wx.hideNavigationBarLoading();
       }
     });
-
   },
 
-  // main——最优
-  bindOpenList: function (e) {
-    var index = !isNaN(e) ? e : parseInt(e.currentTarget.dataset.index),
-        data = {};
-    data['testData['+index+'].display'] = !this.data.testData[index].display;
-    this.setData(data);
-  },
+  // 展示书籍详情
+  slideDetail: function (e) {
 
-  onLoad: function(options){
-    var _this = this;
-    app.loginLoad(function(){
-      _this.loginHandler.call(_this, options);
-    });
-  },
-  //让分享时自动登录
-  loginHandler: function (options) {
-    if(options.key){
-      this.setData({
-        'main.mainDisplay': false,
-        'header.defaultValue': options.key,
-        'header.inputValue': options.key
-      });
-      this.search();
+    var id = e.currentTarget.id,
+      list = this.data.xfData;
+
+    // 每次点击都将当前open换为相反的状态并更新到视图，视图根据open的值来切换css
+    for (var i = 0, len = list.length; i < len; ++i) {
+      if (list[i].barcode == id) {
+        list[i].open = !list[i].open;
+      } else {
+        list[i].open = false;
+      }
     }
-  },
-
-  tapHelp: function(e){
-    if(e.target.id == 'help'){
-      this.hideHelp();
-    }
-  },
-  showHelp: function(e){
     this.setData({
-      'header.help_status': true
-    });
-  },
-  hideHelp: function(e){
-    this.setData({
-      'header.help_status': false
+      xfData: list
     });
   }
 });

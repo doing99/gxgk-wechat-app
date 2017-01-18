@@ -57,19 +57,19 @@
         <view class="item-ul" hidden="{{!item.display}}">
           <view class="item-ul-gendor item-ul-li">
             <text class="ul-li-label">性别</text>
-            <text class="ul-li-content">{{item.xb}}</text>
+            <text class="ul-li-content">{{item.sex}}</text>
           </view>
           <view class="item-ul-college item-ul-li">
             <text class="ul-li-label">系别</text>
-            <text class="ul-li-content">{{item.xb}}</text>
+            <text class="ul-li-content">{{item.dept}}</text>
           </view>
           <view class="item-ul-major item-ul-li">
             <text class="ul-li-label">专业名</text>
-            <text class="ul-li-content">{{item.zym}}</text>
+            <text class="ul-li-content">{{item.specialty}}</text>
           </view>
           <view class="item-ul-class item-ul-li">
             <text class="ul-li-label">班级</text>
-            <text class="ul-li-content">{{item.bj}}</text>
+            <text class="ul-li-content">{{item.class}}</text>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">课表</text>

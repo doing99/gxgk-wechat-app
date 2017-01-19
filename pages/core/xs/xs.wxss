@@ -314,7 +314,7 @@ button::after{
                 letter-spacing: 1px;
             }
                 .state-name-active {
-                    color: #8271bf;
+                    color: #7acfa6;
                 }
             .content-state-stuId {
 

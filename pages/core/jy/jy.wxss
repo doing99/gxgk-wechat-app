@@ -123,7 +123,10 @@
   margin-top: 2pt;
   margin-right: 10rpx;
 }
-
+button {
+  margin: 0;
+  padding: 0;
+}
 .yjxj {
   width: 110rpx;
   height: 110rpx;

@@ -12,42 +12,60 @@
   flex-direction: column;
   height: 350rpx;
   margin: 15rpx 50rpx 45rpx;
-  background: #ffcb63;
+  background: linear-gradient(to top right,rgba(255,93,166,0.6), rgba(255,93,166,1));
   border-radius: 15rpx;
   box-shadow: 5rpx 5rpx 15rpx #ccc;
 }
 
-.ykt-black-line {
-  width: 100%;
+.ykt-line {
   height: 80rpx;
-  margin: 40rpx 0 0;
-  background: #7b7b7b;
+  margin: 10rpx 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+}
+.ykt-balance {
+  font-size: 15px;
+  color: #fff;
+}
+.two-balls {
+  display: flex;
+  position: relative;
+}
+.ball-one,.ball-two {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 25rpx;
+  background-color: #fff;
+  opacity: 0.7;
+}
+.ball-one {
+  position: absolute;
+  right: 25rpx;
 }
 
 .ykt-content {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.ykt-ye {
-  flex: 1;
-  display: flex;
+  justify-content: center;
   flex-direction: column;
-  padding-right: 50rpx;
-  color: #777;
+  margin-top: 20rpx;
 }
 
 .ykt-ye-name {
   font-size: 11pt;
   line-height: 50rpx;
-  padding-left: 30rpx;
+  margin-left: -130px;
+  color: #fff;
 }
 
 .ykt-ye-money {
   text-align: center;
   font-size: 10pt;
+  color: #fff;
+  margin: 10rpx 0 30rpx 0;
 }
 
 .ykt-ye-value {
@@ -57,26 +75,14 @@
   padding-right: 25rpx;
 }
 
-.ykt-img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200rpx;
-}
-
-.ykt-img image {
-  width: 125rpx;
-  height: 125rpx;
-  padding: 20rpx 30rpx;
-}
 
 .ykt-card-more {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 5rpx 25rpx 10rpx 25rpx;
+  margin: 5rpx 25rpx 30rpx 25rpx;
   line-height: 100%;
-  opacity: 0.6;
+  color: #fff;
 }
 
 .ykt-ye-time {

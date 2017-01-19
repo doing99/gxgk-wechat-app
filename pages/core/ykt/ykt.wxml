@@ -10,21 +10,22 @@
   </view>
   <block wx:else>
     <view class="ykt-card">
-      <view class="ykt-black-line"></view>
-      <view class="ykt-content">
-        <view class="ykt-ye">
-          <text class="ykt-ye-name">余额</text>
-          <view class="ykt-ye-money">
-            <text class="ykt-ye-value">{{balance}}</text>元
-          </view>
+      <view class="ykt-line">
+        <text class="ykt-balance">BALANCE</text>
+        <view class="two-balls">
+          <view class="ball-one"></view>
+          <view class="ball-two"></view>
         </view>
-        <view class="ykt-img">
-          <image src="/images/core/ykt/card-bg.png"></image>
+      </view>
+      <view class="ykt-content">
+        <text class="ykt-ye-name">余额</text>
+        <view class="ykt-ye-money">
+          <text class="ykt-ye-value">{{balance}}</text>元
         </view>
       </view>
       <view class="ykt-card-more">
-        <text class="ykt-ye-time">截至时间：{{last_time}}</text>
         <text class="ykt-ye-id">卡号：{{ykt_id}}</text>
+        <text class="ykt-ye-time">更新时间：{{last_time}}</text>
       </view>
     </view>
     <view class="ykt-detail-wraper">

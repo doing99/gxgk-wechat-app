@@ -51,6 +51,7 @@ Page({
                 balance: data.mainFare,
                 last_time: data.lasttime,
                 ykt_id: data.outid,
+                ykt_status: data.status,
                 remind: '',
             });
         }
@@ -81,18 +82,18 @@ Page({
                     }
                 }
             },
-          fail: function(res){
-            if(_this.data.remind == '加载中'){
-            _this.setData({
-                remind: '网络错误'
-            });
+            fail: function (res) {
+                if (_this.data.remind == '加载中') {
+                    _this.setData({
+                        remind: '网络错误'
+                    });
+                }
+                console.warn('网络错误');
+            },
+            complete: function () {
+                wx.hideNavigationBarLoading();
             }
-            console.warn('网络错误');
-        },
-        complete: function() {
-            wx.hideNavigationBarLoading();
-        }
-      });
+        });
     },
 
 

@@ -34,7 +34,7 @@
       <view class="detail-list">
         <view class="detail-item">
           <text class="detail-item-label">交易时间</text>
-          <text class="detail-item-value">{{tapDetail.time}}</text>
+          <text class="detail-item-value">{{ykt_status}}</text>
         </view>
         <view class="detail-item">
           <text class="detail-item-label">交易类型</text>

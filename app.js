@@ -178,6 +178,7 @@ App({
     wx.showModal({
       title: title || '加载失败',
       content: content || '未知错误',
+      confirmColor:"#1f7bff",
       showCancel: false
     });
   },

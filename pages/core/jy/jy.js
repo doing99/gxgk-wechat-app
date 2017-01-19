@@ -11,7 +11,7 @@ Page({
       dbet: 0,        //欠费
       nothing: true   //当前是否有借阅
     },
-    jyHistoryTap: false //点击历史借阅
+    yjxjTap: false //点击一键续借
   },
   onLoad: function () {
     this.getData();
@@ -19,7 +19,7 @@ Page({
   onPullDownRefresh: function () {
     this.getData();
   },
-  getData: function () {
+  getData: function (renew = false) {
     var _this = this;
     if (!app.user.wxinfo.id || !app.user.is_bind_library) {
       _this.setData({
@@ -40,7 +40,8 @@ Page({
       url: app.server + "/api/users/get_user_library",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id
+        session_id: app.user.wxinfo.id,
+        renew: renew
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {
@@ -58,11 +59,16 @@ Page({
           }
           else {
             var info = res.data.msg;
-            if (info.book.length) {
-              //保存借阅缓存
-              app.saveCache('jy', info);
-              jyRender(info);
-            } else { _this.setData({ remind: '暂无数据' }); }
+            if (renew) {
+              app.showErrorModal(info,"续借提示");
+            }
+            else {
+              if (info.book.length) {
+                //保存借阅缓存
+                app.saveCache('jy', info);
+                jyRender(info);
+              } else { _this.setData({ remind: '暂无数据' }); }
+            }
           }
         } else {
           app.removeCache('jy');
@@ -84,18 +90,9 @@ Page({
       }
     });
   },
-  jyHistory: function () {
+  yjxjTap: function () {
     var _this = this;
-    if (!_this.data.jyHistoryTap) {
-      _this.setData({
-        jyHistoryTap: true
-      });
-      setTimeout(function () {
-        _this.setData({
-          jyHistoryTap: false
-        });
-      }, 2000);
-    }
+    _this.getData(true);
   }
 
 });

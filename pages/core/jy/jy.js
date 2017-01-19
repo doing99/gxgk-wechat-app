@@ -60,7 +60,12 @@ Page({
           else {
             var info = res.data.msg;
             if (renew) {
-              app.showErrorModal(info,"续借提示");
+              app.showErrorModal(info, "续借提示");
+              //解锁按键
+              _this.setData({
+                yjxjTap: false
+              });
+              wx.hideToast()
             }
             else {
               if (info.book.length) {
@@ -90,9 +95,19 @@ Page({
       }
     });
   },
-  yjxjTap: function () {
+  renewBook: function () {
     var _this = this;
-    _this.getData(true);
+    if (!_this.data.yjxjTap) {
+      //按键加锁
+      _this.setData({
+        yjxjTap: true
+      });
+      app.showLoadToast("续借中")
+      //续借
+      _this.getData(true);
+      //刷新用户信息
+      _this.getData(false);
+    }
   }
 
 });

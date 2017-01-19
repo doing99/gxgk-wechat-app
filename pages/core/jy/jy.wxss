@@ -61,7 +61,7 @@
   color: #fff;
   line-height: 200%;
   margin-bottom: 15rpx;
-  background-color: #5496f4;
+  background-color: #62adf5;
   width: 25%;
   border-radius: 10px;
   font-size: 10pt;
@@ -99,6 +99,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  color: #6a94cd;
 }
 
 .book-date {
@@ -111,7 +112,7 @@
 }
 
 .yhrq-value {
-  font-size: 10pt;
+  font-size: 9pt;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -129,7 +130,7 @@
   height: 110rpx;
   border-radius: 50rpx;
   box-shadow: 2px 2px 5px #999;
-  background-color: #5496f4;
+  background-color: #72adfa;
   position: fixed;
   left: 75%;
   top: 85%;

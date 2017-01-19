@@ -6,17 +6,8 @@
     <image class="everywords-image" src="/images/index/coffeecup.png"></image>
     <text class="everywords-text">你若安好，便是晴天。</text>
   </view>
-  <view wx:if="{{remind}}" class="remind-box">
-    <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
-    <block wx:else>
-      <image class="remind-img" src="/images/index/nothing.png"></image>
-      <text class="remind-text">{{remind}}</text>
-      <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
-    </block>
-  </view>
   <view class="main-box">
     <view class="content-box">
-      <image class="trans" src="/images/index/trans.png"></image>
       <block wx:for="{{core}}" wx:key="id">
         <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
           <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
@@ -32,6 +23,15 @@
         <text wx:else>该服务不可用</text>
       </view>
     </view>
+
+  <view wx:if="{{remind}}" class="remind-box">
+    <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+    <block wx:else>
+      <image class="remind-img" src="/images/index/nothing.png"></image>
+      <text class="remind-text">{{remind}}</text>
+      <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
+    </block>
+  </view>
 
     <!-- 课表 -->
     <view class="content-box">

@@ -8,7 +8,7 @@ Page({
       { id: 0, 'type': 'all', name: '头条', storage: [], enabled: { guest: false, student: true, teacher: true } },
       { id: 1, 'type': 'xy', name: '学院新闻', storage: [], enabled: { guest: true, student: true, teacher: true } },
       { id: 2, 'type': 'xb', name: '系部动态', storage: [], enabled: { guest: true, student: true, teacher: true } },
-      { id: 3, 'type': 'jw', name: '教务公告', storage: [], enabled: { guest: false, student: false, teacher: false } },
+      { id: 3, 'type': 'jw', name: '教务公告', storage: [], enabled: { guest: true, student: true, teacher: true } },
       { id: 4, 'type': 'jz', name: '学术讲座', storage: [], enabled: { guest: false, student: false, teacher: false } },
       { id: 5, 'type': 'sj', name: '数据分析', storage: [], enabled: { guest: false, student: false, teacher: false } },
     ],

@@ -11,6 +11,7 @@
     "pages/news/news",
     "pages/news/xy/xy_detail",
     "pages/news/xb/xb_detail",
+    "pages/news/jw/jw_detail",
     "pages/news/new/new_detail",
     "pages/more/more",
     "pages/more/login",

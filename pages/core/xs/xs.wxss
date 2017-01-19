@@ -93,7 +93,7 @@ button::after{
     right: 0;
     height: 75rpx;
     width: 110rpx;
-    background: #9f8bea;
+    background: #7acfa6;
     color: #fff;
     display: flex;
     align-items: center;
@@ -193,7 +193,7 @@ button::after{
     }
     .active .input-confirm-button text{
         font-size: 10pt;
-        background: #9f8bea;
+        background: #7acfa6;
         color: #fff;
         border-radius: 3px; 
         padding: 3rpx 15rpx;

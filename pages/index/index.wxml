@@ -34,7 +34,7 @@
   </view>
 
     <!-- 课表 -->
-    <view class="content-box">
+    <view class="content-box" wx:if="{{card.kb.show}}">
       <image class="trans" src="/images/index/trans.png"></image>
       <block>
         <navigator url="url" class="kb-nav">
@@ -61,7 +61,7 @@
         </navigator>
       </block>
     </view>
-    <view class="content-box">
+    <view class="content-box" wx-if="{{card.ykt.show}}">
       <image class="trans" src="/images/index/trans.png"></image>
       <block>
         <navigator url="url" class="kb-nav">
@@ -78,7 +78,7 @@
         </navigator>
       </block>
     </view>
-    <view class="content-box">
+    <view class="content-box" wx:if="{{card.jy.show}}">
       <block>
         <navigator url="url" class="kb-nav">
           <text class="today-class">借阅信息</text>

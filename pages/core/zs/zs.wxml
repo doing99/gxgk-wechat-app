@@ -91,9 +91,17 @@
         <image class="box-close" src="/images/more/close.png" bindtap="hideHelp"></image>
       </view>
       <view class="box-bd">
-        <view class="help-q">根据题名/作者/主题词等查询</view>
+        <view class="help-q">1.根据题名/作者/主题词等查询</view>
         <view class="help-a">
           <text>例如：围城，可搜索到所有带有围城字样的书籍</text>
+        </view>
+        <view class="help-q">2.图书馆开放时间</view>
+        <view class="help-a">
+          <text>周一至周四　10:00-12:00 14:40-21:00</text>
+          <text>周　　　五　10:00-12:00 14:40-17:40</text>
+          <text>周六、周日　09:00-12:00 14:40-21:00</text>
+          <text>自习室开放时间为每天8:00-23:00</text>
+          <text>寒暑假、法定节假日不开放！</text>
         </view>
       </view>
     </view>

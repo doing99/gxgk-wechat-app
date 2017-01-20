@@ -48,10 +48,7 @@ Page({
         if (app.cache.ykt) { yktRender(app.cache.ykt); }
         function yktRender(data) {
             _this.setData({
-                balance: data.mainFare,
-                last_time: data.lasttime,
-                ykt_id: data.outid,
-                ykt_status: data.status,
+                ykt_info: data,
                 remind: '',
             });
         }

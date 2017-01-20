@@ -51,7 +51,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 20rpx;
+  margin-top: 5rpx;
 }
 
 .ykt-ye-name {

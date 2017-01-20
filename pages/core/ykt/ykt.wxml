@@ -20,42 +20,42 @@
       <view class="ykt-content">
         <text class="ykt-ye-name">余额</text>
         <view class="ykt-ye-money">
-          <text class="ykt-ye-value">{{balance}}</text>元
+          <text class="ykt-ye-value">{{ykt_info.mainFare}}</text>元
         </view>
       </view>
       <view class="ykt-card-more">
-        <text class="ykt-ye-id">卡号：{{ykt_id}}</text>
-        <text class="ykt-ye-time">更新时间：{{last_time}}</text>
+        <text class="ykt-ye-id">卡号：{{ykt_info.outid}}</text>
+        <text class="ykt-ye-time">更新时间：{{ykt_info.lasttime}}</text>
       </view>
     </view>
     <view class="ykt-detail-wraper">
       <view class="ykt-head">
-        <text class="ykt-type-name">交易详情</text>
+        <text class="ykt-type-name">一卡通详情</text>
       </view>
       <view class="detail-list">
         <view class="detail-item">
-          <text class="detail-item-label">交易时间</text>
-          <text class="detail-item-value">{{ykt_status}}</text>
+          <text class="detail-item-label">卡片状态</text>
+          <text class="detail-item-value">{{ykt_info.status}}</text>
         </view>
         <view class="detail-item">
-          <text class="detail-item-label">交易类型</text>
-          <text class="detail-item-value">{{tapDetail.transaction}}</text>
+          <text class="detail-item-label">用电支出</text>
+          <text class="detail-item-value">{{ykt_info.electric_xffare}}元</text>
         </view>
         <view class="detail-item">
-          <text class="detail-item-label">交易金额</text>
-          <text class="detail-item-value">{{(tapDetail.cost>0?'+':'')+tapDetail.cost}}</text>
+          <text class="detail-item-label">用电比重</text>
+          <text class="detail-item-value">{{ykt_info.electric_xffare_per * 100}}%</text>
         </view>
         <view class="detail-item">
-          <text class="detail-item-label">交易设备</text>
-          <text class="detail-item-value">{{tapDetail.device}}</text>
+          <text class="detail-item-label">餐费支出</text>
+          <text class="detail-item-value">{{ykt_info.meal_xffare}}元</text>
         </view>
         <view class="detail-item">
-          <text class="detail-item-label">交易地点</text>
-          <text class="detail-item-value">{{tapDetail.address}}</text>
+          <text class="detail-item-label">餐费比重</text>
+          <text class="detail-item-value">{{ykt_info.meal_xffare_per * 100}}%</text>
         </view>
         <view class="detail-item">
-          <text class="detail-item-label">交易余额</text>
-          <text class="detail-item-value">{{tapDetail.balance}}</text>
+          <text class="detail-item-label">最后消费</text>
+          <text class="detail-item-value">{{ykt_info.lastFareDate}}</text>
         </view>
       </view>
     </view>

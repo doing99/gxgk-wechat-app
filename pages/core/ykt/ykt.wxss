@@ -42,7 +42,7 @@
 }
 .ball-one {
   position: absolute;
-  right: 25rpx;
+  right: 30rpx;
 }
 
 .ykt-content {
@@ -51,12 +51,12 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 5rpx;
+  margin-top: 0rpx;
 }
 
 .ykt-ye-name {
   font-size: 11pt;
-  line-height: 50rpx;
+  line-height: 35rpx;
   margin-left: -130px;
   color: #fff;
 }

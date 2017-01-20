@@ -11,7 +11,7 @@
   <block wx:else>
     <view class="ykt-card">
       <view class="ykt-line">
-        <text class="ykt-balance">BALANCE</text>
+        <text class="ykt-balance">CAMPUS CARD</text>
         <view class="two-balls">
           <view class="ball-one"></view>
           <view class="ball-two"></view>

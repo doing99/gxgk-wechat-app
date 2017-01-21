@@ -6,7 +6,7 @@ Page({
     version: '',
     showLog: false
   },
-  onLoad: function(){
+  onLoad: function () {
     this.setData({
       version: app.version,
       year: new Date().getFullYear()
@@ -14,12 +14,12 @@ Page({
   },
   onShareAppMessage: function () {
     return {
-      title: '莞香小喵小程序',
-      desc: '广科第一个微信小程序',
-      path: '/page/more/about'
+      title: '莞香小喵微信小程序',
+      desc: '广科第一个并且唯一一个微信小程序',
+      path: '/pages/more/about'
     }
   },
-  toggleLog: function(){
+  toggleLog: function () {
     this.setData({
       showLog: !this.data.showLog
     });

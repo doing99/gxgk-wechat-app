@@ -35,8 +35,8 @@ Page({
       return false;
     }
     _this.setData({
-      id: app.user.student.id,
-      name: app.user.student.name
+      id: options.id ? options.id : app.user.student.id,
+      name: options.name ? options.name : app.user.student.name
     });
     //判断并读取缓存
     if (app.cache.cj) { cjRender(app.cache.cj); }
@@ -53,7 +53,7 @@ Page({
       method: 'POST',
       data: {
         session_id: app.user.wxinfo.id,
-        student_id: options.id
+        student_id: options.id ? options.id : ''
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {

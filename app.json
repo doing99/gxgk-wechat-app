@@ -8,6 +8,7 @@
     "pages/core/xs/xs",
     "pages/core/ks/ks",
     "pages/core/zs/zs",
+    "pages/core/kjs/kjs",
     "pages/core/zs/detail/detail",
     "pages/news/news",
     "pages/news/xy/xy_detail",

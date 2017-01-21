@@ -16,7 +16,17 @@ Page({
       semester: ''
     }
   },
-  onLoad: function () {
+    //分享
+  onShareAppMessage: function () {
+    var name = app.user.student.name,
+      id = app.user.student.id;
+    return {
+      title: name + '的成绩单',
+      desc: '快来莞香小喵查询你的期末成绩单',
+      path: '/pages/core/cj/cj?id=' + id + '&name=' + name
+    };
+  },
+  onLoad: function (options) {
     var _this = this;
     if (!app.user.wxinfo.id || !app.user.is_bind) {
       _this.setData({
@@ -42,7 +52,8 @@ Page({
       url: app.server + "/api/users/get_score",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id
+        session_id: app.user.wxinfo.id,
+        student_id: options.id
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {

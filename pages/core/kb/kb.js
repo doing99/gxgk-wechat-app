@@ -51,6 +51,10 @@ Page({
     };
   },
   onLoad: function (options) {
+    this.setData({
+      remind: '教务系统已关闭课表查询，请开学后再试'
+    });
+    return;
     var _this = this;
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);

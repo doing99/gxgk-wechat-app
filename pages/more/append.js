@@ -69,7 +69,7 @@ Page({
         bind_type: _this.data.bind_type
       },
       success: function (res) {
-        if (res.statusCode === 200 && res.data.errmsg == 'ok') {
+        if (res.statusCode == 200 && res.data.errmsg == 'ok') {
           app.showLoadToast('请稍候');
           //清除缓存
           if (app.cache) {

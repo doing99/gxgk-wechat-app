@@ -33,7 +33,7 @@
     </view>
 
     <!-- 课表 -->
-    <view class="content-box" wx:if="{{card.kb.show}}">
+    <view class="content-box" wx:if="{{0}}">
       <image class="trans" src="/images/index/trans.png"></image>
       <block>
         <navigator url="url" class="kb-nav">

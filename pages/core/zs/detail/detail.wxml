@@ -15,12 +15,13 @@
       <view class="xf-title-info">
         <text class="xf-title">{{book_name}}</text>
         <view class="xf-stu-info">
-          <block wx:for="{{catalog}}" wx:for-item="itemName">
+          <block wx:for="{{catalog}}" wx:for-item="itemName" wx:key="itemName">
             <text>{{itemName}}</text>
           </block>
         </view>
       </view>
-      <!--<image class="xf-title-icon" src="/images/core/zs.png"></image>-->
+
+      <image class="xf-title-icon" src="/images/core/zs.png"></image>
     </view>
 
     <!-- 书籍详细信息 -->

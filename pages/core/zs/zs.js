@@ -163,7 +163,7 @@ Page({
         for (var i = 0; i < len; i++) {
           curData = data[ i ];
           curData.display = false; // 添加控制隐藏列表信息显示的标识
-          curData.headImg = curData.headImg || '/images/core/xs.png';
+          curData.headImg = curData.headImg || '/images/core/zs.png';
         }
 
         return data;

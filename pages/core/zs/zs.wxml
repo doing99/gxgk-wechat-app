@@ -73,7 +73,7 @@
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">详情</text>
-            <navigator open-type="redirect" url="/pages/core/zs/detail/detail?url={{item.url}}&name={{item.title}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+            <navigator open-type="navigate" url="/pages/core/zs/detail/detail?url={{item.url}}&name={{item.title}}" class="ul-li-more ul-li-kb">点击查看</navigator>
           </view>
         </view>
       </view>

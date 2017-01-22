@@ -7,7 +7,14 @@ Page({
     xfData: [], // 书籍数据
     listAnimation: {} // 列表动画
   },
-
+  //分享
+  onShareAppMessage: function () {
+    return {
+      title: this.data.book_name + ' - 书籍详情 - 莞香小喵',
+      desc: '广东科技学院唯一的小程序',
+      path: '/pages/index/index'
+    };
+  },
   // 页面加载
   onLoad: function (options) {
     var _this = this;

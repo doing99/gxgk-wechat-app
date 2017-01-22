@@ -12,14 +12,15 @@ Page({
     return {
       title: this.data.book_name + ' - 书籍详情 - 莞香小喵',
       desc: '广东科技学院唯一的小程序',
-      path: '/pages/index/index'
+      path: '/pages/core/zs/detail/detail?url=' + this.data.book_url + '&name=' + this.data.book_name
     };
   },
   // 页面加载
   onLoad: function (options) {
     var _this = this;
     _this.setData({
-      book_name: options.name
+      book_name: options.name,
+      book_url: options.url
     });
     //判断并读取缓存
     //if (app.cache.xf) { xfRender(app.cache.xf); }

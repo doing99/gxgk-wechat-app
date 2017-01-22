@@ -21,7 +21,7 @@
         </view>
       </view>
 
-      <image class="xf-title-icon" src="/images/core/zs.png"></image>
+      <!--<image class="xf-title-icon" src="/images/core/zs.png"></image>-->
     </view>
 
     <!-- 书籍详细信息 -->

@@ -17,6 +17,7 @@
     "pages/more/more",
     "pages/more/login",
     "pages/more/append",
+    "pages/more/issues",
     "pages/more/about"
   ],
   "window": {

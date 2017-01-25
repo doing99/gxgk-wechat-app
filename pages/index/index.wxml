@@ -2,10 +2,6 @@
 <!--index.wxml-->
 <view class="container">
   <view class="top-bgcolor"> </view>
-  <view class="everywords">
-    <image class="everywords-image" src="/images/index/coffeecup.png"></image>
-    <text class="everywords-text">你若安好，便是晴天。</text>
-  </view>
   <view class="main-box">
     <view class="content-box">
       <block wx:for="{{core}}" wx:key="id">
@@ -157,6 +153,81 @@
       </navigator>
     </view>
   </block>
+
+  <view class="content-box">
+    <navigator url="url" class="tb-nav">
+      <view class="tb">
+        <text class="main-title">课表通知</text>
+        <text class="more">MORE ></text>
+      </view>
+      <view class="tb-main">
+        <view class="tb-content">
+          <text class="tb-name">专业综合实训</text>
+          <text class="tb-time">5-6节(14:00-15:40)</text>
+        </view>
+        <view class="tb-place">
+          <text>教学楼1-305</text>
+          </view>
+        </view>
+        <view class="tb-main">
+          <view class="tb-content">
+            <text class="tb-name">专业综合实训</text>
+            <text class="tb-time">5-6节(14:00-15:40)</text>
+          </view>
+        <view class="tb-place">
+          <text>教学楼1-305</text>
+        </view>
+      </view>
+    </navigator>
+  </view>
+
+  <view class="content-box">
+    <navigator url="url" class="tb-nav">
+      <view class="tb">
+        <text class="main-title">一卡通</text>
+        <text class="more">MORE ></text>
+      </view>
+      <view class="ykt-content">
+        <image class="ykt-images" src="/images/index/coffeecup.png"></image>
+        <view class="ykt-mains">
+          <text>卡号：215678</text>
+          <text>余额：6.88元</text>
+          <text>更新时间：01-23 16:31</text>
+        </view>
+      </view>
+    </navigator>
+  </view>
+  
+  <view>
+    <view class="current-type">
+      <text class="yuan-dian"></text>
+      <text class="jyjl">图书馆</text>
+    </view>
+    <scroll-view class="sc-filter" scroll-x="true">
+      <view class="sc-view">
+        <navigator class="library-jy" url="url">
+          <image class="jy-images" src="/images/index/book.png"></image>
+          <text class="jsk">借书卡：215446</text>
+          <text class="yjy">已借阅：4本</text>
+        </navigator>
+      </view>
+      <view class="sc-view">
+        <navigator class="library-qf" url="url">
+          <image class="jy-images" src="/images/index/qf.png"></image>
+          <text class="jsk">欠费：215446</text>
+          <text class="yjy">时间：01-23 16：54</text>
+        </navigator>
+      </view>
+      <view class="sc-view">
+        <navigator class="library-more" url="url">
+          <image class="jy-images" src="/images/index/findbook.png"></image>
+          <text class="jsk">更多功能</text>
+          <text class="yjy">敬请期待</text>
+        </navigator>
+      </view>
+    </scroll-view>
+  </view>
+
   <view class="main-ending">
     <view class="main-ending-line"></view>
     <view class="main-ending-text">我是一个乖巧的结尾</view>

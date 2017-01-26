@@ -1,7 +1,7 @@
 
 <!--index.wxml-->
 <view class="container">
-  <view class="top-bgcolor"> </view>
+  <image class="top-bgcolor" src="https://sr.lastfighting.com/static/images/app/banner.png"></image>
   <view class="main-box">
     <view class="content-box">
         <block wx:for="{{core}}" wx:key="id">

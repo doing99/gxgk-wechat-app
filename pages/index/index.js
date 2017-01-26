@@ -186,6 +186,7 @@ Page({
     //判断并读取缓存
     if (app.cache.kb) { kbRender(app.cache.kb); }
     if (app.cache.ykt) { yktRender(app.cache.ykt); }
+    if (app.cache.jy) { jyRender(app.cache.jy); }
     if (_this.data.offline) { return; }
     wx.showNavigationBarLoading();
     //获取课表数据
@@ -226,8 +227,8 @@ Page({
       },
       complete: function () {
         loadsum--; //减少正在请求连接
-        if(!loadsum){
-          if(_this.data.remind){
+        if (!loadsum) {
+          if (_this.data.remind) {
             _this.setData({
               remind: '首页暂无展示'
             });
@@ -240,6 +241,7 @@ Page({
     //一卡通渲染
     function yktRender(data) {
       _this.setData({
+        'card.ykt.data.outid': data.outid,
         'card.ykt.data.last_time': data.lasttime,
         'card.ykt.data.balance': data.mainFare,
         'card.ykt.show': true,
@@ -270,8 +272,8 @@ Page({
       },
       complete: function () {
         loadsum--; //减少正在请求连接
-        if(!loadsum){
-          if(_this.data.remind){
+        if (!loadsum) {
+          if (_this.data.remind) {
             _this.setData({
               remind: '首页暂无展示'
             });
@@ -296,7 +298,8 @@ Page({
       url: app.server + "/api/users/get_user_library",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id
+        session_id: app.user.wxinfo.id,
+        renew: false
       },
       success: function (res) {
         if (res.data && res.statusCode == 200) {
@@ -314,8 +317,8 @@ Page({
       },
       complete: function () {
         loadsum--; //减少正在请求连接
-        if(!loadsum){
-          if(_this.data.remind){
+        if (!loadsum) {
+          if (_this.data.remind) {
             _this.setData({
               remind: '首页暂无展示'
             });

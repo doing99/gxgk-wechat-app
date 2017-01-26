@@ -4,16 +4,16 @@
   <view class="top-bgcolor"> </view>
   <view class="main-box">
     <view class="content-box">
-      <block wx:for="{{core}}" wx:key="id">
-        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
-          <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
-          <text class="core-item-name">{{item.name}}</text>
-        </navigator>
-        <view wx:else class="content-box-item disabled" bindtap="disabled_item">
-          <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
-          <text class="core-item-name">{{item.name}}</text>
-        </view>
-      </block>
+        <block wx:for="{{core}}" wx:key="id">
+          <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
+            <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
+            <text class="core-item-name">{{item.name}}</text>
+          </navigator>
+          <view wx:else class="content-box-item disabled" bindtap="disabled_item">
+            <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
+            <text class="core-item-name">{{item.name}}</text>
+          </view>
+        </block>
       <view class="fix_tip {{disabledItemTap?'active':''}}">
         <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
         <text wx:else>该服务不可用</text>
@@ -30,21 +30,12 @@
     <view class="content-box">
       <navigator url="url" class="tb-nav">
         <view class="tb">
-          <text class="main-title">课表通知</text>
+          <text class="main-title">课表安排</text>
           <text class="more">MORE ></text>
         </view>
         <view class="tb-main">
           <view class="tb-content">
             <text class="tb-name">专业综合实训</text>
-            <text class="tb-time">5-6节(14:00-15:40)</text>
-          </view>
-          <view class="tb-place">
-            <text>教学楼1-305</text>
-          </view>
-        </view>
-        <view class="tb-main">
-          <view class="tb-content">
-            <text class="tb-name">JAVA实训</text>
             <text class="tb-time">5-6节(14:00-15:40)</text>
           </view>
           <view class="tb-place">
@@ -71,7 +62,7 @@
         </view>
       </navigator>
     </view>
-    <view class="content-box">
+    <view class="content-box" wx-if="{{card.ykt.show}}">
       <navigator url="url" class="tb-nav">
         <view class="tb">
           <text class="main-title">一卡通</text>
@@ -80,14 +71,14 @@
         <view class="ykt-content">
           <image class="ykt-images" src="/images/index/card.png"></image>
           <view class="ykt-mains">
-            <text>卡号：215678</text>
-            <text>余额：6.88元</text>
-            <text>更新时间：01-23 16:31</text>
+            <text>卡号：{{card.ykt.data.outid}}</text>
+            <text>余额：{{card.ykt.data.balance}}元</text>
+            <text>更新时间：{{card.ykt.data.last_time}}</text>
           </view>
         </view>
       </navigator>
     </view>
-    <view>
+    <view wx:if="{{card.jy.show}}">
       <view class="current-type">
         <text class="yuan-dian"></text>
         <text class="jyjl">图书馆</text>
@@ -96,15 +87,15 @@
         <view class="sc-view">
           <navigator class="library-jy" url="url">
             <image class="jy-images" src="/images/index/book.png"></image>
-            <text class="jsk">借书卡：215446</text>
-            <text class="yjy">已借阅：4本</text>
+            <text class="jsk">图书证：{{card.jy.data.id}}</text>
+            <text class="yjy">已借阅：{{card.jy.data.books_num}}本</text>
           </navigator>
         </view>
         <view class="sc-view">
           <navigator class="library-qf" url="url">
             <image class="jy-images" src="/images/index/qf.png"></image>
-            <text class="jsk">欠费：215446</text>
-            <text class="yjy">时间：01-23 16：54</text>
+            <text class="jsk">欠费：{{card.jy.data.arrears_money}}元</text>
+            <text class="yjy">时间：{{card.jy.data.lasttime}}</text>
           </navigator>
         </view>
         <view class="sc-view">

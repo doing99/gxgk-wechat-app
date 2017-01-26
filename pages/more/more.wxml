@@ -33,11 +33,11 @@
       <navigator url="append?type=mealcard">
         <view class="more-info-btn" wx:if="{{!is_bind_mealcard}}">
           <image class="btn-icon" src="/images/more/fanka.png"></image>
-          <text class="btn-text">绑定饭卡</text>
+          <text class="btn-text">绑定校园卡</text>
         </view>
         <view class="more-info-btn" wx:else>
           <image class="btn-icon" src="/images/more/fanka.png"></image>
-          <text class="btn-text">改绑饭卡</text>
+          <text class="btn-text">改绑校园卡</text>
         </view>
       </navigator>
       <navigator url="append?type=library">

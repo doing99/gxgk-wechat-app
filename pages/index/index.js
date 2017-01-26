@@ -11,9 +11,9 @@ Page({
       { id: 'cj', name: '成绩查询', disabled: false, teacher_disabled: true, offline_disabled: false },
       { id: 'kjs', name: '空教室', disabled: false, teacher_disabled: false, offline_disabled: true },
       { id: 'ks', name: '考试安排', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'ykt', name: '一卡通', disabled: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'ykt', name: '校园卡', disabled: false, teacher_disabled: false, offline_disabled: false },
       { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: false, teacher_disabled: false, offline_disabled: true },
+      { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false, offline_disabled: true },
       { id: 'zs', name: '我要找书', disabled: false, teacher_disabled: true, offline_disabled: true }
     ],
     card: {

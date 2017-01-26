@@ -30,7 +30,7 @@
     </view>
     <view class="ykt-detail-wraper">
       <view class="ykt-head">
-        <text class="ykt-type-name">一卡通详情</text>
+        <text class="ykt-type-name">校园卡详情</text>
       </view>
       <view class="detail-list">
         <view class="detail-item">

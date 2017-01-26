@@ -54,7 +54,7 @@
     <view class="content-box" wx-if="{{card.ykt.show}}">
       <navigator url="/pages/core/ykt/ykt" class="tb-nav">
         <view class="tb">
-          <text class="main-title">一卡通</text>
+          <text class="main-title">校园卡</text>
           <text class="more">MORE ></text>
         </view>
         <view class="ykt-content">

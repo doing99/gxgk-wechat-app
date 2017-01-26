@@ -10,8 +10,8 @@
 }
 .user-info-box {
   width: 95%;
-  height: 260rpx;
-  margin: 0 auto;
+  height: 270rpx;
+  margin: 0 auto -30rpx auto;
   border: 1px solid #e5e5e5;
   border-radius: 5px;
   box-shadow: 2px 2px 5px #e5e5e5;
@@ -59,7 +59,7 @@
 }
 .more-info {
   width: 95%;
-  margin: 0 auto 40rpx auto;
+  margin: 0 auto 30rpx auto;
   border-radius: 10rpx;
   border: 1px solid #e5e5e5;
   box-shadow: 2px 2px 5px #e5e5e5;

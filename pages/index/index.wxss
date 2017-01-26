@@ -339,8 +339,8 @@
 .library-qf {
   width: 300rpx;
   height: 350rpx;
-  background: linear-gradient(to top right, rgba(61, 163, 241, 0.7), rgba(46, 209, 254, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 10px 20px #81c5f2;
+  background: linear-gradient(to top right, rgba(61, 163, 241, 1), rgba(46, 209, 254, 1));
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #81c5f2;
   overflow: hidden;
   border-radius: 20rpx;
 }
@@ -348,8 +348,8 @@
 .library-more {
   width: 300rpx;
   height: 350rpx;
-  background: linear-gradient(to top right, rgba(58, 142, 171, 0.7), rgba(236, 177, 142, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 10px 20px #89b2c2;
+  background: linear-gradient(to top right, rgba(237, 112, 140, 1), rgba(62, 199, 245, 1));
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #89b2c2;
   overflow: hidden;
   border-radius: 20rpx;
 }

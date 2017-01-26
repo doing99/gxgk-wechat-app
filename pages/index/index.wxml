@@ -4,16 +4,16 @@
   <image class="top-bgcolor" src="https://sr.lastfighting.com/static/images/app/banner.png"></image>
   <view class="main-box">
     <view class="content-box">
-        <block wx:for="{{core}}" wx:key="id">
-          <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
-            <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
-            <text class="core-item-name">{{item.name}}</text>
-          </navigator>
-          <view wx:else class="content-box-item disabled" bindtap="disabled_item">
-            <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
-            <text class="core-item-name">{{item.name}}</text>
-          </view>
-        </block>
+      <block wx:for="{{core}}" wx:key="id">
+        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
+          <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
+          <text class="core-item-name">{{item.name}}</text>
+        </navigator>
+        <view wx:else class="content-box-item disabled" bindtap="disabled_item">
+          <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
+          <text class="core-item-name">{{item.name}}</text>
+        </view>
+      </block>
       <view class="fix_tip {{disabledItemTap?'active':''}}">
         <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
         <text wx:else>该服务不可用</text>
@@ -27,43 +27,32 @@
         <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
       </block>
     </view>
-    <view class="content-box">
-      <navigator url="url" class="tb-nav">
+    <view class="content-box" wx:if="{{card.kb.show}}">
+      <navigator url="/pages/core/kb/kb" class="tb-nav">
         <view class="tb">
           <text class="main-title">课表安排</text>
           <text class="more">MORE ></text>
         </view>
-        <view class="tb-main">
-          <view class="tb-content">
-            <text class="tb-name">专业综合实训</text>
-            <text class="tb-time">5-6节(14:00-15:40)</text>
-          </view>
-          <view class="tb-place">
-            <text>教学楼1-305</text>
-          </view>
+        <view wx:if="{{card.kb.nothing}}">
+          <text>今天居然没有课~😆</text>
         </view>
-        <view class="tb-main">
-          <view class="tb-content">
-            <text class="tb-name">软件设计</text>
-            <text class="tb-time">5-6节(14:00-15:40)</text>
-          </view>
-          <view class="tb-place">
-            <text>教学楼1-305</text>
-          </view>
-        </view>
-        <view class="tb-main">
-          <view class="tb-content">
-            <text class="tb-name">专业综合实训</text>
-            <text class="tb-time">5-6节(14:00-15:40)</text>
-          </view>
-          <view class="tb-place">
-            <text>教学楼1-305</text>
+        <view wx:else>
+          <view wx:for="{{card.kb.data}}" wx:key="item[1]">
+            <view class="tb-main">
+              <view class="tb-content">
+                <text class="tb-name">{{item[0]}}</text>
+                <text class="tb-time">{{item[1]}}({{card.kb.time_list[item[3]].begin + '~' + card.kb.time_list[item[3]].end}})</text>
+              </view>
+              <view class="tb-place">
+                <text>{{item[2]}}</text>
+              </view>
+            </view>
           </view>
         </view>
       </navigator>
     </view>
     <view class="content-box" wx-if="{{card.ykt.show}}">
-      <navigator url="url" class="tb-nav">
+      <navigator url="/pages/core/ykt/ykt" class="tb-nav">
         <view class="tb">
           <text class="main-title">一卡通</text>
           <text class="more">MORE ></text>
@@ -85,24 +74,24 @@
       </view>
       <scroll-view class="sc-filter" scroll-x="true">
         <view class="sc-view">
-          <navigator class="library-jy" url="url">
+          <navigator class="library-jy" url="/pages/core/jy/jy">
             <image class="jy-images" src="/images/index/book.png"></image>
             <text class="jsk">图书证：{{card.jy.data.id}}</text>
             <text class="yjy">已借阅：{{card.jy.data.books_num}}本</text>
           </navigator>
         </view>
         <view class="sc-view">
-          <navigator class="library-qf" url="url">
+          <navigator class="library-qf" url="/pages/core/jy/jy">
             <image class="jy-images" src="/images/index/qf.png"></image>
             <text class="jsk">欠费：{{card.jy.data.arrears_money}}元</text>
             <text class="yjy">时间：{{card.jy.data.lasttime}}</text>
           </navigator>
         </view>
         <view class="sc-view">
-          <navigator class="library-more" url="url">
+          <navigator class="library-more" url="/pages/core/zs/zs">
             <image class="jy-images" src="/images/index/findbook.png"></image>
-            <text class="jsk">更多功能</text>
-            <text class="yjy">敬请期待</text>
+            <text class="jsk">更多好书</text>
+            <text class="yjy">请点击</text>
           </navigator>
         </view>
       </scroll-view>

@@ -31,7 +31,7 @@ Page({
     } else {
       this.setData({
         user_type: 'guest',
-        'active.id': 5,
+        'active.id': 0,
         'active.type': 'new'
       });
     }

@@ -213,6 +213,8 @@ Page({
           var data = res.data;
           if (data.errmsg != null || data.msg == null) {
             //错误信息
+            app.removeCache('kb');
+            return;
           }
           else {
             var data = res.data.msg;
@@ -261,6 +263,8 @@ Page({
           var data = res.data;
           if (data.errmsg != null || data.msg.error != null) {
             //错误信息
+            app.removeCache('ykt');
+            return;
           }
           else {
             var data = res.data.msg;
@@ -306,6 +310,8 @@ Page({
           var data = res.data;
           if (data.errmsg != null || data.msg.error != null) {
             //错误信息
+            app.removeCache('jy');
+            return;
           }
           var info = res.data.msg;
           if (info) {

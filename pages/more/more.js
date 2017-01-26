@@ -22,6 +22,7 @@ Page({
       'is_bind_library': app.user.is_bind_library,
       'school': app.user.school,
       'student': app.user.student,
+      'teacher': app.user.teacher,
       'weekday': days[app.user.school.weekday]
     });
   }

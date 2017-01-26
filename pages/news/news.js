@@ -5,7 +5,7 @@ Page({
   data: {
     page: 0,
     list: [
-      { id: 0, 'type': 'all', name: '头条', storage: [], enabled: { guest: false, student: true, teacher: true } },
+      { id: 0, 'type': 'all', name: '头条', storage: [], enabled: { guest: true, student: true, teacher: true } },
       { id: 1, 'type': 'xy', name: '学院新闻', storage: [], enabled: { guest: true, student: true, teacher: true } },
       { id: 2, 'type': 'xb', name: '系部动态', storage: [], enabled: { guest: true, student: true, teacher: true } },
       { id: 3, 'type': 'jw', name: '教务公告', storage: [], enabled: { guest: true, student: true, teacher: true } },

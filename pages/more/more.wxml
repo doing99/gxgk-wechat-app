@@ -6,7 +6,21 @@
     <view class="user-info-box">
       <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
       <text class="user-name">{{student.name}}</text>
-      <view class="user-infos">
+      <view class="user-infos" wx:if="{{!is_teacher}}">
+        <view class="info1">
+          <view class="xuehao">学号</view>
+          <view>{{student.id}}</view>
+        </view>
+        <view class="info2">
+          <view class="xibie">系别</view>
+          <view>{{student.dept}}</view>
+        </view>
+        <view class="info3">
+          <view class="banji">班级</view>
+          <view>{{student.class}}</view>
+        </view>
+      </view>
+      <view class="user-infos" wx:else>
         <view class="info1">
           <view class="xuehao">学号</view>
           <view>{{student.id}}</view>

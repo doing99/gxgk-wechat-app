@@ -58,7 +58,7 @@ App({
     }
   },
   //getUser函数，在index中调用
-  getUser: function(response) {
+  getUser: function (response) {
     var _this = this;
     wx.showNavigationBarLoading();
     wx.login({
@@ -163,15 +163,14 @@ App({
     _this.banner_show = msg.show_banner;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_bind) {
+      _this.user.student.name = msg.student.realname;
+      _this.user.student.class = msg.student.classname;
+      _this.user.student.id = msg.student.studentid;
+      _this.user.student.grade = msg.student.studentid.substr(0, 4);
+      _this.user.student.dept = msg.student.dept;
+      _this.user.student.specialty = msg.student.specialty;
       if (msg.is_teacher) {
-
-      } else {
-        _this.user.student.name = msg.student.realname;
-        _this.user.student.class = msg.student.classname;
-        _this.user.student.id = msg.student.studentid;
-        _this.user.student.grade = msg.student.studentid.substr(0, 4);
-        _this.user.student.dept = msg.student.dept;
-        _this.user.student.specialty = msg.student.specialty;
+        _this.user.teacher = msg.teacher;
       }
     }
   },
@@ -179,7 +178,7 @@ App({
     wx.showModal({
       title: title || '加载失败',
       content: content || '未知错误',
-      confirmColor:"#1f7bff",
+      confirmColor: "#1f7bff",
       showCancel: false
     });
   },
@@ -196,8 +195,10 @@ App({
   user: {
     //微信数据
     wxinfo: {},
-    //学生\老师数据
+    //学生数据
     student: {},
+    //教师数据
+    teacher: {},
     //学校参数
     school: {}
   },

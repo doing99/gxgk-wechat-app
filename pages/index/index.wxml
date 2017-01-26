@@ -5,7 +5,7 @@
   <view class="main-box">
     <view class="content-box">
       <block wx:for="{{core}}" wx:key="id">
-        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!user.is_teacher || !item.teacher_disabled) }}">
+        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{remind !== '未绑定' && !item.disabled && (!offline || !item.offline_disabled)}}">
           <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
           <text class="core-item-name">{{item.name}}</text>
         </navigator>

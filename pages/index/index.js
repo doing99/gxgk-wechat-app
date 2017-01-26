@@ -7,14 +7,14 @@ Page({
     offline: false,
     remind: '加载中',
     core: [
-      { id: 'kb', name: '课表查询', disabled: false, teacher_disabled: false, offline_disabled: true },
-      { id: 'cj', name: '成绩查询', disabled: false, teacher_disabled: true, offline_disabled: false },
-      { id: 'kjs', name: '空教室', disabled: false, teacher_disabled: false, offline_disabled: true },
-      { id: 'ks', name: '考试安排', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'ykt', name: '校园卡', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'jy', name: '借阅信息', disabled: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: true, teacher_disabled: false, offline_disabled: true },
-      { id: 'zs', name: '我要找书', disabled: false, teacher_disabled: true, offline_disabled: true }
+      { id: 'kb', name: '课表查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true },
+      { id: 'cj', name: '成绩查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'kjs', name: '空教室', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true },
+      { id: 'ks', name: '考试安排', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'ykt', name: '校园卡', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'jy', name: '借阅信息', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'xs', name: '学生查询', disabled: false, student_disable: true, teacher_disabled: false, offline_disabled: true },
+      { id: 'zs', name: '我要找书', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true }
     ],
     card: {
       'kb': {
@@ -146,9 +146,30 @@ Page({
         });
       }
     }
+    //开关按钮设置
+    function set_item_switch(item) {
+      var is_teacher = app.user.is_teacher;
+      if (!item.disabled) {
+        if (!is_teacher) {
+          if (!item.student_disable)
+            item.disabled = false;
+          else
+            item.disabled = true;
+        } else {
+          if (!item.teacher_disabled)
+            item.disabled = false;
+          else
+            item.disabled = true;
+        }
+      }
+    }
+    for (var i = 0, len = _this.data.core.length; i < len; i++) {
+      set_item_switch(_this.data.core[i])
+    }
     _this.setData({
+      core: _this.data.core,
       user: app.user,
-      'banner': app.banner_show
+      banner: app.banner_show
     });
     //判断绑定状态
     if (!app.user.is_bind) {

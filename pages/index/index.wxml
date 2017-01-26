@@ -1,7 +1,7 @@
-
 <!--index.wxml-->
 <view class="container">
-  <image class="top-bgcolor" src="https://sr.lastfighting.com/static/images/app/banner.png"></image>
+  <image wx:if="{{banner}}" class="top-banner" src="https://xmcdn.gxgk.cc/static/images/app/banner.png"></image>
+  <view wx:else class="top-bgcolor"></view>
   <view class="main-box">
     <view class="content-box">
       <block wx:for="{{core}}" wx:key="id">
@@ -35,7 +35,7 @@
         </view>
         <view class="tb-main" wx:if="{{card.kb.nothing}}">
           <view class="tb-content">
-            <text class="tb-nothing">今天居然没有课~😆</text>
+            <text class="tb-nothing">今天没有课~😆</text>
           </view>
         </view>
         <view wx:else>

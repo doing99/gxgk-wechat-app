@@ -3,6 +3,7 @@
 var app = getApp();
 Page({
   data: {
+    banner: false,
     offline: false,
     remind: '加载中',
     core: [
@@ -42,15 +43,6 @@ Page({
       'jy': {
         show: false,
         data: {}
-      },
-      'sdf': {
-        show: false,
-        data: {
-          'room': '',
-          'record_time': '',
-          'cost': 0,
-          'spend': 0
-        }
       }
     },
     user: {},
@@ -94,6 +86,9 @@ Page({
     }
     //全局用户数据和本页用户数据不一致时，重新获取卡片数据
     if (!isEqualObject(l_user.student, g_user.student)) {
+      _this.setData({
+        'banner': app.banner_show
+      });
       //判断绑定状态
       if (!app.user.is_bind) {
         _this.setData({
@@ -152,7 +147,8 @@ Page({
       }
     }
     _this.setData({
-      user: app.user
+      user: app.user,
+      'banner': app.banner_show
     });
     //判断绑定状态
     if (!app.user.is_bind) {

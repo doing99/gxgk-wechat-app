@@ -160,6 +160,7 @@ App({
     _this.user.is_bind = msg.is_bind;
     _this.user.is_bind_mealcard = msg.is_bind_mealcard;
     _this.user.is_bind_library = msg.is_bind_library;
+    _this.banner_show = msg.show_banner;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_bind) {
       if (msg.is_teacher) {
@@ -200,5 +201,6 @@ App({
     //学校参数
     school: {}
   },
+  banner_show: false,
   util: require('./utils/util')
 })

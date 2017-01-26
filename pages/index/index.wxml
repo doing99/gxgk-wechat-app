@@ -27,146 +27,37 @@
         <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
       </block>
     </view>
-
-    <!-- 课表 -->
-    <view class="content-box" wx:if="{{0}}">
-      <image class="trans" src="/images/index/trans.png"></image>
-      <block>
-        <navigator url="url" class="kb-nav">
-          <text class="today-class">今日课表</text>
-          <view class="kb-main">
-            <view class="kb-content">
-              <text class="kb-name">专业综合实训</text>
-              <text class="kb-time">5-6节(14:00-15:40)</text>
-            </view>
-            <view class="kb-place">
-              <text>教学楼1-305</text>
-            </view>
-          </view>
-          <view class="kb-main">
-            <view class="kb-content">
-              <text class="kb-name">专业综合实训</text>
-              <text class="kb-time">5-6节(14:00-15:40)</text>
-            </view>
-            <view class="kb-place">
-              <text>教学楼1-305</text>
-            </view>
-          </view>
-          <view class="kb-more">MORE</view>
-        </navigator>
-      </block>
-    </view>
-    <view class="content-box" wx-if="{{card.ykt.show}}">
-      <block>
-        <navigator url="url" class="kb-nav">
-          <text class="today-class">一卡通</text>
-          <view class="ykt-main">
-            <text class="ykt-ye">余额：</text>
-            <view class="ykt-money">
-              <text class="ykt-money-value">{{card.ykt.data.balance}}</text>
-              <text class="ykt-money-text">元</text>
-            </view>
-            <image class="ykt-image" src="/images/index/ykt-icon.png"></image>
-          </view>
-          <text class="update-time">更新时间：{{card.ykt.data.last_time}}</text>
-        </navigator>
-      </block>
-    </view>
-    <view class="content-box" wx:if="{{card.jy.show}}">
-      <block>
-        <navigator url="url" class="kb-nav">
-          <text class="today-class">借阅信息</text>
-          <view class="jy-main">
-            <view class="jy-card">
-              <text class="jy-kh">图书证卡号：{{card.jy.data.id}}</text>
-              <image class="jy-image" src="/images/core/jy.png"></image>
-            </view>
-            <view class="jy-content">
-              <view class="jy-card-current">
-                <text class="jy-current">当前借阅</text>
-                <view class="jy-books">
-                  <text class="jy-books-text">{{card.jy.data.books_num}}</text>
-                  <text>本</text>
-                </view>
-              </view>
-              <view class="jy-qf">
-                <text class="jy-qf-current">欠费情况</text>
-                <view class="jy-qfs">
-                  <text class="jy-qf-text">{{card.jy.data.arrears_money}}</text>
-                  <text>元</text>
-                </view>
-              </view>
-            </view>
-          </view>
-          <text class="update-time">更新时间：2017年1月2日</text>
-        </navigator>
-      </block>
-    </view>
-  </view>
-  <block wx:if="{{0}}">
-    <!--今日课表-->
-    <view class="main-card-item" id="kb" wx:if="{{card.kb.show}}">
-      <navigator url="/pages/core/kb/kb">
-        <view class="card-item-hd">
-          <image class="card-item-icon" src="/images/core/kb.png"></image>
-          <text class="card-item-name">今日课表</text>
+    <view class="content-box">
+      <navigator url="url" class="tb-nav">
+        <view class="tb">
+          <text class="main-title">课表通知</text>
+          <text class="more">MORE ></text>
         </view>
-        <view wx:if="{{card.kb.nothing}}" class="card-item-bd kb-nothing">
-          <text>今天居然没有课~😆</text>
-        </view>
-        <view wx:else class="card-item-bd">
-          <view class="kb-item" wx:for="{{card.kb.data}}" wx:key="when">
-            <view class="kb-item-left">
-              <text class="kb-item-what">{{item[0]}}</text>
-              <text class="kb-item-when">{{item[1]}} ({{card.kb.time_list[item[3]].begin + '~' + card.kb.time_list[item[3]].end}})</text>
-            </view>
-            <text class="kb-item-where">{{item[2]}}</text>
+        <view class="tb-main">
+          <view class="tb-content">
+            <text class="tb-name">专业综合实训</text>
+            <text class="tb-time">5-6节(14:00-15:40)</text>
+          </view>
+          <view class="tb-place">
+            <text>教学楼1-305</text>
           </view>
         </view>
-        <view class="kb-open">
-          <text>查看完整课表</text>
-        </view>
-      </navigator>
-    </view>
-
-    <!--一卡通-->
-    <view class="main-card-item" id="ykt" wx-if="{{card.ykt.show}}">
-      <navigator url="/pages/core/ykt/ykt">
-        <view class="card-item-hd">
-          <image class="card-item-icon" src="/images/core/ykt.png"></image>
-          <text class="card-item-name">一卡通</text>
-        </view>
-        <view class="card-item-bd">
-          <view class="card-info-hd">
-            <view class="card-info-left">
-              <text class="ykt-title">余额：</text>
-            </view>
-            <view class="card-info-right">
-              <view>截至时间：{{card.ykt.data.last_time}}</view>
-            </view>
+        <view class="tb-main">
+          <view class="tb-content">
+            <text class="tb-name">JAVA实训</text>
+            <text class="tb-time">5-6节(14:00-15:40)</text>
           </view>
-          <view class="ykt-balance">
-            <text class="ykt-balance-value">{{card.ykt.data.balance}}</text>
-            <text class="ykt-balance-text">元</text>
+          <view class="tb-place">
+            <text>教学楼1-305</text>
           </view>
         </view>
-      </navigator>
-    </view>
-  </block>
-
-  <view class="content-box">
-    <navigator url="url" class="tb-nav">
-      <view class="tb">
-        <text class="main-title">课表通知</text>
-        <text class="more">MORE ></text>
-      </view>
-      <view class="tb-main">
-        <view class="tb-content">
-          <text class="tb-name">专业综合实训</text>
-          <text class="tb-time">5-6节(14:00-15:40)</text>
-        </view>
-        <view class="tb-place">
-          <text>教学楼1-305</text>
+        <view class="tb-main">
+          <view class="tb-content">
+            <text class="tb-name">软件设计</text>
+            <text class="tb-time">5-6节(14:00-15:40)</text>
+          </view>
+          <view class="tb-place">
+            <text>教学楼1-305</text>
           </view>
         </view>
         <view class="tb-main">
@@ -174,60 +65,58 @@
             <text class="tb-name">专业综合实训</text>
             <text class="tb-time">5-6节(14:00-15:40)</text>
           </view>
-        <view class="tb-place">
-          <text>教学楼1-305</text>
+          <view class="tb-place">
+            <text>教学楼1-305</text>
+          </view>
         </view>
-      </view>
-    </navigator>
-  </view>
-
-  <view class="content-box">
-    <navigator url="url" class="tb-nav">
-      <view class="tb">
-        <text class="main-title">一卡通</text>
-        <text class="more">MORE ></text>
-      </view>
-      <view class="ykt-content">
-        <image class="ykt-images" src="/images/index/coffeecup.png"></image>
-        <view class="ykt-mains">
-          <text>卡号：215678</text>
-          <text>余额：6.88元</text>
-          <text>更新时间：01-23 16:31</text>
-        </view>
-      </view>
-    </navigator>
-  </view>
-  
-  <view>
-    <view class="current-type">
-      <text class="yuan-dian"></text>
-      <text class="jyjl">图书馆</text>
+      </navigator>
     </view>
-    <scroll-view class="sc-filter" scroll-x="true">
-      <view class="sc-view">
-        <navigator class="library-jy" url="url">
-          <image class="jy-images" src="/images/index/book.png"></image>
-          <text class="jsk">借书卡：215446</text>
-          <text class="yjy">已借阅：4本</text>
-        </navigator>
+    <view class="content-box">
+      <navigator url="url" class="tb-nav">
+        <view class="tb">
+          <text class="main-title">一卡通</text>
+          <text class="more">MORE ></text>
+        </view>
+        <view class="ykt-content">
+          <image class="ykt-images" src="/images/index/card.png"></image>
+          <view class="ykt-mains">
+            <text>卡号：215678</text>
+            <text>余额：6.88元</text>
+            <text>更新时间：01-23 16:31</text>
+          </view>
+        </view>
+      </navigator>
+    </view>
+    <view>
+      <view class="current-type">
+        <text class="yuan-dian"></text>
+        <text class="jyjl">图书馆</text>
       </view>
-      <view class="sc-view">
-        <navigator class="library-qf" url="url">
-          <image class="jy-images" src="/images/index/qf.png"></image>
-          <text class="jsk">欠费：215446</text>
-          <text class="yjy">时间：01-23 16：54</text>
-        </navigator>
-      </view>
-      <view class="sc-view">
-        <navigator class="library-more" url="url">
-          <image class="jy-images" src="/images/index/findbook.png"></image>
-          <text class="jsk">更多功能</text>
-          <text class="yjy">敬请期待</text>
-        </navigator>
-      </view>
-    </scroll-view>
+      <scroll-view class="sc-filter" scroll-x="true">
+        <view class="sc-view">
+          <navigator class="library-jy" url="url">
+            <image class="jy-images" src="/images/index/book.png"></image>
+            <text class="jsk">借书卡：215446</text>
+            <text class="yjy">已借阅：4本</text>
+          </navigator>
+        </view>
+        <view class="sc-view">
+          <navigator class="library-qf" url="url">
+            <image class="jy-images" src="/images/index/qf.png"></image>
+            <text class="jsk">欠费：215446</text>
+            <text class="yjy">时间：01-23 16：54</text>
+          </navigator>
+        </view>
+        <view class="sc-view">
+          <navigator class="library-more" url="url">
+            <image class="jy-images" src="/images/index/findbook.png"></image>
+            <text class="jsk">更多功能</text>
+            <text class="yjy">敬请期待</text>
+          </navigator>
+        </view>
+      </scroll-view>
+    </view>
   </view>
-
   <view class="main-ending">
     <view class="main-ending-line"></view>
     <view class="main-ending-text">我是一个乖巧的结尾</view>

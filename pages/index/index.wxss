@@ -239,7 +239,7 @@
   width: 300rpx;
   height: 350rpx;
   background: linear-gradient(to top right, rgba(237, 112, 140, 1), rgba(62, 199, 245, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #89b2c2;
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #f7ddff;
   overflow: hidden;
   border-radius: 20rpx;
 }

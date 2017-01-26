@@ -48,121 +48,6 @@
   color: #9c9c9c;
 }
 
-.trans {
-  width: 90%;
-  height: 100rpx;
-  display: block;
-  position: absolute;
-  top: 410rpx;
-  margin-left: 36rpx;
-  z-index: 2;
-}
-
-.kb-nav {
-  width: 100%;
-}
-
-.today-class {
-  color: #4c71bf;
-  font-size: 18px;
-  width: 180rpx;
-  padding: 50rpx 0 10rpx 0;
-  margin: 0 auto;
-  border-bottom: 2px solid #4c71bf;
-  text-align: center;
-  display: block;
-}
-
-.kb-main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 10rpx 50rpx;
-  padding: 10rpx;
-  border-bottom: 1px solid #bbb;
-}
-
-.kb-content {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-}
-
-.kb-name {
-  font-size: 15px;
-  color: #7acfa6;
-}
-
-.kb-time {
-  color: #999;
-}
-
-.kb-place {
-  font-size: 15px;
-  flex: 0 0 auto;
-  color: #999;
-}
-
-.kb-more {
-  width: 400rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  margin: 30rpx auto 0 auto;
-  background-color: #7acfa6;
-  border-radius: 10px;
-  display: block;
-  text-align: center;
-  color: #fff;
-}
-
-.ykt-main {
-  display: flex;
-  margin-top: 20rpx;
-}
-
-.ykt-ye {
-  display: flex;
-  flex: 0 0 auto;
-  padding-left: 40rpx;
-  font-size: 15px;
-}
-
-.ykt-money {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: center;
-  height: 180rpx;
-  width: 200rpx;
-  justify-content: center;
-}
-
-.ykt-money-value {
-  font-size: 60px;
-  font-weight: bold;
-  color: #fead75;
-}
-
-.ykt-money-text {
-  font-size: 17pt;
-  line-height: 2;
-  color: #999;
-}
-
-.ykt-image {
-  display: flex;
-  width: 60rpx;
-  height: 60rpx;
-  flex: 0 0 80rpx;
-  padding-right: 30rpx;
-}
-
-.update-time {
-  color: #aaa;
-  text-align: center;
-  display: block;
-  margin-top: 15px;
-}
-
 .jy-main {
   margin-top: 20rpx;
 }
@@ -362,6 +247,7 @@
 
 .ykt-content {
   margin-top: 50rpx;
+  margin-bottom:30rpx;
   display: flex;
   align-items: center;
 }

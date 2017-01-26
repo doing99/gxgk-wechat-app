@@ -37,15 +37,13 @@
           <text>今天居然没有课~😆</text>
         </view>
         <view wx:else>
-          <view wx:for="{{card.kb.data}}" wx:key="item[1]">
-            <view class="tb-main">
-              <view class="tb-content">
-                <text class="tb-name">{{item[0]}}</text>
-                <text class="tb-time">{{item[1]}}({{card.kb.time_list[item[3]].begin + '~' + card.kb.time_list[item[3]].end}})</text>
-              </view>
-              <view class="tb-place">
-                <text>{{item[2]}}</text>
-              </view>
+          <view class="tb-main" wx:for="{{card.kb.data}}" wx:key="item[1]">
+            <view class="tb-content">
+              <text class="tb-name">{{item[0]}}</text>
+              <text class="tb-time">{{item[1]}}({{card.kb.time_list[item[3]].begin + '~' + card.kb.time_list[item[3]].end}})</text>
+            </view>
+            <view class="tb-place">
+              <text>{{item[2]}}</text>
             </view>
           </view>
         </view>

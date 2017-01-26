@@ -29,7 +29,6 @@
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
-  min-height: 350rpx;
   padding-bottom: 30rpx;
   position: relative;
 }
@@ -179,6 +178,12 @@
 .tb-place {
   font-size: 15px;
   flex: 0 0 auto;
+}
+
+.tb-nothing {
+  letter-spacing: 2rpx;
+  text-align: center;
+  padding:20rpx;
 }
 
 .sc-filter {

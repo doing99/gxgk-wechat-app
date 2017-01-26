@@ -33,8 +33,10 @@
           <text class="main-title">课表安排</text>
           <text class="more">MORE ></text>
         </view>
-        <view wx:if="{{card.kb.nothing}}">
-          <text>今天居然没有课~😆</text>
+        <view class="tb-main" wx:if="{{card.kb.nothing}}">
+          <view class="tb-content">
+            <text class="tb-nothing">今天居然没有课~😆</text>
+          </view>
         </view>
         <view wx:else>
           <view class="tb-main" wx:for="{{card.kb.data}}" wx:key="item[1]">

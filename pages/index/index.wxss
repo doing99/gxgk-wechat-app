@@ -183,7 +183,7 @@
 .tb-nothing {
   letter-spacing: 2rpx;
   text-align: center;
-  padding:20rpx;
+  padding: 20rpx;
 }
 
 .sc-filter {
@@ -203,15 +203,6 @@
   margin-left: 30rpx;
 }
 
-.library-jy {
-  width: 300rpx;
-  height: 350rpx;
-  background: linear-gradient(to top right, rgba(255, 103, 149, 1), rgba(255, 160, 112, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #faa2b0;
-  overflow: hidden;
-  border-radius: 20rpx;
-}
-
 .jy-images {
   width: 104rpx;
   height: 128rpx;
@@ -226,11 +217,20 @@
   font-size: 13px;
 }
 
+.library-jy {
+  width: 300rpx;
+  height: 350rpx;
+  background: linear-gradient(to top right, rgba(255, 103, 149, 1), rgba(255, 160, 112, 1));
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #f7aab9;
+  overflow: hidden;
+  border-radius: 20rpx;
+}
+
 .library-qf {
   width: 300rpx;
   height: 350rpx;
   background: linear-gradient(to top right, rgba(61, 163, 241, 1), rgba(46, 209, 254, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #81c5f2;
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #a0ccee;
   overflow: hidden;
   border-radius: 20rpx;
 }
@@ -239,7 +239,7 @@
   width: 300rpx;
   height: 350rpx;
   background: linear-gradient(to top right, rgba(237, 112, 140, 1), rgba(62, 199, 245, 1));
-  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #f7ddff;
+  box-shadow: 0 0 0, 0 0 0, 0 0 0, 0 8px 18px #ffdfff;
   overflow: hidden;
   border-radius: 20rpx;
 }
@@ -252,7 +252,7 @@
 
 .ykt-content {
   margin-top: 50rpx;
-  margin-bottom:30rpx;
+  margin-bottom: 30rpx;
   display: flex;
   align-items: center;
 }

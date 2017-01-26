@@ -268,7 +268,7 @@
 }
 
 .tb-main:nth-child(2) {
-  margin: 40rpx 50rpx 0rpx 50rpx;
+  margin: 45rpx 50rpx 0rpx 50rpx;
 }
 
 .tb-main:last-child {
@@ -360,11 +360,10 @@
   margin-top: 50rpx;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .ykt-mains {
-  margin-right: 50rpx;
+  margin-left: 20rpx;
   margin-top: 30rpx;
 }
 

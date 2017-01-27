@@ -50,6 +50,7 @@ Page({
           app.showLoadToast('请稍候');
            //清除缓存
           app.cache = {};
+          var jump_url = '';
           wx.clearStorage();
           app.getUser(function(){
             wx.showToast({

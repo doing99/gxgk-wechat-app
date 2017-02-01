@@ -219,6 +219,8 @@ Page({
           curData.activeXh =  curXh.activeXh || '';
           curData.normalXm =  numberSign ? curXm : curXm.xm;
           curData.normalXh =  !numberSign ? curXh : curXh.xh;
+          curData.dept = curData.dept || '未知';
+          curData.specialty = curData.specialty || '未知';
         }
 
         return data;

@@ -57,27 +57,19 @@
         <view class="item-ul" hidden="{{!item.display}}">
           <view class="item-ul-gendor item-ul-li">
             <text class="ul-li-label">性别</text>
-            <text class="ul-li-content">{{item.xb}}</text>
+            <text class="ul-li-content">{{item.sex}}</text>
           </view>
           <view class="item-ul-college item-ul-li">
-            <text class="ul-li-label">学院名</text>
-            <text class="ul-li-content">{{item.yxm}}</text>
+            <text class="ul-li-label">系别</text>
+            <text class="ul-li-content">{{item.dept}}</text>
           </view>
           <view class="item-ul-major item-ul-li">
             <text class="ul-li-label">专业名</text>
-            <text class="ul-li-content">{{item.zym}}</text>
-          </view>
-          <view class="item-ul-grade item-ul-li">
-            <text class="ul-li-label">年级</text>
-            <text class="ul-li-content">{{item.nj}}</text>
+            <text class="ul-li-content">{{item.specialty}}</text>
           </view>
           <view class="item-ul-class item-ul-li">
             <text class="ul-li-label">班级</text>
-            <text class="ul-li-content">{{item.bj}}</text>
-          </view>
-          <view class="item-ul-more item-ul-li">
-            <text class="ul-li-label">考试</text>
-            <navigator url="/pages/core/ks/ks?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-ks">点击查看</navigator>
+            <text class="ul-li-content">{{item.class}}</text>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">课表</text>
@@ -101,11 +93,15 @@
       <view class="box-bd">
         <view class="help-q">1、根据姓名、学号、班级、专业等查询</view>
         <view class="help-a">
-          <text>您可以通过输入姓名、学号、班级、专业等学生信息的完整关键词进行精确搜索，也可以输入学生信息的前一部分进行模糊搜索。例如搜索 “闵” ，将会搜索到所有姓‘闵’的同学。</text>
+          <text>您可以通过输入姓名、学号、班级、专业等学生信息的完整关键词进行精确搜索，也可以输入学生信息的前一部分进行模糊搜索。例如搜索 “陈” ，将会搜索到所有姓‘陈’的同学。</text>
         </view>
         <view class="help-q">2、根据课程教学班查询</view>
         <view class="help-a">
-          <text>您可以通过输入 ‘教学班:’+教学班号 进行精确搜索。如搜索 “教学班:SK161572” ，将会搜索到SK161572教学班的学生名单。</text>
+          <text>您可以通过输入 ‘教学班:’+教学班号 进行精确搜索。如搜索 “14软工1班” ，将会搜索到14软工1班的学生名单。</text>
+        </view>
+        <view class="help-q">3、该项功能仅提供老师使用</view>
+        <view class="help-a">
+          <text>学生列表仅供参考，该学生在该系统上绑定，才能搜索到数据</text>
         </view>
       </view>
     </view>

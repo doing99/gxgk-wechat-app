@@ -1,6 +1,6 @@
 {
-    "navigationBarBackgroundColor": "#ffcb63",
-    "navigationBarTitleText": "一卡通" ,
-    "backgroundColor": "#ffcb63",
+    "navigationBarBackgroundColor": "#EC92B7",
+    "navigationBarTitleText": "校园卡" ,
+    "backgroundColor": "#EC92B7",
     "enablePullDownRefresh": false
 }

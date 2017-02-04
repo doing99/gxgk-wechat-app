@@ -4,121 +4,174 @@ var app = getApp();
 Page({
   data: {
     remind: '加载中',
-    building_list: ['1','2','3','4','5','6','8','9',
-      '10','11','12','15','16','17','18','19',
-      '20','21','22','23A','23B','24','25','26','27','28','29',
-      '30','31','32','33','34','35','36','37','39'],  //寝室楼栋
-    buildings: ['1栋（知行苑1舍）', '2栋（知行苑2舍）', '3栋（知行苑3舍）', '4栋（知行苑4舍）', '5栋（知行苑5舍）', '6栋（知行苑6舍）', '8栋（宁静苑1舍）', '9栋（宁静苑2舍）',
-      '10栋（宁静苑3舍）', '11栋（宁静苑4舍）', '12栋（宁静苑5舍）', '15栋（知行苑7舍）', '16栋（知行苑8舍）', '17栋（兴业苑1舍）', '18栋（兴业苑2舍）', '19栋（兴业苑3舍）',
-      '20栋（兴业苑4舍）', '21栋（兴业苑5舍）', '22栋（兴业苑6舍）', '23A栋（兴业苑7舍）', '23B栋（兴业苑8舍）', '24栋（明理苑1舍）', '25栋（明理苑2舍）', '26栋（明理苑3舍）', '27栋（明理苑4舍）', '28栋（明理苑5舍）', '29栋（明理苑6舍）',
-      '30栋（明理苑7舍）', '31栋（明理苑8舍）', '32栋（宁静苑6舍）', '33栋（宁静苑7舍）', '34栋（宁静苑8舍）', '35栋（宁静苑9舍）', '36栋（四海苑1舍）', '37栋（四海苑2舍）', '39栋（明理苑9舍）'], // picker-range
-    ibuilding: false,  // picker-index
-    room_focus: false,
-    room: '',
+    help_status: false,
+    title: '',
+    form_id: '',
+    form_pwd: '',
+    bind_type: '',
+    userid_focus: false,
+    passwd_focus: false,
+    userid: '',
+    passwd: '',
     angle: 0
   },
-  onLoad: function(){
+  onLoad: function (options) {
+    if (options.type == 'mealcard') {
+      this.setData({
+        title: '绑定饭卡',
+        form_id: '饭卡卡号',
+        form_pwd: '饭卡密码',
+        bind_type: 'mealcard'
+      })
+    }
+    //else if (options.type == 'library') {
+    else {
+      this.setData({
+        title: '绑定图书证',
+        form_id: '图书证卡号',
+        form_pwd: '图书证密码',
+        bind_type: 'library'
+      })
+    }
+  },
+  onReady: function () {
     var _this = this;
-    if(app._user.we.build){
-      _this.data.buildings.forEach(function(e,i){
-        if(e.split("栋")[0] == app._user.we.build){
-          _this.setData({
-            ibuilding: i
-          });
-        }
-      });
-    }
-    if(app._user.we.room){
+    setTimeout(function () {
       _this.setData({
-        'room': app._user.we.room
+        remind: ''
       });
-    }
-    wx.onAccelerometerChange(function(res) {
-      var angle = -(res.x*30).toFixed(1);
-      if(angle>14){ angle=14; }
-      else if(angle<-14){ angle=-14; }
-      if(_this.data.angle !== angle){
+    }, 1000);
+    wx.onAccelerometerChange(function (res) {
+      var angle = -(res.x * 30).toFixed(1);
+      if (angle > 14) { angle = 14; }
+      else if (angle < -14) { angle = -14; }
+      if (_this.data.angle !== angle) {
         _this.setData({
           angle: angle
         });
       }
     });
   },
-  onReady: function(){
+  bind: function () {
     var _this = this;
-    setTimeout(function(){
-      _this.setData({
-        remind: ''
-      });
-    }, 1000);
-  },
-  buildingPicker: function(e) {
-    this.setData({
-      ibuilding: e.detail.value
+    if (!_this.data.userid || !_this.data.passwd) {
+      app.showErrorModal('卡号及密码不能为空', '提醒');
+      return false;
+    }
+    app.showLoadToast('绑定中');
+    wx.request({
+      method: 'POST',
+      url: app.server + '/api/users/bind',
+      data: {
+        session_id: app.user.wxinfo.id,
+        from_id: _this.data.userid,
+        form_pwd: _this.data.passwd,
+        bind_type: _this.data.bind_type
+      },
+      success: function (res) {
+        if (res.statusCode == 200 && res.data.errmsg == 'ok') {
+          app.showLoadToast('请稍候');
+          //清除缓存
+          if (app.cache) {
+            wx.removeStorage({ key: 'cache' });
+            app.cache = '';
+          }
+          app.getUser(function () {
+            wx.showToast({
+              title: '绑定成功',
+              icon: 'success',
+              duration: 1500
+            });
+            if (!app.user.is_teacher) {
+              if (!app.user.is_bind_mealcard) {
+                jump_url = 'append?type=mealcard';
+              } else if (!app.user.is_bind_library){
+                jump_url = 'append?type=library';
+              }
+              else {
+                wx.navigateBack();
+                return;
+              }
+              setTimeout(function () {
+                wx.showModal({
+                  title: '提示',
+                  content: '部分功能需要完善信息才能正常使用，是否前往完善信息？',
+                  cancelText: '以后再说',
+                  confirmText: '完善信息',
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.redirectTo({
+                        url: jump_url
+                      });
+                    } else {
+                      wx.navigateBack();
+                    }
+                  }
+                });
+              }, 1500);
+            } else {
+              wx.navigateBack();
+            }
+          });
+        } else {
+          wx.hideToast();
+          app.showErrorModal(res.data.errmsg, '绑定失败');
+        }
+      },
+      fail: function (res) {
+        wx.hideToast();
+        app.showErrorModal(res.errMsg, '绑定失败');
+      }
     });
   },
-  inputFocus: function(e){
-    if(e.target.id == 'room'){
-      this.setData({
-        'room_focus': true
-      });
-    }
-  },
-  inputBlur: function(e){
-    if(e.target.id == 'room'){
-      this.setData({
-        'room_focus': false
-      });
-    }
-  },
-  roomInput:  function(e){
+  useridInput: function (e) {
     this.setData({
-      'room': e.detail.value
+      userid: e.detail.value
     });
-    if(e.detail.value.length >= 3){
+    if (e.detail.value.length >= 11) {
       wx.hideKeyboard();
     }
   },
-  confirm: function(){
-    var _this = this;
-    if(app.g_status){
-      app.showErrorModal(app.g_status, '提交失败');
-      return;
+  passwdInput: function (e) {
+    this.setData({
+      passwd: e.detail.value
+    });
+  },
+  inputFocus: function (e) {
+    if (e.target.id == 'userid') {
+      this.setData({
+        'userid_focus': true
+      });
+    } else if (e.target.id == 'passwd') {
+      this.setData({
+        'passwd_focus': true
+      });
     }
-    var data = {
-      openid: app._user.openid
-    };
-    if(!_this.data.ibuilding || !_this.data.room){
-      app.showErrorModal('请填写完整的表单信息', '提醒');
-      return false;
+  },
+  inputBlur: function (e) {
+    if (e.target.id == 'userid') {
+      this.setData({
+        'userid_focus': false
+      });
+    } else if (e.target.id == 'passwd') {
+      this.setData({
+        'passwd_focus': false
+      });
     }
-    var buildText = _this.data.buildings[_this.data.ibuilding];
-    var build = buildText.split("栋")[0];
-    data.build = build;
-    data.room = _this.data.room;
-    app.showLoadToast();
-    wx.request({
-      url: app._server + '/api/users/set_info.php',
-      data: app.key(data),
-      method: 'POST',
-      success: function(res){
-        if(res.data && res.data.status === 200){
-          app.appendInfo(data);
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success',
-            duration: 2000
-          });
-          wx.navigateBack();
-        }else{
-          wx.hideToast();
-          app.showErrorModal(res.data.message);
-        }
-      },
-      fail: function(res) {
-        wx.hideToast();
-        app.showErrorModal(res.errMsg);
-      }
-    })
+  },
+  tapHelp: function (e) {
+    if (e.target.id == 'help') {
+      this.hideHelp();
+    }
+  },
+  showHelp: function (e) {
+    this.setData({
+      'help_status': true
+    });
+  },
+  hideHelp: function (e) {
+    this.setData({
+      'help_status': false
+    });
   }
 });

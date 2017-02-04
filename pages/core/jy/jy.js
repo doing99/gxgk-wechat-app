@@ -11,44 +11,25 @@ Page({
       dbet: 0,        //欠费
       nothing: true   //当前是否有借阅
     },
-    jyHistoryTap: false //点击历史借阅
+    yjxjTap: false //点击一键续借
   },
-  onLoad: function() {
+  onLoad: function () {
     this.getData();
   },
-  onPullDownRefresh: function(){
+  onPullDownRefresh: function () {
     this.getData();
   },
-  getData: function() {
+  getData: function (renew = false) {
     var _this = this;
-    if(!app._user.we.info.id || !app._user.we.info.name){
+    if (!app.user.wxinfo.id || !app.user.is_bind_library) {
       _this.setData({
         remind: '未绑定'
       });
       return false;
     }
     //判断并读取缓存
-    if(app.cache.jy){ jyRender(app.cache.jy); }
-    function jyRender(info){
-      info.nothing = !parseInt(info.books_num) || !info.book_list || !info.book_list.length;
-      var colors = ['green','yellow','red','purple'],
-          nowTime = new Date().getTime();
-      if(!info.nothing){
-        info.book_list.map(function(e){
-          var jDate = e.jsrq.split('-'), hDate = e.yhrq.split('-'),
-              jTime = new Date(jDate[0], jDate[1]-1, jDate[2]).getTime(),
-              hTime = new Date(hDate[0], hDate[1]-1, hDate[2]).getTime();
-          var sum = parseInt((hTime - jTime) / 1000 / 60 / 60 / 24),
-              timing = parseInt((hTime - nowTime) / 1000 / 60 / 60 / 24),
-              k = 1 - timing/sum, n = 0;
-          if(k < 0.3) { n = 0; }
-          else if(k < 0.7) { n = 1; }
-          else if(k <= 1) { n = 2; }
-          else if(k > 1) { n = 3; }
-          e.color = colors[n];
-          return e;
-        });
-      }
+    if (app.cache.jy) { jyRender(app.cache.jy); }
+    function jyRender(info) {
       _this.setData({
         jyData: info,
         remind: ''
@@ -56,53 +37,77 @@ Page({
     }
     wx.showNavigationBarLoading();
     wx.request({
-      url: app._server + "/api/get_books.php",
+      url: app.server + "/api/users/get_user_library",
       method: 'POST',
-      data: app.key({
-        openid: app._user.openid,
-        ykth: app._user.we.ykth
-      }),
-      success: function(res) {
-        if(res.data && res.data.status === 200) {
-          var info = res.data.data;
-          if(info) {
-            //保存借阅缓存
-            app.saveCache('jy', info);
-            jyRender(info);
-          }else{ _this.setData({ remind: '暂无数据' }); }
-
-        }else{
+      data: {
+        session_id: app.user.wxinfo.id,
+        renew: renew
+      },
+      success: function (res) {
+        if (res.data && res.statusCode == 200) {
+          var data = res.data;
+          if (data.errmsg != null) {
+            app.removeCache('cj');
+            _this.setData({
+              remind: data.errmsg || '未知错误'
+            });
+          } else if (data.msg.error != null) {
+            app.removeCache('cj');
+            _this.setData({
+              remind: data.msg.error || '未知错误'
+            });
+          }
+          else {
+            var info = res.data.msg;
+            if (renew) {
+              app.showErrorModal(info, "续借提示");
+              //解锁按键
+              _this.setData({
+                yjxjTap: false
+              });
+              wx.hideToast()
+            }
+            else {
+              if (info.book.length) {
+                //保存借阅缓存
+                app.saveCache('jy', info);
+                jyRender(info);
+              } else { _this.setData({ remind: '暂无数据' }); }
+            }
+          }
+        } else {
           app.removeCache('jy');
           _this.setData({
-            remind: res.data.message || '未知错误'
+            remind: res.data.errMsg || '未知错误'
           });
         }
       },
-      fail: function(res) {
-        if(_this.data.remind == '加载中'){
+      fail: function (res) {
+        if (_this.data.remind == '加载中') {
           _this.setData({
             remind: '网络错误'
           });
         }
         console.warn('网络错误');
       },
-      complete: function() {
+      complete: function () {
         wx.hideNavigationBarLoading();
       }
     });
   },
-  jyHistory: function(){
+  renewBook: function () {
     var _this = this;
-    if(!_this.data.jyHistoryTap){
+    if (!_this.data.yjxjTap) {
+      //按键加锁
       _this.setData({
-        jyHistoryTap: true
+        yjxjTap: true
       });
-      setTimeout(function(){
-        _this.setData({
-          jyHistoryTap: false
-        });
-      }, 2000);
+      app.showLoadToast("续借中")
+      //续借
+      _this.getData(true);
+      //刷新用户信息
+      _this.getData(false);
     }
   }
- 
+
 });

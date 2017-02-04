@@ -5,20 +5,25 @@ Page({
   data: {
     user: {}
   },
-  onShow: function(){
+  onShow: function () {
     this.getData();
   },
-  getData: function(){
+  getData: function () {
     var _this = this;
-    var days = ['一','二','三','四','五','六','日'];
+    var days = ['日', '一', '二', '三', '四', '五', '六'];
     _this.setData({
-      'user': app._user,
-      'time': {
-        'term': app._time.term,
-        'week': app._time.week,
-        'day': days[app._time.day - 1]
-      },
-      'is_bind': !!app._user.is_bind
+      'user': app.user
+    });
+    _this.setData({
+      'wxinfo': app.user.wxinfo,
+      'is_bind': app.user.is_bind,
+      'is_teacher': app.user.is_teacher,
+      'is_bind_mealcard': app.user.is_bind_mealcard,
+      'is_bind_library': app.user.is_bind_library,
+      'school': app.user.school,
+      'student': app.user.student,
+      'teacher': app.user.teacher,
+      'weekday': days[app.user.school.weekday]
     });
   }
 });

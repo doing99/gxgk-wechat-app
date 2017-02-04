@@ -30,8 +30,7 @@ page{
 }
 .remind-img {
   width: 250rpx;
-  height: 250rpx;
-  padding-bottom: 25rpx;
+  height: 179rpx;
 }
 .remind-text {
   font-size: 12pt;
@@ -42,9 +41,9 @@ page{
   font-size: 9pt;
   padding: 5rpx 20rpx;
   text-align: center;
-  background-color: #7acfa6;
+  background-color: #079df2;
   border-radius: 3px; 
-  border-bottom: 2px solid #4fc08d;
+  border-bottom: 2px solid #079df2;
   color: #fff;
 }
 
@@ -69,17 +68,4 @@ page{
     border-radius: 10rpx;
     background: rgba(66,66,66,.6);
     color: #fff;
-}
-
-.lanshan-studio{
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  font-size: 9pt;
-  line-height: 100%;
-  padding: 9pt 0;
-  text-align: center;
-  opacity: 0.15;
 }

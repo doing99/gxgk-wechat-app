@@ -219,6 +219,8 @@ Page({
           curData.activeXh =  curXh.activeXh || '';
           curData.normalXm =  numberSign ? curXm : curXm.xm;
           curData.normalXh =  !numberSign ? curXh : curXh.xh;
+          curData.dept = curData.dept || '未知';
+          curData.specialty = curData.specialty || '未知';
         }
 
         return data;
@@ -268,13 +270,13 @@ Page({
     });
     app.showLoadToast();
     wx.request({
-      url: app._server + '/api/get_student_info.php',
+      url: app.server + '/api/get_student_info',
       method: 'POST',
-      data: app.key({
-        openid: app._user.openid,
+      data: {
+        session_id: app.user.wxinfo.id,
         key: inputValue,
         page: that.data.main.page
-      }),
+      },
       success: function(res) {
         
         if(res.data && res.data.status === 200) {

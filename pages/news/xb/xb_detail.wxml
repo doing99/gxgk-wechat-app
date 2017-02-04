@@ -1,0 +1,2 @@
+<!--pages/news/xb/xb_detail.wxml-->
+<include src="../detail/detail.wxml" />

@@ -25,14 +25,14 @@ Page({
     wx.getSystemInfo({
       success: function(res) {
         var info = '---\r\n**用户信息**\r\n';
-        info += '用户名：' + app._user.wx.nickName;
-        if(app._user.we.type){
-          info += '（' + app._user.we.type + '-' + app._user.we.info.name + '-' + app._user.we.info.id + '）';
+        info += '用户名：' + app.user.wxinfo.nickName;
+        if(app.user.is_bind){
+          info += '（' + app.user.wxinfo.type + '-' + app.user.student.name + '-' + app.user.student.studentid + '）';
         }
         info += '\r\n手机型号：' + res.model;
         info += '（'+res.platform+' - '+res.windowWidth+'x'+res.windowHeight+ '）';
         info += '\r\n微信版本号：' + res.version;
-        info += '\r\nWe重邮版本号：' + app.version;
+        info += '\r\n小程序版本号：' + app.version;
         _this.setData({
           info: info
         });
@@ -41,11 +41,10 @@ Page({
     if(app.g_status){ return; }
     wx.showNavigationBarLoading();
     wx.request({
-      url: app._server + '/api/get_feedback.php',
+      url: app.server + '/api/get_feedback',
       method: 'POST',
-      data: app.key({
-        openid: app._user.openid
-      }),
+      data: {session_id: app.user.wxinfo.id}
+      ,
       success: function(res){
         if(res.data.status === 200){
           var list = res.data.data;
@@ -76,12 +75,13 @@ Page({
         wx.hideNavigationBarLoading();
       }
     });
+    // 获取七牛图片上传token
     wx.request({
-      url: app._server + '/api/upload/get_upload_token.php',
+      url: app.server + '/api/upload/get_upload_token',
       method: 'POST',
-      data: app.key({
-        openid: app._user.openid
-      }),
+      data: {
+        openid: app.user.wxinfo.id
+      },
       success: function(res){
         if(res.data.status === 200){
           _this.setData({
@@ -241,6 +241,10 @@ Page({
     });
   },
   submit: function(){
+    // 维护中
+    app.showErrorModal('维护中', '提交失败');
+    return;
+
     var _this = this, title = '', content = '', imgs = '';
     if(app.g_status){
       app.showErrorModal(app.g_status, '提交失败');

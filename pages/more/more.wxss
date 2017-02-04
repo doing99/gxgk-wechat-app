@@ -3,86 +3,77 @@
   background-color: #f6f6f6;
   padding: 0;
 }
-.user-info, .more-btn {
-  display: flex;
+.top-bgcolor {
+  width: 100%;
+  height: 160rpx;
+  background-color: #079df2;
+}
+.user-info-box {
+  width: 95%;
+  height: 270rpx;
+  margin: 0 auto -30rpx auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #e5e5e5;
   background-color: #fff;
-  min-height: 85rpx;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  top: -60rpx;
 }
-/**user-info**/
-.user-info-box{
-  margin-bottom: 40rpx;
-}
-.user-info {
-  flex-direction: column;
-  margin: 30rpx 0 -1px;
-  padding: 25rpx 30rpx 20rpx;
-}
-.info-hd {
-  display: flex;
-  align-items: center;
-}
-.bind-btn {
-  color: #aaa;
-}
-.user-avatar {
+.user-image{
   width: 120rpx;
   height: 120rpx;
-  border-radius: 5px;
-}
-.user-title {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding-left: 25rpx;
-}
-.time-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 10pt;
-  line-height: 140%;
-  color: #aaa;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  margin-left: -2.5em;
+  top: -60rpx;
+  display: block;
 }
 .user-name {
-  font-size: 16pt;
-  line-height: 160%;
-  letter-spacing: 1px;
+  position: absolute;
+  width: 100%;
+  top: 80rpx;
+  font-size: 14pt;
+  color: #5d9e9d;
+  font-family: '微软雅黑';
+  letter-spacing: 5px;
+  text-align: center;
 }
-.user-id {
-  font-size: 11pt;
-  color: #8b8b8b;
-}
-.info-bd {
+.user-infos {
+  position: absolute;
+  width:100%;
   display: flex;
-  justify-content: space-between;
-  padding: 25rpx 15rpx 0 5rpx;
-  font-size: 11pt;
-  line-height: 150%;
-  color: #8b8b8b;
+  top: 150rpx;
 }
-.info-bd-left, .info-bd-right {
-  display: flex;
-  flex-direction: column;
-}
-.info-bd-left{
-  flex-shrink: 0;
-  padding-right: 30rpx;
-}
-/**more-list**/
-.more-list {
+.info1,.info2,.info3 {
   flex: 1;
+  text-align: center;
+  color: #6d6d6d;
+  font-size: 11pt;
+  font-family: '华文细黑';
+}
+.xuehao,.xibie,.banji {
+  margin-bottom: 15rpx;
+  font-family: '微软雅黑';
+}
+.more-info {
+  width: 95%;
+  margin: 0 auto 30rpx auto;
+  border-radius: 10rpx;
+  border: 1px solid #e5e5e5;
+  box-shadow: 2px 2px 5px #e5e5e5;
+}
+.more-info-btn {
   display: flex;
-  flex-direction: column;
-}
-.more-btn {
+  min-height: 85rpx;
   align-items: center;
-  font-size: 13pt;
+  background-color: #fff;
+  font-size: 11pt;
+  font-family: '微软雅黑';
   padding: 0 30rpx;
-}
-.issue-link, .about-link {
-  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  border-bottom: 1px solid #e5e5e5;
 }
 .btn-icon {
   width: 45rpx;
@@ -92,15 +83,11 @@
 .btn-text {
   flex: 1;
 }
-.btn-open {
+.user-info {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-left: 10rpx;
-}
-.btn-enter {
-  width: 18rpx;
-  height: 27rpx;
+  flex-direction: column;
+  margin: 30rpx 0 -1px;
+  padding: 25rpx 30rpx 20rpx;
 }
 .login-btn {
   font-size: 13pt;
@@ -110,5 +97,32 @@
   color: #fff;
   text-align: center;
   border-radius: 5px;
-  margin: 40rpx 3%;
+  width: 95%;
+  margin: 0 18rpx 30rpx 18rpx;
+  position: absolute;
+  bottom: 0;
+  font-family: '微软雅黑';
 }
+.btn-enter {
+  width: 18rpx;
+  height: 27rpx;
+}
+
+@media only screen and (max-device-height: 465px) {
+  .login-btn {
+    font-size: 13pt;
+    line-height: 85rpx;
+    height: 85rpx;
+    background: #e55c5c;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    width: 95%;
+    display: block;
+    margin: 30rpx 18rpx;
+    position: static;
+    font-family: '微软雅黑';
+  }
+}
+
+

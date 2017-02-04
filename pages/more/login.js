@@ -31,32 +31,26 @@ Page({
   },
   bind: function() {
     var _this = this;
-    if(app.g_status){
-      app.showErrorModal(app.g_status, '绑定失败');
-      return;
-    }
     if(!_this.data.userid || !_this.data.passwd){
       app.showErrorModal('账号及密码不能为空', '提醒');
-      return false;
-    }
-    if(!app._user.openid){
-      app.showErrorModal('未能成功登录', '错误');
       return false;
     }
     app.showLoadToast('绑定中');
     wx.request({
       method: 'POST',
-      url: app._server + '/api/users/bind.php',
-      data: app.key({
-        openid: app._user.openid,
-        yktid: _this.data.userid,
-        passwd: _this.data.passwd
-      }),
+      url: app.server + '/api/users/bind',
+      data: {
+        session_id: app.user.wxinfo.id,
+        from_id: _this.data.userid,
+        form_pwd: _this.data.passwd,
+        bind_type: 'login'
+      },
       success: function(res){
-        if(res.data && res.data.status === 200){
+        if (res.statusCode === 200 && res.data.errmsg == 'ok') {
           app.showLoadToast('请稍候');
-          //清除缓存
+           //清除缓存
           app.cache = {};
+          var jump_url = '';
           wx.clearStorage();
           app.getUser(function(){
             wx.showToast({
@@ -64,7 +58,16 @@ Page({
               icon: 'success',
               duration: 1500
             });
-            if(!app._user.teacher){
+            if (!app.user.is_teacher) {
+              if (!app.user.is_bind_mealcard) {
+                jump_url = 'append?type=mealcard';
+              } else if (!app.user.is_bind_library){
+                jump_url = 'append?type=library';
+              }
+              else {
+                wx.navigateBack();
+                return;
+              }
               setTimeout(function(){
                 wx.showModal({
                   title: '提示',
@@ -74,7 +77,7 @@ Page({
                   success: function(res) {
                     if (res.confirm) {
                       wx.redirectTo({
-                        url: 'append'
+                        url: jump_url
                       });
                     } else {
                       wx.navigateBack();
@@ -88,7 +91,7 @@ Page({
           });
         }else{
           wx.hideToast();
-          app.showErrorModal(res.data.message, '绑定失败');
+          app.showErrorModal(res.data.errmsg, '绑定失败');
         }
       },
       fail: function(res){
@@ -101,7 +104,7 @@ Page({
     this.setData({
       userid: e.detail.value
     });
-    if(e.detail.value.length >= 7){
+    if(e.detail.value.length >= 11){
       wx.hideKeyboard();
     }
   },

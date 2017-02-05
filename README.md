@@ -38,6 +38,17 @@ fork自[we重邮微信小程序](https://github.com/mcc108/wecqupt)，并准守A
 
 ---
 
+## 分支管理
+
+```
+gxgk-wechat-app
+  ├─ master       // 默认分支（开发测试版本所用分支）
+  ├─ stable       // 稳定分支（正式版本所用分支；高级保护分支，只允许管理员操作，通常由master分支-Merge而来）
+  └─ [other]      // 其他开发分支（只允许该项目Collaborators创建及push分支）
+```
+
+---
+
 更多详见wiki：[开发记录/开发须知](https://github.com/lanshan-studio/wecqupt/wiki)
 
 > @ 重庆邮电大学 - 蓝山工作室 https://lanshan.studio

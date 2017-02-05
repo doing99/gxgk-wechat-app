@@ -32,14 +32,17 @@
         <view class="cj-info" wx:for="{{cjInfo}}" wx:key="courseid">
           <text class="cj-info-name">{{item.lesson_name}}</text>
           <view class="cj-info-socre-box">
-            <text class="cj-info-socre">平时分：暂无</text>
+            <text class="cj-info-socre">平时分：{{item.pscj}}</text>
             <text class="cj-info-socre">|</text>
-            <text class="cj-info-socre"> 卷面分：暂无</text>
+            <text class="cj-info-socre"> 卷面分：{{item.qmcj}}</text>
             <text class="cj-info-socre">|</text>
             <text class="cj-info-socre">综合成绩：{{item.score}}</text>
           </view>
         </view>
       </view>
+    </view>
+    <view class="cj-footer">
+      <text>更新时间：{{update_time}}</text>
     </view>
   </block>
 </view>

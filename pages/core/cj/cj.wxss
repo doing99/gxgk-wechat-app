@@ -49,14 +49,14 @@
   align-items: stretch;
   border-radius: 3px;
   background: #fff;
-  margin-bottom: 50rpx;
+  margin-bottom: 20rpx;
 }
 
 .cj-grade {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 15rpx 30rpx;
+  padding: 25rpx 30rpx;
 }
 
 .cj-grade-logo {
@@ -84,8 +84,7 @@
   border-radius: 10px;
   color: #fff;
   padding: 0rpx 30rpx;
-  line-height:160%;
-
+  line-height: 160%;
 }
 
 .grade-comment {
@@ -125,5 +124,12 @@
 .cj-info-socre {
   font-size: 10pt;
   align-items: center;
+  color: #999;
+}
+
+.cj-footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
   color: #999;
 }

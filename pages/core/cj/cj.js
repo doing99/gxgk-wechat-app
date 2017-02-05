@@ -44,6 +44,7 @@ Page({
       _this.setData({
         cjInfo: data.msg,
         xqName: app.user.school.term,
+        update_time: data.update_time,
         remind: ''
       });
     }

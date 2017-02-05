@@ -104,7 +104,7 @@ Page({
     }else{ return; }
     wx.showNavigationBarLoading();
     wx.request({
-      url: 'https://api.github.com/repos/lanshan-studio/wecqupt/issues/' + id,
+      url: 'https://api.github.com/repos/gxgk/gxgk-wechat-app/issues/' + id,
       success: function(res){
         var data = {}, content = res.data;
         content.body = content.body.split('\r\n\r\n---\r\n**用户信息**\r\n')[0];
@@ -122,7 +122,7 @@ Page({
       }
     });
     wx.request({
-      url: 'https://api.github.com/repos/lanshan-studio/wecqupt/issues/' + id + '/comments',
+      url: 'https://api.github.com/repos/gxgk/gxgk-wechat-app/issues/' + id + '/comments',
       success: function(res){
         var data = {};
         data['list.data['+index+'].comments'] = res.data;
@@ -241,10 +241,6 @@ Page({
     });
   },
   submit: function(){
-    // 维护中
-    app.showErrorModal('维护中', '提交失败');
-    return;
-
     var _this = this, title = '', content = '', imgs = '';
     if(app.g_status){
       app.showErrorModal(app.g_status, '提交失败');
@@ -261,7 +257,7 @@ Page({
       content: '是否确认提交反馈？',
       success: function(res) {
         if (res.confirm) {
-          title = '【' + app._user.wx.nickName + '】' + _this.data.title;
+          title = '【' + app.user.wxinfo.nickName + '】' + _this.data.title;
           content = _this.data.content + '\r\n\r\n' + _this.data.info;
           if(_this.data.imgLen){
             _this.data.imgs.forEach(function(e){
@@ -271,12 +267,12 @@ Page({
           }
           app.showLoadToast();
           wx.request({
-            url: app._server + '/api/feedback.php',
-            data: app.key({
-              openid: app._user.openid,
+            url: app.server + '/api/feedback',
+            data: {
+              sessionid: app.user.wxinfo.id,
               title: title,
               body: content
-            }),
+            },
             method: 'POST',
             success: function(res){
               if(res.data.status === 200){

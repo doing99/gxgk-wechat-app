@@ -19,17 +19,25 @@
     </view>
     <view class="cj-info-ctn">
       <view class="cj-grade">
-        <image class="cj-grade-logo" src="/images/core/cj.png"></image>
         <view class="cj-grade-term">
           <view class="cj-grade-fst">
             <text>{{xqName}}</text>
           </view>
         </view>
+        <view class="cj-grade-jd">
+          <text>学期绩点：暂无</text>
+        </view>
       </view>
       <view class="cj-info-box">
         <view class="cj-info" wx:for="{{cjInfo}}" wx:key="courseid">
           <text class="cj-info-name">{{item.lesson_name}}</text>
-          <text class="cj-info-socre">{{item.score}}</text>
+          <view class="cj-info-socre-box">
+            <text class="cj-info-socre">平时分：暂无</text>
+            <text class="cj-info-socre">|</text>
+            <text class="cj-info-socre"> 卷面分：暂无</text>
+            <text class="cj-info-socre">|</text>
+            <text class="cj-info-socre">综合成绩：{{item.score}}</text>
+          </view>
         </view>
       </view>
     </view>

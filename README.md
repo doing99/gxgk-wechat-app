@@ -7,6 +7,10 @@ fork自[we重邮微信小程序](https://github.com/mcc108/wecqupt)，并准守A
 
 ---
 
+<img src="http://mmbiz.qpic.cn/mmbiz_jpg/Lvb91u9VuuhWXc3utSurMnIBPgITjIibtia2RjyhMAricPQcosc6BBPzwuPIKiaraNyz1apOQVKKC86oOkXGeZA3lg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1" alt="预告Banner" width="50%">
+<img src="http://mmbiz.qpic.cn/mmbiz_jpg/Lvb91u9Vuug9AgxPAgM9Kak2zIO8mxKib4GYNibJYQPacw5AFicIGRNAzUP8173BI0JfEoibYSTEgxXMFqcf1pNAGQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1" alt="首页" width="50%">
+
+---
 
 ## 开源许可证 License AGPLv3
  
@@ -34,7 +38,7 @@ fork自[we重邮微信小程序](https://github.com/mcc108/wecqupt)，并准守A
 
 
 ### v0.0.1 内测体验版
-* 2017.02.04 发布预告
+* 2017.02.04 [发布预告](http://mp.weixin.qq.com/s/HGxbRmTZaFqwZ3NqBEkeSw)
 
 ---
 

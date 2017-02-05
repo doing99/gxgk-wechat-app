@@ -186,7 +186,6 @@ module.exports.ipage = {
           //下载
           wx.downloadFile({
             url: e.currentTarget.dataset.url,
-            //url: "https://sr.lastfighting.com/e/upload/PSTools.zip",
             success: function (res) {
               var filePath = res.tempFilePath;
               if (filePath) {

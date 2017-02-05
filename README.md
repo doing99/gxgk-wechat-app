@@ -1,6 +1,6 @@
 莞香小喵
 ===
-官网：https://www.gxgk.cc
+官网：http://www.gxgk.cc
 
 > **莞香小喵** 
 fork自[we重邮微信小程序](https://github.com/mcc108/wecqupt)，并准守AGPLV3协议开源，已取得作者许可，我们对代码进行了很大部分的改造并适配了我们自己的后端
@@ -42,4 +42,4 @@ fork自[we重邮微信小程序](https://github.com/mcc108/wecqupt)，并准守A
 
 > @ 重庆邮电大学 - 蓝山工作室 https://lanshan.studio
 
-> @ 广东科技学院 - 莞香广科团队 https://www.gxgk.cc
+> @ 广东科技学院 - 莞香广科团队 http://www.gxgk.cc

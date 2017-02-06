@@ -5,7 +5,7 @@
   <block wx:if="{{is_bind}}">
     <view class="user-info-box">
       <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
-      <view wx:if="{{!is_teacher}}">
+      <view wx:if="{{!is_teacher || !teacher.realname}}">
         <text class="user-name">{{student.name}}</text>
         <view class="user-infos">
           <view class="info1">

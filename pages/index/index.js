@@ -60,6 +60,7 @@ Page({
   onPullDownRefresh: function () {
     if (app.user.is_bind) {
       this.getCardData();
+      this.login();
     } else {
       wx.stopPullDownRefresh();
     }

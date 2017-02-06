@@ -18,9 +18,9 @@ Page({
   onLoad: function (options) {
     if (options.type == 'mealcard') {
       this.setData({
-        title: '绑定饭卡',
-        form_id: '饭卡卡号',
-        form_pwd: '饭卡密码',
+        title: '绑定校园卡',
+        form_id: '校园卡卡号',
+        form_pwd: '校园卡密码',
         bind_type: 'mealcard'
       })
     }
@@ -73,8 +73,8 @@ Page({
           app.showLoadToast('请稍候');
           //清除缓存
           if (app.cache) {
-            wx.removeStorage({ key: 'cache' });
-            app.cache = '';
+            app.removeCache('ykt');
+            app.removeCache('jy');
           }
           app.getUser(function () {
             wx.showToast({
@@ -82,6 +82,7 @@ Page({
               icon: 'success',
               duration: 1500
             });
+            var jump_url = ''; 
             if (!app.user.is_teacher) {
               if (!app.user.is_bind_mealcard) {
                 jump_url = 'append?type=mealcard';

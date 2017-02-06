@@ -42,6 +42,7 @@ Page({
     if (app.cache.cj) { cjRender(app.cache.cj); }
     function cjRender(data) {
       _this.setData({
+        rank: data.rank,
         cjInfo: data.msg,
         xqName: app.user.school.term,
         update_time: data.update_time,

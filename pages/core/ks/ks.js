@@ -40,14 +40,9 @@ Page({
   },
   onLoad: function (options) {
     var _this = this;
-    if(options.id){
-       app.loginLoad(function () {
-         _this.loginHandler.call(_this, options);
-       });
-    }
-    else{
+    app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
-    }
+    });
   },
   //让分享时自动登录
   loginHandler: function (options) {
@@ -83,8 +78,8 @@ Page({
     if (app.user.is_teacher && !options.name) { data.type = 'teacher'; }
 
     //判断并读取缓存
-    if (app.cache.ks && !options.name) { 
-      ksRender(app.cache.ks); 
+    if (app.cache.ks && !options.name) {
+      ksRender(app.cache.ks);
     }
     function ksRender(list) {
       if (!list || !list.length) {

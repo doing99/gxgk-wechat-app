@@ -173,6 +173,7 @@ App({
         _this.user.teacher = msg.teacher;
       }
     }
+    _this._t = msg.session_id;
   },
   showErrorModal: function (content, title) {
     wx.showModal({

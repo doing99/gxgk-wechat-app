@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <image wx:if="{{banner}}" class="top-banner" src="https://xmcdn.gxgk.cc/static/images/app/banner.png"></image>
+  <image wx:if="{{banner}}" class="top-banner" src="https://xmcdn.gxgk.cc/static/images/app/banner.jpg"></image>
   <view wx:else class="top-bgcolor"></view>
   <view class="main-box">
     <view class="content-box">

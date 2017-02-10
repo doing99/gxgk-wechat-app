@@ -59,7 +59,6 @@ Page({
   //下拉更新
   onPullDownRefresh: function () {
     if (app.user.is_bind) {
-      this.getCardData();
       this.login();
     } else {
       wx.stopPullDownRefresh();

@@ -126,7 +126,7 @@ Page({
       _this.response.call(_this, status);
     });
   },
-  response: function () {
+  response: function (status) {
     var _this = this;
     if (status) {
       if (status != '离线缓存模式') {

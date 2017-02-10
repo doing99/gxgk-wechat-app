@@ -71,10 +71,10 @@ Page({
       _this.login();
       return false;
     }
-    function isEmptyObject(obj){ for(var key in obj){return false;} return true; }
-    function isEqualObject(obj1, obj2){ if(JSON.stringify(obj1) != JSON.stringify(obj2)){return false;} return true; }
-   var l_user = _this.data.user,  //本页用户数据
-        g_user = app.user; //全局用户数据
+    function isEmptyObject(obj) { for (var key in obj) { return false; } return true; }
+    function isEqualObject(obj1, obj2) { if (JSON.stringify(obj1) != JSON.stringify(obj2)) { return false; } return true; }
+    var l_user = _this.data.user,  //本页用户数据
+      g_user = app.user; //全局用户数据
     //排除第一次加载页面的情况（全局用户数据未加载完整 或 本页用户数据与全局用户数据相等）
     if (isEmptyObject(l_user) || !g_user.wxinfo.id || isEqualObject(l_user, g_user)) {
       return false;
@@ -113,7 +113,7 @@ Page({
     //如果有缓存，则提前加载缓存
     if (app.cache.version === app.version) {
       try {
-        _this.response();
+        _this.response(undefined, true);
       } catch (e) {
         //报错则清除缓存
         app.cache = {};
@@ -122,10 +122,10 @@ Page({
     }
     //然后再尝试登录用户, 如果缓存更新将执行该回调函数
     app.getUser(function (status) {
-      _this.response.call(_this, status);
+      _this.response.call(_this, status, false);
     });
   },
-  response: function (status) {
+  response: function (status, load_cache) {
     var _this = this;
     if (status) {
       if (status != '离线缓存模式') {
@@ -175,7 +175,14 @@ Page({
       _this.setData({
         'remind': '加载中'
       });
-      _this.getCardData();
+      //清空数据
+      _this.setData({
+        user: app._user,
+        'card.kb.show': false,
+        'card.ykt.show': false,
+        'card.jy.show': false
+      });
+      _this.getCardData(load_cache);
     }
   },
   disabled_item: function () {
@@ -191,7 +198,7 @@ Page({
       }, 2000);
     }
   },
-  getCardData: function () {
+  getCardData: function (load_cache) {
     var _this = this;
     var loadsum = 0; //正在请求连接数
     var user = app.user;
@@ -200,6 +207,7 @@ Page({
     if (app.cache.ykt) { yktRender(app.cache.ykt); }
     if (app.cache.jy) { jyRender(app.cache.jy); }
     if (_this.data.offline) { return; }
+    if (load_cache) { return; }
     wx.showNavigationBarLoading();
     //获取课表数据
     //课表渲染

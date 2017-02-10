@@ -1,6 +1,6 @@
 //app.js
 App({
-  version: 'v0.0.2', //版本号
+  version: 'v0.0.3', //版本号
   onLaunch: function () {
     var _this = this;
     //读取缓存

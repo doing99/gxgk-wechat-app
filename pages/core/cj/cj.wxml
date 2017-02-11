@@ -24,8 +24,19 @@
             <text>{{xqName}}</text>
           </view>
         </view>
-        <view class="cj-grade-jd">
-          <text>学期绩点：{{rank.avgGpa ? rank.avgGpa: '暂无'}}</text>
+        <view class="cj-grade-info">
+          <view class="cj-grade-jd">
+            <text class="cj-grade-jd-num">{{rank.avgGpa ? rank.avgGpa: '暂无'}}</text>
+            <text>学期绩点</text>
+          </view>
+          <view class="cj-grade-bj">
+            <text class="cj-grade-bj-num">{{rank.classrank ? rank.classrank: '暂无'}}</text>
+            <text>班级排名</text>
+          </view>
+          <view class="cj-grade-zy">
+            <text class="cj-grade-zy-num">{{rank.graderank ? rank.graderank: '暂无'}}</text>
+            <text>专业排名</text>
+          </view>
         </view>
       </view>
       <view class="cj-info-box">

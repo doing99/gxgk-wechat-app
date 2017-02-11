@@ -91,6 +91,10 @@
 
 .ykt-ye-id {
   font-size: 10pt;
+  width: 250rpx;
+  overflow: hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 /* canvas */

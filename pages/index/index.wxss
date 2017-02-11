@@ -274,6 +274,13 @@
   margin-bottom: 10rpx;
 }
 
+.ykt-mains-kh {
+  width: 300rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .current-type {
   color: #fff;
   line-height: 150%;

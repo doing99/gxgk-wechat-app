@@ -60,7 +60,7 @@
         <view class="ykt-content">
           <image class="ykt-images" src="/images/index/card.png"></image>
           <view class="ykt-mains">
-            <text>卡号：{{card.ykt.data.outid}}</text>
+            <text class="ykt-mains-kh">卡号：{{card.ykt.data.outid}}</text>
             <text>余额：{{card.ykt.data.balance}}元</text>
             <text>更新时间：{{card.ykt.data.last_time}}</text>
           </view>

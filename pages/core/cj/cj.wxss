@@ -79,12 +79,38 @@
   flex-flow: column nowrap;
 }
 
-.cj-grade-jd {
-  background-color: #ffcb63;
-  border-radius: 10px;
-  color: #fff;
-  padding: 0rpx 30rpx;
-  line-height: 160%;
+.cj-grade-info {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+
+.cj-grade-info text {
+  display: block;
+  font-weight: bold;
+}
+
+.cj-grade-jd,.cj-grade-bj,.cj-grade-zy {
+  flex: 1;
+}
+
+.cj-grade-jd-num {
+  color: #567BE4;
+  font-size: 18px;
+  padding-bottom: 3px;
+}
+
+.cj-grade-bj-num {
+  color: #F7DA0E;
+  font-size: 18px;
+  padding-bottom: 3px;
+}
+
+.cj-grade-zy-num {
+  color: #FEA961;
+  font-size: 18px;
+  padding-bottom: 3px;
 }
 
 .grade-comment {

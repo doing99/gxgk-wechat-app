@@ -38,6 +38,8 @@
           <text class="desc-list-item">修复重复刷新卡片问题</text>
           <text class="desc-list-item">修复打开重复登录问题</text>
           <text class="desc-list-item">优化banner显示</text>
+          <text class="desc-list-item">增加班级排名专业排名显示</text>
+          <text class="desc-list-item">修复卡号长度导致界面错位</text>
         </view>
       </view>
       <view class="describe">

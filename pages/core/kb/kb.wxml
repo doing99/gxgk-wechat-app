@@ -157,7 +157,7 @@
       <block wx:else>
         <view class="kb-info-title">
           <block>
-            <text wx:if="{{week != '*'}}" class="kb-info-week">{{toweek}}周周{{_days[targetDay]}}</text>
+            <text wx:if="{{week != '*'}}" class="kb-info-week">{{week}}周周{{_days[targetDay]}}</text>
             <text wx:else class="kb-info-week">星期{{_days[targetDay]}}</text>
             <text class="kb-lesson-time">{{targetWid*2+1}}-{{targetWid*2+targetLessons[targetI].number}}节</text>
             <image class="kb-info-card-close" src="/images/core/common/down_w.png" bindtap="hideDetail"></image>

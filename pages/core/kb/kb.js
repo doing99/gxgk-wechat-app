@@ -121,6 +121,11 @@ Page({
     var lessons = _this.data.lessons[dataset.day][dataset.wid];
     var targetI = 0;
     lessons[dataset.cid].target = true;
+    if (week != '*') {
+      lessons = lessons.filter(function (e) {
+        return e.weeks.indexOf(parseInt(week)) !== -1;
+      });
+    }
     lessons.map(function (e, i) {
       if (lessons.length === 1) {
         e.left = 0;

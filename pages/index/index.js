@@ -228,24 +228,15 @@ Page({
         week: app.user.school.weeknum,
         weekday: app.user.school.weekday
       },
-      success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          var data = res.data;
-          if (data.errmsg != null || data.msg == null) {
-            //错误信息
-            app.removeCache('kb');
-            return;
+      success: function(res) {
+        if(res.data && res.data.status === 200){
+          var info = res.data.data;
+          if(info){
+            //保存课表缓存
+            app.saveCache('kb', info);
+            kbRender(info);
           }
-          else {
-            var data = res.data.msg;
-            if (data == null) {
-              app.removeCache('kb');
-            } else {
-              app.saveCache('kb', data);
-              kbRender(data);
-            }
-          }
-        }
+        }else{ app.removeCache('kb'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接

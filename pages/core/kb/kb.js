@@ -51,10 +51,6 @@ Page({
     };
   },
   onLoad: function (options) {
-    this.setData({
-      remind: '教务系统已关闭课表查询，请开学后再试'
-    });
-    return;
     var _this = this;
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
@@ -125,11 +121,6 @@ Page({
     var lessons = _this.data.lessons[dataset.day][dataset.wid];
     var targetI = 0;
     lessons[dataset.cid].target = true;
-    if (week != '*') {
-      lessons = lessons.filter(function (e) {
-        return e.weeks.indexOf(parseInt(week)) !== -1;
-      });
-    }
     lessons.map(function (e, i) {
       if (lessons.length === 1) {
         e.left = 0;
@@ -261,78 +252,20 @@ Page({
     }
     // 根据获取课表
     var _this = this, data = {
-      session_id: app.user.wxinfo.id
+      session_id: app.user.wxinfo.id,
+      week: _this.data.week,
+      weekday: ''
     };
     if (app.user.is_teacher && !_this.data.name) { data.type = 'teacher'; }
     //判断并读取缓存
-    if (app.cache.kb && !_this.data.name) { kbRender(app.cache.kb); }
+    if (app.cache.kb_all && !_this.data.name) { kbRender(app.cache.kb_all); }
     //课表渲染
     function kbRender(_data) {
       var colors = ['red', 'green', 'purple', 'yellow'];
-      var i, ilen, j, jlen, k, klen;
-      var colorsDic = {};
-      var _lessons = _data.lessons;
-      var _colors = colors.slice(0); //暂存一次都未用过的颜色
-      // 循环课程
-      for (i = 0, ilen = _lessons.length; i < ilen; i++) {
-        for (j = 0, jlen = _lessons[i].length; j < jlen; j++) {
-          for (k = 0, klen = _lessons[i][j].length; k < klen; k++) {
-            if (_lessons[i][j][k] && _lessons[i][j][k].class_id) {
-              // 找出冲突周数,及课程数
-              var conflictWeeks = {};
-              _lessons[i][j][k].weeks.forEach(function (e) {
-                for (var n = 0; n < klen; n++) {
-                  if (n !== k && _lessons[i][j][n].weeks.indexOf(e) !== -1) {
-                    !conflictWeeks[e] ? conflictWeeks[e] = 2 : conflictWeeks[e]++;
-                  }
-                }
-              });
-              _lessons[i][j][k].conflictWeeks = conflictWeeks;
-              _lessons[i][j][k].klen = klen;
-              _lessons[i][j][k].xf_num = _lessons[i][j][k].xf ? parseFloat(_lessons[i][j][k].xf).toFixed(1) : '';
-              // 为课程上色
-              if (!colorsDic[_lessons[i][j][k].class_id]) { //如果该课还没有被上色
-                var iColors = !_colors.length ? colors.slice(0) : _colors.slice(0); // 本课程可选颜色
-                if (!_colors.length) { //未用过的颜色还没用过，就优先使用
-                  // 剔除掉其上边和左边的课程的可选颜色，如果i!==0则可剔除左边课程颜色，如果j!==0则可剔除上边课程颜色
-                  var m, mlen;
-                  if (i !== 0) {
-                    for (m = 0, mlen = _lessons[i - 1][j].length; m < mlen; m++) {
-                      iColors = removeByValue(iColors, _lessons[i - 1][j][m].color);
-                    }
-                  }
-                  if (j !== 0 && _lessons[i][j - 1][k] && _lessons[i][j - 1][k].color) {
-                    for (m = 0, mlen = _lessons[i][j - 1].length; m < mlen; m++) {
-                      iColors = removeByValue(iColors, _lessons[i][j - 1][m].color);
-                    }
-                  }
-                  // 如果k!==0则剔除之前所有课程的颜色
-                  if (k !== 0) {
-                    for (m = 0; m < k; m++) {
-                      iColors = removeByValue(iColors, _lessons[i][j][m].color);
-                    }
-                  }
-                  //如果为空，则重新补充可选颜色
-                  if (!iColors.length) { iColors = colors.slice(0); }
-                }
-                //剩余可选颜色随机/固定上色
-                // var iColor = iColors[Math.floor(Math.random()*iColors.length)];
-                var iColor = iColors[0];
-                _lessons[i][j][k].color = iColor;
-                colorsDic[_lessons[i][j][k].class_id] = iColor;
-                if (_colors.length) { _colors = removeByValue(_colors, iColor); }
-              } else {
-                //该课继续拥有之前所上的色
-                _lessons[i][j][k].color = colorsDic[_lessons[i][j][k].class_id];
-              }
-            }
-          }
-        }
-      }
-      var today = parseInt(_data.day);  //0周日,1周一
+      var today = parseInt(app.user.school.weekday);  //星期几，0周日,1周一
       today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
-      var week = _data.week;
-      var lessons = _data.lessons;
+      var week = _data.week;//当前周
+      var lessons = _data;
       //各周日期计算
       var nowD = new Date(),
         nowMonth = nowD.getMonth() + 1,
@@ -370,13 +303,14 @@ Page({
           if (_data) {
             if (!_this.data.name) {
               //保存课表缓存
-              app.saveCache('kb', _data);
+              app.saveCache('kb_all', _data);
             }
+            _data.week = app.user.school.weeknum;
             kbRender(_data);
           } else { _this.setData({ remind: '暂无数据' }); }
 
         } else {
-          app.removeCache('kb');
+          app.removeCache('kb_all');
           _this.setData({
             remind: res.data.message || '未知错误'
           });

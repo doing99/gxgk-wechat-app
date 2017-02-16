@@ -64,7 +64,7 @@ Page({
       'teacher': app.user.is_teacher
     });
     // onLoad时获取一次课表
-    var id = options.id || app.user.wxinfo.id;
+    var id = options.id || app.user.student.id;
     if (!id) {
       _this.setData({
         remind: '未绑定'

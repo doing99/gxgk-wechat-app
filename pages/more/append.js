@@ -54,8 +54,16 @@ Page({
   },
   bind: function () {
     var _this = this;
+    if (app.g_status) {
+      app.showErrorModal(app.g_status, '绑定失败');
+      return;
+    }
     if (!_this.data.userid || !_this.data.passwd) {
       app.showErrorModal('卡号及密码不能为空', '提醒');
+      return false;
+    }
+    if (!app.user.wxinfo.id) {
+      app.showErrorModal('未能成功登录', '错误');
       return false;
     }
     app.showLoadToast('绑定中');
@@ -69,7 +77,7 @@ Page({
         bind_type: _this.data.bind_type
       },
       success: function (res) {
-        if (res.statusCode == 200 && res.data.errmsg == 'ok') {
+        if (res.data && res.data.status === 200) {
           app.showLoadToast('请稍候');
           //清除缓存
           if (app.cache) {
@@ -82,11 +90,11 @@ Page({
               icon: 'success',
               duration: 1500
             });
-            var jump_url = ''; 
+            var jump_url = '';
             if (!app.user.is_teacher) {
               if (!app.user.is_bind_mealcard) {
                 jump_url = 'append?type=mealcard';
-              } else if (!app.user.is_bind_library){
+              } else if (!app.user.is_bind_library) {
                 jump_url = 'append?type=library';
               }
               else {
@@ -116,7 +124,7 @@ Page({
           });
         } else {
           wx.hideToast();
-          app.showErrorModal(res.data.errmsg, '绑定失败');
+          app.showErrorModal(res.data.message, '绑定失败');
         }
       },
       fail: function (res) {

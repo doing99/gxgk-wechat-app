@@ -29,6 +29,13 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v0.0.4 公测版</text>
+          <text class="desc-time">2017.02.16</text>
+        </view>
+        <text class="desc-content">增加课表显示</text>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v0.0.3 公测版</text>
           <text class="desc-time">2017.02.11</text>
         </view>

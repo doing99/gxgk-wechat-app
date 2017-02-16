@@ -42,8 +42,8 @@ Page({
   },
   //分享
   onShareAppMessage: function () {
-    var name = this.data.name || app.user.we.info.name,
-      id = this.data.id || app._user.we.info.id;
+    var name = this.data.name || app.user.student.name,
+      id = this.data.id || app.user.student.id;
     return {
       title: name + '的课表',
       desc: '莞香小喵 - 课表查询',
@@ -259,7 +259,8 @@ Page({
     var _this = this, data = {
       session_id: app.user.wxinfo.id,
       week: _this.data.week,
-      weekday: ''
+      weekday: '',
+      studentid: id
     };
     if (app.user.is_teacher && !_this.data.name) { data.type = 'teacher'; }
     //判断并读取缓存
@@ -306,7 +307,7 @@ Page({
         if (res.data && res.data.status === 200) {
           var _data = res.data.data;
           if (_data) {
-            if (!_this.data.name) {
+            if (!_this.data) {
               //保存课表缓存
               app.saveCache('kb_all', _data);
             }

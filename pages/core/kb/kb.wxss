@@ -230,7 +230,7 @@
     overflow: hidden;
 }
 .kb-card-name-text{
-    font-size: 10pt;
+    font-size: 25rpx;
     padding-bottom: 5rpx;
     display: -webkit-box;
     -webkit-box-orient: vertical;

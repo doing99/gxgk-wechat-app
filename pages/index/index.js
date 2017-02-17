@@ -130,8 +130,12 @@ Page({
     if (status) {
       if (status != '离线缓存模式') {
         //错误
+        for (var i = 0, len = _this.data.core.length; i < len; i++) {
+          _this.data.core[i].disabled = true;
+        }
         _this.setData({
-          'remind': status
+          'remind': status,
+          core: _this.data.core
         });
         return;
       } else {
@@ -228,15 +232,15 @@ Page({
         week: app.user.school.weeknum,
         weekday: app.user.school.weekday
       },
-      success: function(res) {
-        if(res.data && res.data.status === 200){
+      success: function (res) {
+        if (res.data && res.data.status === 200) {
           var info = res.data.data;
-          if(info){
+          if (info) {
             //保存课表缓存
             app.saveCache('kb', info);
             kbRender(info);
           }
-        }else{ app.removeCache('kb'); }
+        } else { app.removeCache('kb'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接
@@ -269,15 +273,15 @@ Page({
       data: {
         session_id: app.user.wxinfo.id
       },
-      success: function(res) {
-        if(res.data && res.data.status === 200){
+      success: function (res) {
+        if (res.data && res.data.status === 200) {
           var list = res.data.data;
-          if(list){
+          if (list) {
             //保存一卡通缓存
             app.saveCache('ykt', list);
             yktRender(list);
           }
-        }else{ app.removeCache('ykt'); }
+        } else { app.removeCache('ykt'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接
@@ -310,15 +314,15 @@ Page({
         session_id: app.user.wxinfo.id,
         renew: false
       },
-      success: function(res) {
-        if(res.data && res.data.status === 200){
+      success: function (res) {
+        if (res.data && res.data.status === 200) {
           var info = res.data.data;
-          if(info){
+          if (info) {
             //保存借阅缓存
             app.saveCache('jy', info);
             jyRender(info);
           }
-        }else{ app.removeCache('jy'); }
+        } else { app.removeCache('jy'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接

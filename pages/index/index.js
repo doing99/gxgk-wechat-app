@@ -269,21 +269,15 @@ Page({
       data: {
         session_id: app.user.wxinfo.id
       },
-      success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          var data = res.data;
-          if (data.errmsg != null || data.msg.error != null) {
-            //错误信息
-            app.removeCache('ykt');
-            return;
-          }
-          else {
-            var data = res.data.msg;
+      success: function(res) {
+        if(res.data && res.data.status === 200){
+          var list = res.data.data;
+          if(list){
             //保存一卡通缓存
-            app.saveCache('ykt', data);
-            yktRender(data)
+            app.saveCache('ykt', list);
+            yktRender(list);
           }
-        }
+        }else{ app.removeCache('ykt'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接
@@ -316,21 +310,15 @@ Page({
         session_id: app.user.wxinfo.id,
         renew: false
       },
-      success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          var data = res.data;
-          if (data.errmsg != null || data.msg.error != null) {
-            //错误信息
-            app.removeCache('jy');
-            return;
-          }
-          var info = res.data.msg;
-          if (info) {
+      success: function(res) {
+        if(res.data && res.data.status === 200){
+          var info = res.data.data;
+          if(info){
             //保存借阅缓存
             app.saveCache('jy', info);
             jyRender(info);
           }
-        } else { app.removeCache('jy'); }
+        }else{ app.removeCache('jy'); }
       },
       complete: function () {
         loadsum--; //减少正在请求连接

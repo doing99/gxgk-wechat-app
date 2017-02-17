@@ -110,7 +110,7 @@ App({
                     _this.cache = {};
                     wx.clearStorage();
                   }
-                  typeof response == "function" && response(res.data.errmsg || '加载失败');
+                  typeof response == "function" && response(res.data.message || '加载失败');
                 }
               },
               fail: function (res) {

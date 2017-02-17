@@ -39,7 +39,7 @@
         </view>
         <view class="detail-item">
           <text class="detail-item-label">用电支出</text>
-          <text class="detail-item-value">{{ykt_info.electric_xffare}}元</text>
+          <text class="detail-item-value">{{ykt_info.electric_xffare?ykt_info.electric_xffare + '元':'获取不到数据'}}</text>
         </view>
         <view class="detail-item">
           <text class="detail-item-label">用电比重</text>
@@ -47,7 +47,7 @@
         </view>
         <view class="detail-item">
           <text class="detail-item-label">餐费支出</text>
-          <text class="detail-item-value">{{ykt_info.meal_xffare}}元</text>
+          <text class="detail-item-value">{{ykt_info.meal_xffare?ykt_info.meal_xffare+'元':'获取不到数据'}}</text>
         </view>
         <view class="detail-item">
           <text class="detail-item-label">餐费比重</text>

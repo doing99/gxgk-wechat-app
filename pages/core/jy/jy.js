@@ -44,21 +44,9 @@ Page({
         renew: renew
       },
       success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          var data = res.data;
-          if (data.errmsg != null) {
-            app.removeCache('cj');
-            _this.setData({
-              remind: data.errmsg || '未知错误'
-            });
-          } else if (data.msg.error != null) {
-            app.removeCache('cj');
-            _this.setData({
-              remind: data.msg.error || '未知错误'
-            });
-          }
-          else {
-            var info = res.data.msg;
+        if (res.data && res.data.status === 200) {
+          var info = res.data.data;
+          if (info) {
             if (renew) {
               app.showErrorModal(info, "续借提示");
               //解锁按键
@@ -75,10 +63,11 @@ Page({
               } else { _this.setData({ remind: '暂无数据' }); }
             }
           }
+          else { _this.setData({ remind: '暂无数据' }); }
         } else {
           app.removeCache('jy');
           _this.setData({
-            remind: res.data.errMsg || '未知错误'
+            remind: res.data.message || '未知错误'
           });
         }
       },

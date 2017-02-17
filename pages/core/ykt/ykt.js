@@ -59,24 +59,19 @@ Page({
                 session_id: app.user.wxinfo.id
             },
             success: function (res) {
-                if (res.data && res.statusCode == 200) {
-                    var data = res.data;
-                    if (data.errmsg != null) {
-                        app.removeCache('ykt');
-                        _this.setData({
-                            remind: data.errmsg || '未知错误'
-                        });
-                    } else if (data.msg.error != null) {
-                        app.removeCache('ykt');
-                        _this.setData({
-                            remind: data.msg.error || '未知错误'
-                        });
-                    } else {
-                        var data = data.msg;
+                if (res.data && res.data.status === 200) {
+                    var info = res.data.data;
+                    if (info) {
                         //保存一卡通缓存
-                        app.saveCache('ykt', data);
-                        yktRender(data)
-                    }
+                        app.saveCache('ykt', info);
+                        yktRender(info);
+                    } else { _this.setData({ remind: '暂无数据' }); }
+
+                } else {
+                    app.removeCache('ykt');
+                    _this.setData({
+                        remind: res.data.message || '未知错误'
+                    });
                 }
             },
             fail: function (res) {

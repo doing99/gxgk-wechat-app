@@ -43,7 +43,7 @@ Page({
     function cjRender(data) {
       _this.setData({
         rank: data.rank,
-        cjInfo: data.msg,
+        cjInfo: data.data,
         xqName: app.user.school.term,
         update_time: data.update_time,
         remind: ''
@@ -58,23 +58,19 @@ Page({
         student_id: options.id ? options.id : ''
       },
       success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          var data = res.data;
-          if (data.errmsg != null) {
-            app.removeCache('cj');
-            _this.setData({
-              remind: data.errmsg || '未知错误'
-            });
-          } else if (data.msg.error != null) {
-            app.removeCache('cj');
-            _this.setData({
-              remind: data.msg.error || '未知错误'
-            });
-          } else {
+        if(res.data && res.data.status === 200) {
+          var _data = res.data;
+          if(_data) {
             //保存成绩缓存
-            app.saveCache('cj', data);
-            cjRender(data);
-          }
+            app.saveCache('cj', _data);
+            cjRender(_data);
+          } else { _this.setData({ remind: '暂无数据' }); }
+
+        } else {
+          app.removeCache('cj');
+          _this.setData({
+            remind: res.data.message || '未知错误'
+          });
         }
       },
       fail: function (res) {

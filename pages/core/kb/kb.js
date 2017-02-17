@@ -262,9 +262,9 @@ Page({
       weekday: '',
       studentid: id
     };
-    if (app.user.is_teacher && !_this.data.name) { data.type = 'teacher'; }
+    if (app.user.is_teacher) { data.type = 'teacher'; }
     //判断并读取缓存
-    if (app.cache.kb_all && !_this.data.name) { kbRender(app.cache.kb_all); }
+    if (app.cache.kb_all) { kbRender(app.cache.kb_all); }
     //课表渲染
     function kbRender(_data) {
       var colors = ['red', 'green', 'purple', 'yellow'];
@@ -307,7 +307,7 @@ Page({
         if (res.data && res.data.status === 200) {
           var _data = res.data.data;
           if (_data) {
-            if (!_this.data) {
+            if (_this.data) {
               //保存课表缓存
               app.saveCache('kb_all', _data);
             }

@@ -1,15 +1,17 @@
+
 <!--xs.wxml-->
 <view class="container {{main.mainDisplay?'home':'active'}}">
 
   <!--头部-->
   <view class="header">
     <image class="xs-logo" src="/images/core/xs.png"></image>
-      <view class="header-more">
-        <view class="login-help" bindtap="showHelp">
-          <text>帮助</text>
-          <image class="login-help-img" src="/images/more/help.png"></image>
-        </view>
+    <view class="header-more">
+      <view class="login-help" bindtap="showHelp">
+        <text>帮助</text>
+        <image class="login-help-img" src="/images/more/help.png"></image>
       </view>
+    </view>
+
     <!--搜索框-->
     <view class="search-input">
       <view class="search-icon-box">
@@ -29,14 +31,18 @@
 
   <!--页面主体部分-->
   <view class="main" wx:if="{{main.total}}">
+
     <!--主体部分标题-->
     <view class="main-title">
       <text class="title-text">学生名单 （{{main.total}}人）</text>
     </view>
+
     <!--主体部分内容列表-->
     <view class="main-list" wx:for="{{testData}}" wx:key="xh">
+
       <!--列表的一个元素的模板结构-->
       <view class="list-item">
+
         <!--信息直接显示部分-->
         <view class="item" data-index="{{index}}" bindtap="bindOpenList">
           <view class="item-content">
@@ -45,14 +51,17 @@
               <view class="content-state-name">
                 <text class="state-name-active">{{item.activeName}}</text>{{item.normalXm}}
               </view>
-              <view class="content-state-stuId">学号：<text class="state-name-active">{{item.activeXh}}</text>{{item.normalXh}}</view>
+              <view class="content-state-stuId">学号：
+                <text class="state-name-active">{{item.activeXh}}</text>{{item.normalXh}}</view>
             </view>
           </view>
+
           <!--信息直接显示部分的下拉标识-->
           <view class="list-sign">
             <image class="list-sign-icon {{!item.display ? 'list-sign-icon-show' : ''}}" src="/images/core/common/up.png"></image>
           </view>
         </view>
+
         <!--信息隐藏的下拉列表-->
         <view class="item-ul" hidden="{{!item.display}}">
           <view class="item-ul-gendor item-ul-li">
@@ -73,17 +82,25 @@
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">课表</text>
-            <navigator open-type="redirect" url="/pages/core/kb/kb?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+            <navigator open-type="navigate" url="/pages/core/kb/kb?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+          </view>
+          <view class="item-ul-more item-ul-li">
+            <text class="ul-li-label">成绩</text>
+            <navigator open-type="navigate" url="/pages/core/cj/cj?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-cj">点击查看</navigator>
+          </view>
+          <view class="item-ul-more item-ul-li">
+            <text class="ul-li-label">考试安排</text>
+            <navigator open-type="navigate" url="/pages/core/ks/ks?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-ks">点击查看</navigator>
           </view>
         </view>
       </view>
     </view>
+
     <!--提示消息-->
     <view class="search-message">
       <text class="message-title">{{main.message}}</text>
     </view>
   </view>
-
   <view class="help" id="help" wx:if="{{header.help_status}}" bindtap="tapHelp">
     <view class="box">
       <view class="box-hd">
@@ -107,10 +124,8 @@
     </view>
   </view>
 
-
   <!--提示消息-->
   <view class="search-message" hidden="{{messageObj.messageDisplay}}">
     <text class="message-title">{{messageObj.message}}</text>
   </view>
-
 </view>

@@ -39,7 +39,7 @@ Page({
       name: options.name ? options.name : app.user.student.name
     });
     //判断并读取缓存
-    if (app.cache.cj) { cjRender(app.cache.cj); }
+    if (app.cache.cj && !options.id) { cjRender(app.cache.cj); }
     function cjRender(data) {
       _this.setData({
         rank: data.rank,

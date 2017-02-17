@@ -156,7 +156,7 @@
   border-bottom: 0.5px solid #ebebeb;
 }
 
-.tb-main:nth-child(2) {
+.tb-main:nth-child(1) {
   margin: 45rpx 50rpx 0rpx 50rpx;
 }
 

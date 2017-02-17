@@ -29,6 +29,26 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v0.0.5 公测版</text>
+          <text class="desc-time">2017.02.17</text>
+        </view>
+        <text class="desc-content">新增功能</text>
+        <view class="desc-list">
+          <text class="desc-list-item">学生查询增加考试安排，成绩查询查看</text>
+        </view>
+        <text class="desc-content">修复bug</text>
+        <view class="desc-list">
+          <text class="desc-list-item">修复成绩功能分享时读取自身缓存</text>
+          <text class="desc-list-item">修复首页课表框架</text>
+          <text class="desc-list-item">修复课表分享出错</text>
+          <text class="desc-list-item">统一接口格式</text>
+          <text class="desc-list-item">修复校园卡数据出错提示</text>
+          <text class="desc-list-item">修复网络连接出错首页按钮可点击</text>
+          <text class="desc-list-item">修复课表可滑动到第0周</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v0.0.4 公测版</text>
           <text class="desc-time">2017.02.16</text>
         </view>

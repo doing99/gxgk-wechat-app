@@ -385,6 +385,13 @@ button::after{
             background-size: 30rpx 30rpx;
             background-position: 0 50%;
         }
+        .ul-li-cj {
+            /*background: url('/images/core/cj.png') no-repeat;*/
+            /*微信暂不支持静态bgimg文件，改用服务器url*/
+            background: url('https://wxapp.gxgk.cc/images/core/cj.png') no-repeat;
+            background-size: 30rpx 30rpx;
+            background-position: 0 50%;
+        }
 
 .container.active .header-more {
     display: none;

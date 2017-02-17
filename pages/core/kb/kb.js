@@ -73,6 +73,7 @@ Page({
     }
     if (options.id && options.name) {
       _this.setData({
+        id: options.id,
         name: options.name
       });
     }

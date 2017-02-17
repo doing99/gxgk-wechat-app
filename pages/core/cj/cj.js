@@ -16,10 +16,10 @@ Page({
       semester: ''
     }
   },
-    //分享
+  //分享
   onShareAppMessage: function () {
-    var name = app.user.student.name,
-      id = app.user.student.id;
+    var name = this.data.name || app.user.student.name,
+      id = this.data.id || app.user.student.id;
     return {
       title: name + '的成绩单',
       desc: '快来莞香小喵查询你的期末成绩单',
@@ -27,6 +27,12 @@ Page({
     };
   },
   onLoad: function (options) {
+    var _this = this;
+    app.loginLoad(function () {
+      _this.loginHandler.call(_this, options);
+    });
+  },
+  loginHandler: function (options) {
     var _this = this;
     if (!app.user.wxinfo.id || !app.user.is_bind) {
       _this.setData({
@@ -58,9 +64,9 @@ Page({
         student_id: options.id ? options.id : ''
       },
       success: function (res) {
-        if(res.data && res.data.status === 200) {
+        if (res.data && res.data.status === 200) {
           var _data = res.data;
-          if(_data) {
+          if (_data) {
             //保存成绩缓存
             app.saveCache('cj', _data);
             cjRender(_data);

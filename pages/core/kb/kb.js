@@ -242,7 +242,10 @@ Page({
   swiperChangeBtn: function (e) {
     var _this = this;
     var dataset = e.currentTarget.dataset, i, data = {};
-    if (dataset.direction == 'left') { i = -1; }
+    if (_this.data[dataset.target] == 1 && dataset.direction == 'left') {
+      i = 0;
+    }
+    else if (dataset.direction == 'left') { i = -1; }
     else if (dataset.direction == 'right') { i = 1; }
     data[dataset.target] = parseInt(_this.data[dataset.target]) + i;
     _this.setData(data);

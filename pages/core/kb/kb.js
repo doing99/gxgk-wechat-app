@@ -64,8 +64,8 @@ Page({
       'teacher': app.user.is_teacher
     });
     // onLoad时获取一次课表
-    var id = options.id || app.user.student.id;
-    if (!id) {
+    var id = options.id;
+    if (!id && !app.user.student.id) {
       _this.setData({
         remind: '未绑定'
       });
@@ -264,7 +264,7 @@ Page({
     };
     if (app.user.is_teacher) { data.type = 'teacher'; }
     //判断并读取缓存
-    if (app.cache.kb_all) { kbRender(app.cache.kb_all); }
+    if (app.cache.kb_all && !id) { kbRender(app.cache.kb_all); }
     //课表渲染
     function kbRender(_data) {
       var colors = ['red', 'green', 'purple', 'yellow'];
@@ -307,7 +307,7 @@ Page({
         if (res.data && res.data.status === 200) {
           var _data = res.data.data;
           if (_data) {
-            if (_this.data) {
+            if (!id) {
               //保存课表缓存
               app.saveCache('kb_all', _data);
             }

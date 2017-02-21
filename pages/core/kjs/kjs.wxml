@@ -31,7 +31,7 @@
     <view class="main-condition">
 
       <!--选择教学楼-->
-      <view class="building-condition condition-building condition" catchtap="chooseBuilding">
+      <scroll-view scroll-x class="building-condition condition-building condition" catchtap="chooseBuilding">
         <view class="scroll-space"></view>
         <block wx:for="{{DATA.BUILDING_DATA}}" wx:key="*this">
           <block wx:if="{{item != ''}}">
@@ -39,7 +39,7 @@
           </block>
         </block>
         <view class="scroll-space"></view>
-      </view>
+      </scroll-view>
 
       <!--选择课程时间段-->
       <view class="day-condition condition-classTime condition" catchtap="chooseClaasTime">

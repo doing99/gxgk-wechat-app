@@ -11,7 +11,7 @@
   <block wx:else>
 
     <!--显示空教室信息-->
-    <view class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}">
+    <scroll-view scroll-y class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}">
 
       <!--楼层-->
       <block wx:for="{{testData}}" wx:key="">
@@ -25,7 +25,7 @@
           </view>
         </view>
       </block>
-    </view>
+    </scroll-view>
 
     <!--选择要查询的条件-->
     <view class="main-condition">

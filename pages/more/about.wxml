@@ -29,6 +29,16 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v0.0.6 公测版</text>
+          <text class="desc-time">2017.02.21</text>
+        </view>
+        <text class="desc-content">新增功能</text>
+        <view class="desc-list">
+          <text class="desc-list-item">上线空教室查询</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v0.0.5 公测版</text>
           <text class="desc-time">2017.02.17</text>
         </view>

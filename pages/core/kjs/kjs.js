@@ -24,26 +24,27 @@ Page({
       buildingNo: 1,
       classNo: 1,
     },
+    nowWeekDay: 1,
     nowWeekNo: 1,
     testData: null,
     remind: ''
-    //remind: ''
   },
 
   onLoad: function () {
     this.setData({
+      'nowWeekDay': app.user.school.weekday,
+      'active.weekDay': app.user.school.weekday,
       'nowWeekNo': app.user.school.weeknum,
       'active.weekNo': app.user.school.weeknum
     });
     // 初始默认显示
-    if (this.remind == '') {
+    if (this.data.remind == '') {
       this.sendRequest();
     }
   },
 
   //下拉更新
   onPullDownRefresh: function () {
-
     this.sendRequest();
   },
 

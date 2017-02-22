@@ -12,6 +12,9 @@ page {
     box-sizing: border-box;
 }
 
+scroll-view {
+    width:auto;
+}
 
 /* ==========================================================================
    main-roomUl

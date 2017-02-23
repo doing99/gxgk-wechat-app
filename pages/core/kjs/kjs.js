@@ -24,6 +24,9 @@ Page({
       buildingNo: 1,
       classNo: 1,
     },
+    errObj: {
+      errorDisplay: false
+    },
     nowWeekDay: 1,
     nowWeekNo: 1,
     testData: null,
@@ -65,17 +68,10 @@ Page({
 
     // 对成功进行处理
     function doSuccess(data) {
-
       that.setData({
         'testData': data,
         'errObj.errorDisplay': true
       });
-    }
-
-    // 对失败进行处理
-    function doFail(message) {
-
-      app.showErrorModal(message);
     }
 
     // 发送请求
@@ -89,11 +85,11 @@ Page({
           //执行回调函数
           if (bd) { bd(that); }
         } else {
-          doFail(res.data.message);
+          app.showErrorModal(message);
         }
       },
       fail: function (res) {
-        doFail(res.errMsg);
+        app.showErrorModal(res.errMsg);
       },
       complete: function () {
         wx.hideToast();

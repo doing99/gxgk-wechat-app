@@ -24,11 +24,12 @@ scroll-view {
     display: flex; 
     flex-flow: column nowrap;
     padding: 30rpx 45rpx;
+    height: 600px;
 }
     .roomUl-floor {
 
         display: flex;
-        width: 600rpx;
+        /*width: 600rpx;*/
         flex-flow: column nowrap;
         margin-top: 20rpx;
         padding: 0 0 0 65rpx;

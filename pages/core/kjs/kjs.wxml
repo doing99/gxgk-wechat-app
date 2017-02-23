@@ -11,7 +11,7 @@
   <block wx:else>
 
     <!--显示空教室信息-->
-    <scroll-view scroll-y class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}">
+    <scroll-view scroll-y='true' class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}">
 
       <!--楼层-->
       <block wx:for="{{testData}}" wx:key="">

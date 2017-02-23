@@ -47,14 +47,35 @@ App({
 
   },
   //判断是否有登录信息，让分享时自动登录
-  loginLoad: function (onLoad) {
+  loginLoad: function (onLoad, share = false) {
     var _this = this;
     if (!_this._t) {  //无登录信息
       _this.getUser(function (e) {
         typeof onLoad == "function" && onLoad(e);
       });
     } else {  //有登录信息
-      typeof onLoad == "function" && onLoad();
+      if (share) {
+        wx.request({
+          url: _this.server + '/api/users/check_login',
+          method: 'POST',
+          data: {
+            session_id: _this.user.wxinfo.id
+          },
+          success: function (res) {
+            if (res.data && res.data.status === 200) {
+              typeof onLoad == "function" && onLoad();
+            }
+            else {
+              _this.getUser(function (e) {
+                typeof onLoad == "function" && onLoad(e);
+              });
+            }
+          }
+        });
+      }
+      else {
+        typeof onLoad == "function" && onLoad();
+      }
     }
   },
   //getUser函数，在index中调用

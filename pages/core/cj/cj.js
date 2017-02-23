@@ -30,7 +30,7 @@ Page({
     var _this = this;
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
-    });
+    }, options.id);
   },
   loginHandler: function (options) {
     var _this = this;

@@ -8,7 +8,7 @@ var WEEK_DATA = ['', '第一周', '第二周', '第三周', '第四周', '第五
   DAY_DATA = ['', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
   CLASSTIME_DATA = ['', { time: '1-2节', index: 1 }, { time: '3-4节', index: 3 }, { time: '5-6节', index: 5 },
     { time: '7-8节', index: 7 }, { time: '9-10节', index: 9 }],
-  BUILDING_DATA = ['', '1栋', '2栋', '3栋', '4栋', '5栋', '6栋', '7栋', '8栋', '9栋', '工1', '工2'];
+  BUILDING_DATA = ['', '1栋', '2栋', '3栋', '4栋', '5栋', '6栋', '7栋', '8栋', '9栋', '工1'];
 
 Page({
   data: {
@@ -29,20 +29,43 @@ Page({
     },
     nowWeekDay: 1,
     nowWeekNo: 1,
+    nowClassNo: 0,
     testData: null,
-    remind: ''
+    remind: '',
+    time_list: [
+      { begin: '8:30', end: '10:05' },
+      { begin: '10:25', end: '12:00' },
+      { begin: '14:40', end: '16:15' },
+      { begin: '16:30', end: '18:05' },
+      { begin: '19:30', end: '21:05' },
+    ],
   },
-
   onLoad: function () {
-    this.setData({
+    // 比较获取时间，比较出第几节
+    var _this = this;
+    function parseMinute(dateStr) { return dateStr.split(':')[0] * 60 + parseInt(dateStr.split(':')[1]); }
+    function compareDate(dateStr1, dateStr2) {
+      return parseMinute(dateStr1) <= parseMinute(dateStr2);
+    }
+    var nowTime = app.util.formatTime(new Date(), 'h:m');
+    var time_length = _this.data.time_list.length;
+    _this.data.time_list.forEach(function (e, i) {
+      if (compareDate(e.end, nowTime)) {
+        _this.data.nowClassNo = i + 2;
+      };
+    });
+    console.log(_this.data.nowClassNo);
+    _this.setData({
       'nowWeekDay': app.user.school.weekday,
       'active.weekDay': app.user.school.weekday,
       'nowWeekNo': app.user.school.weeknum,
-      'active.weekNo': app.user.school.weeknum
+      'active.weekNo': app.user.school.weeknum,
+      'nowClassNo': _this.data.nowClassNo,
+      'active.classNo': _this.data.nowClassNo
     });
     // 初始默认显示
-    if (this.data.remind == '') {
-      this.sendRequest();
+    if (_this.data.remind == '') {
+      _this.sendRequest();
     }
   },
 

@@ -7,7 +7,7 @@ Page({
     offline: false,
     remind: '加载中',
     core: [
-      { id: 'kb', name: '课表查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true },
+      { id: 'kb', name: '课表查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
       { id: 'cj', name: '成绩查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
       { id: 'kjs', name: '空教室', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true },
       { id: 'ks', name: '考试安排', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },

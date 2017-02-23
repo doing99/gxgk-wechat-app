@@ -50,11 +50,12 @@ Page({
     var nowTime = app.util.formatTime(new Date(), 'h:m');
     var time_length = _this.data.time_list.length;
     _this.data.time_list.forEach(function (e, i) {
-      if (compareDate(e.end, nowTime)) {
+      if (i === time_length - 1 && compareDate(e.end, nowTime)) {
+        _this.data.nowClassNo = 5;
+      } else if (compareDate(e.end, nowTime)) {
         _this.data.nowClassNo = i + 2;
       };
     });
-    console.log(_this.data.nowClassNo);
     _this.setData({
       'nowWeekDay': app.user.school.weekday,
       'active.weekDay': app.user.school.weekday,

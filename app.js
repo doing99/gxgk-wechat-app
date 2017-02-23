@@ -182,16 +182,19 @@ App({
     _this.user.is_bind_mealcard = msg.is_bind_mealcard;
     _this.user.is_bind_library = msg.is_bind_library;
     _this.banner_show = msg.show_banner;
+    _this.user.is_admin = msg.is_admin;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_bind) {
-      _this.user.student.name = msg.student.realname;
-      _this.user.student.class = msg.student.classname;
-      _this.user.student.id = msg.student.studentid;
-      _this.user.student.grade = msg.student.studentid.substr(0, 4);
-      _this.user.student.dept = msg.student.dept;
-      _this.user.student.specialty = msg.student.specialty;
-      if (msg.is_teacher) {
+      if (msg.is_teacher && msg.teacher) {
         _this.user.teacher = msg.teacher;
+      }
+      else {
+        _this.user.student.name = msg.student.realname;
+        _this.user.student.class = msg.student.classname;
+        _this.user.student.id = msg.student.studentid;
+        _this.user.student.grade = msg.student.studentid.substr(0, 4);
+        _this.user.student.dept = msg.student.dept;
+        _this.user.student.specialty = msg.student.specialty;
       }
     }
     _this._t = msg.session_id;

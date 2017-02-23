@@ -29,7 +29,7 @@ Page({
     },
     nowWeekDay: 1,
     nowWeekNo: 1,
-    nowClassNo: 0,
+    nowClassNo: 1,
     testData: null,
     remind: '',
     time_list: [
@@ -109,7 +109,7 @@ Page({
           //执行回调函数
           if (bd) { bd(that); }
         } else {
-          app.showErrorModal(message);
+          app.showErrorModal(res.data.message);
         }
       },
       fail: function (res) {

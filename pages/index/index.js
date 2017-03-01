@@ -231,6 +231,7 @@ Page({
       url: app.server + '/api/users/get_schedule',
       method: 'POST',
       data: {
+        is_teacher: app.user.is_teacher,
         session_id: app.user.wxinfo.id,
         week: app.user.school.weeknum,
         weekday: app.user.school.weekday

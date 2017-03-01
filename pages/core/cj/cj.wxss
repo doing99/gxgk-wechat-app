@@ -96,19 +96,19 @@
 }
 
 .cj-grade-jd-num {
-  color: #567BE4;
+  color: #58c2ff;
   font-size: 18px;
   padding-bottom: 3px;
 }
 
 .cj-grade-bj-num {
-  color: #F7DA0E;
+  color: #58c2ff;
   font-size: 18px;
   padding-bottom: 3px;
 }
 
 .cj-grade-zy-num {
-  color: #FEA961;
+  color: #58c2ff;
   font-size: 18px;
   padding-bottom: 3px;
 }

@@ -65,7 +65,7 @@ Page({
     });
     // onLoad时获取一次课表
     var id = options.id;
-    if (!id && !app.user.student.id) {
+    if (!id && !app.user.student.id && !app.user.teacher.teacherid) {
       _this.setData({
         remind: '未绑定'
       });
@@ -263,6 +263,7 @@ Page({
     var _this = this, data = {
       session_id: app.user.wxinfo.id,
       week: _this.data.week,
+      is_teacher: app.user.is_teacher,
       weekday: '',
       studentid: id
     };

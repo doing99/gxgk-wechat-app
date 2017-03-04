@@ -16,7 +16,15 @@ Page({
     angle: 0
   },
   onLoad: function (options) {
-    if (options.type == 'mealcard') {
+    if (options.type == 'login') {
+      this.setData({
+        title: '绑定教务系统',
+        form_id: '账号',
+        form_pwd: '密码',
+        bind_type: 'login'
+      })
+    }
+    else if (options.type == 'mealcard') {
       this.setData({
         title: '绑定校园卡',
         form_id: '校园卡卡号',

@@ -34,6 +34,20 @@
         </view>
       </view>
       <view class="help" id="help" wx:if="{{help_status}}" bindtap="tapHelp">
+        <view class="box" wx:if="{{bind_type == 'login'}}">
+          <view class="box-hd">
+            <text class="box-title">帮助</text>
+            <image class="box-close" src="/images/more/close.png" bindtap="hideHelp"></image>
+          </view>
+          <view class="box-bd">
+            <view class="help-q">1、账号密码是什么？</view>
+            <view class="help-a">
+              <text>账号：正方教务系统账号，学生为学号，老师为教工号</text>
+              <text>密码：学生初始密码卡号后六位，教室初始密码为教工号</text>
+              <text>忘记卡号或者密码请咨询辅导员或教务系统管理人员</text>
+            </view>
+          </view>
+        </view>
         <view class="box" wx:if="{{bind_type == 'mealcard'}}">
           <view class="box-hd">
             <text class="box-title">帮助</text>

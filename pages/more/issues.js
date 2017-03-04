@@ -80,7 +80,7 @@ Page({
       url: app.server + '/api/upload/get_upload_token',
       method: 'POST',
       data: {
-        openid: app.user.wxinfo.id
+        session_id: app.user.wxinfo.id
       },
       success: function(res){
         if(res.data.status === 200){

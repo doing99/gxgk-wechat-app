@@ -7,14 +7,14 @@ Page({
     offline: false,
     remind: '加载中',
     core: [
-      { id: 'kb', name: '课表查询', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'cj', name: '成绩查询', disabled: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
-      { id: 'kjs', name: '空教室', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true },
-      { id: 'ks', name: '考试安排', disabled: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
-      { id: 'ykt', name: '校园卡', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'jy', name: '借阅信息', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: false, student_disable: true, teacher_disabled: false, offline_disabled: true },
-      { id: 'zs', name: '我要找书', disabled: false, student_disable: false, teacher_disabled: false, offline_disabled: true }
+      { id: 'kb', name: '课表查询', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'cj', name: '成绩查询', disabled: false, guest_view: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
+      { id: 'kjs', name: '空教室', disabled: false, guest_view: true, student_disable: false, teacher_disabled: false, offline_disabled: true },
+      { id: 'ks', name: '考试安排', disabled: false, guest_view: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
+      { id: 'ykt', name: '校园卡', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'jy', name: '借阅信息', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
+      { id: 'xs', name: '学生查询', disabled: false, guest_view: false, student_disable: true, teacher_disabled: false, offline_disabled: true },
+      { id: 'zs', name: '我要找书', disabled: false, guest_view: true, student_disable: false, teacher_disabled: false, offline_disabled: true }
     ],
     card: {
       'kb': {
@@ -149,7 +149,10 @@ Page({
     function set_item_switch(item) {
       var is_teacher = app.user.is_teacher;
       if (!item.disabled) {
-        if(app.user.is_admin){
+        if (item.guest_view){
+            item.disabled = false;
+        }
+        else if (app.user.is_admin) {
           item.disabled = false;
         }
         else if (!is_teacher) {

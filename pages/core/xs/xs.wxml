@@ -114,7 +114,7 @@
         </view>
         <view class="help-q">2、根据课程教学班查询</view>
         <view class="help-a">
-          <text>您可以通过输入 ‘教学班:’+教学班号 进行精确搜索。如搜索 “14软工1班” ，将会搜索到14软工1班的学生名单。</text>
+          <text>您可以通过输入 ‘年级’+‘专业’+‘班号’ 进行精确搜索。如搜索 “14软件本科1班” ，将会搜索到14软件本科1班的学生名单。</text>
         </view>
         <view class="help-q">3、该项功能仅提供老师使用</view>
         <view class="help-a">

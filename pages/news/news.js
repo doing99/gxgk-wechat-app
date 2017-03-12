@@ -100,33 +100,27 @@ Page({
         page: _this.data.page + 1,
       },
       success: function (res) {
-        if (res.data && res.statusCode == 200) {
-          if (res.data.errmsg) {
-            app.showErrorModal(res.data.data.error);
-            _this.setData({
-              'active.remind': res.data.data.error || '加载失败'
-            });
-          }
-          if (_this.data.active.id != typeId) { return false; }
-          if (res.data.data) {
-            if (!_this.data.page) {
-              if (!_this.data.list[typeId].storage.length || app.util.md5(JSON.stringify(res.data.data)) != app.util.md5(JSON.stringify(_this.data.list[typeId].storage))) {
+        if(res.data && res.data.status === 200){
+          if(_this.data.active.id != typeId){ return false; }
+          if(res.data.data){
+            if(!_this.data.page){
+              if(!_this.data.list[typeId].storage.length || app.util.md5(JSON.stringify(res.data.data)) != app.util.md5(JSON.stringify(_this.data.list[typeId].storage))){
                 var data = {
                   'page': _this.data.page + 1,
                   'active.data': res.data.data,
                   'active.showMore': true,
                   'active.remind': '上滑加载更多',
                 };
-                data['list[' + typeId + '].storage'] = res.data.data;
+                data['list['+typeId+'].storage'] = res.data.data;
                 _this.setData(data);
-              } else {
+              }else{
                 _this.setData({
                   'page': _this.data.page + 1,
                   'active.showMore': true,
                   'active.remind': '上滑加载更多'
                 });
               }
-            } else {
+            }else{
               _this.setData({
                 'page': _this.data.page + 1,
                 'active.data': _this.data.active.data.concat(res.data.data),
@@ -134,14 +128,14 @@ Page({
                 'active.remind': '上滑加载更多',
               });
             }
-          } else {
+          }else{
             _this.setData({
               'active.showMore': false,
               'active.remind': '没有更多啦'
             });
           }
-        } else {
-          app.showErrorModal(res.errMsg);
+        }else{
+          app.showErrorModal(res.data.message);
           _this.setData({
             'active.remind': '加载失败'
           });

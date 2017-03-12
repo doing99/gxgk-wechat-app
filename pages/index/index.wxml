@@ -25,7 +25,7 @@
       <block wx:else>
         <image class="remind-img" src="/images/index/nothing.png"></image>
         <text class="remind-text">{{remind}}</text>
-        <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
+        <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/append?type=login" class="remind-btn">前往绑定</navigator>
       </block>
     </view>
     <view class="content-box" wx:if="{{card.kb.show}}">

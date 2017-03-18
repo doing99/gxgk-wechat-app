@@ -109,7 +109,7 @@
         </view>
         <text class="desc-content">莞香小喵内部测试版本</text>
         <view class="desc-list">
-          <text class="desc-list-item">发布预告：http://mp.weixin.qq.com/s/HGxbRmTZaFqwZ3NqBEkeSw</text>
+          <text class="desc-list-item">发布预告</text>
         </view>
       </view>
     </view>
@@ -118,8 +118,6 @@
     <view class="footer-gx">
       <image src="/images/more/gx.png"></image>
       <text>莞香广科</text>
-      <image src="/images/more/lanshan.png"></image>
-      <text>蓝山工作室</text>
     </view>
     <text>Copyright @ 2012-{{year}} All Rights Reserved</text>
   </view>

@@ -47,7 +47,14 @@
             <text class="cj-info-socre">|</text>
             <text class="cj-info-socre"> 卷面分：{{item.qmcj ? item.qmcj: '暂无'}}</text>
             <text class="cj-info-socre">|</text>
-            <text class="cj-info-socre">综合成绩：{{item.score}}</text>
+            <text class="cj-info-socre{{item.score < 60?'-red':''}}">综合成绩：{{item.score}}</text>
+          </view>
+          <view class="cj-info-socre-box" wx:if="{{item.bkcj}}">
+            <text class="cj-info-socre"></text>
+            <text class="cj-info-socre"></text>
+            <text class="cj-info-socre"></text>
+            <text class="cj-info-socre"></text>
+            <text class="cj-info-socre-red">补考成绩：{{item.bkcj}}</text>
           </view>
         </view>
       </view>

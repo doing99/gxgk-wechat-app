@@ -153,6 +153,12 @@
   color: #999;
 }
 
+.cj-info-socre-red {
+  font-size: 10pt;
+  align-items: center;
+  color: #ff0000;
+}
+
 .cj-footer {
   display: flex;
   flex-flow: row nowrap;

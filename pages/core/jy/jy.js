@@ -60,7 +60,7 @@ Page({
                 //保存借阅缓存
                 app.saveCache('jy', info);
                 jyRender(info);
-              } else { _this.setData({ remind: '暂无数据' }); }
+              } else { _this.setData({ remind: '暂无在借图书' }); }
             }
           }
           else { _this.setData({ remind: '暂无数据' }); }

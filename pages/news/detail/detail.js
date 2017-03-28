@@ -115,7 +115,14 @@ module.exports.ipage = {
       confirmText: '继续',
       success: function (res) {
         if (res.confirm) {
-          app.showLoadToast('下载中，请稍候');
+          if (wx.showLoading) {
+            wx.showLoading({
+              title: '下载中，请稍候',
+            }
+            )
+          } else {
+            app.showLoadToast('下载中，请稍候');
+          }
           wx.showNavigationBarLoading();
           _this.setData({
             file_loading: true
@@ -136,7 +143,11 @@ module.exports.ipage = {
                 },
                 complete: function () {
                   wx.hideNavigationBarLoading();
-                  wx.hideToast();
+                  if (wx.showLoading) {
+                    wx.hideLoading();
+                  } else{
+                    wx.hideToast();
+                  }
                   _this.setData({
                     file_loading: false
                   });

@@ -68,12 +68,12 @@
         </view>
       </navigator>
     </view>
-    <view wx:if="{{card.jy.show}}">
+    <view wx:if="{{card.jy.show}}" class="content-box-library">
       <view class="current-type">
         <text class="yuan-dian"></text>
         <text class="jyjl">图书馆</text>
       </view>
-      <scroll-view class="sc-filter" scroll-x="true">
+      <scroll-view class="sc-filter" scroll-x="true" style="width: 100%">
         <view class="sc-view">
           <navigator class="library-jy" url="/pages/core/jy/jy">
             <image class="jy-images" src="/images/index/book.png"></image>

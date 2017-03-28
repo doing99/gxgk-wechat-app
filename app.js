@@ -54,28 +54,23 @@ App({
         typeof onLoad == "function" && onLoad(e);
       });
     } else {  //有登录信息
-      if (share) {
-        wx.request({
-          url: _this.server + '/api/users/check_login',
-          method: 'POST',
-          data: {
-            session_id: _this.user.wxinfo.id
-          },
-          success: function (res) {
-            if (res.data && res.data.status === 200) {
-              typeof onLoad == "function" && onLoad();
-            }
-            else {
-              _this.getUser(function (e) {
-                typeof onLoad == "function" && onLoad(e);
-              });
-            }
+      wx.request({
+        url: _this.server + '/api/users/check_login',
+        method: 'POST',
+        data: {
+          session_id: _this.user.wxinfo.id
+        },
+        success: function (res) {
+          if (res.data && res.data.status === 200) {
+            typeof onLoad == "function" && onLoad();
           }
-        });
-      }
-      else {
-        typeof onLoad == "function" && onLoad();
-      }
+          else {
+            _this.getUser(function (e) {
+              typeof onLoad == "function" && onLoad(e);
+            });
+          }
+        }
+      });
     }
   },
   //getUser函数，在index中调用
@@ -137,6 +132,7 @@ App({
               fail: function (res) {
                 var status = '';
                 // 判断是否有缓存
+                console.warn(res);
                 if (_this.cache.version === _this.version) {
                   status = '离线缓存模式';
                 } else {

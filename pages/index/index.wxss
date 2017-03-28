@@ -192,10 +192,13 @@
   padding: 20rpx;
 }
 
+.content-box-library {
+  width: 100%;
+}
+
 .sc-filter {
   width: 100%;
   white-space: nowrap;
-  display: flex;
 }
 
 .sc-view {

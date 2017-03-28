@@ -53,24 +53,29 @@ App({
       _this.getUser(function (e) {
         typeof onLoad == "function" && onLoad(e);
       });
-    } else {  //有登录信息
-      wx.request({
-        url: _this.server + '/api/users/check_login',
-        method: 'POST',
-        data: {
-          session_id: _this.user.wxinfo.id
-        },
-        success: function (res) {
-          if (res.data && res.data.status === 200) {
-            typeof onLoad == "function" && onLoad();
+    } else {
+      //有登录信息
+      if (share) {
+        wx.request({
+          url: _this.server + '/api/users/check_login',
+          method: 'POST',
+          data: {
+            session_id: _this.user.wxinfo.id
+          },
+          success: function (res) {
+            if (res.data && res.data.status === 200) {
+              typeof onLoad == "function" && onLoad();
+            }
+            else {
+              _this.getUser(function (e) {
+                typeof onLoad == "function" && onLoad(e);
+              });
+            }
           }
-          else {
-            _this.getUser(function (e) {
-              typeof onLoad == "function" && onLoad(e);
-            });
-          }
-        }
-      });
+        });
+      } else {
+        typeof onLoad == "function" && onLoad();
+      }
     }
   },
   //getUser函数，在index中调用
@@ -113,7 +118,7 @@ App({
                   // 未绑定，跳转到登录
                   if (!_this.user.is_bind) {
                     wx.navigateTo({
-                      url: '/pages/more/login'
+                      url: '/pages/more/append?type=login'
                     });
                   }
                   //如果缓存有更新，则执行回调函数

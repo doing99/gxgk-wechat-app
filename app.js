@@ -170,7 +170,32 @@ App({
         typeof cb == "function" && cb(res);
       },
       fail: function (res) {
-        _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+        if (wx.openSetting) {
+          wx.showModal({
+            title: '授权失败',
+            content: '已拒绝授权，小程序无法正常运行，是否打开设置允许授权',
+            confirmColor: "#1f7bff",
+            showCancel: true,
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: function (res) {
+                    if (res.authSetting['scope.userInfo']) {
+                      //回调重新授权
+                      _this.getUserInfo(cb)
+                    } else {
+                      _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+                    }
+                  }
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          });
+        } else {
+          _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+        }
         _this.g_status = '未授权';
       }
     });

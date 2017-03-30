@@ -1,8 +1,10 @@
 //app.js
 App({
   version: 'v0.0.7', //版本号
-  onLaunch: function () {
+  scene: 1001,
+  onLaunch: function (options) {
     var _this = this;
+    _this.scene = options.scene;
     //读取缓存
     try {
       var data = wx.getStorageInfoSync();
@@ -55,7 +57,7 @@ App({
       });
     } else {
       //有登录信息
-      if (share) {
+      if (share || _this.scene != 1001) {
         wx.request({
           url: _this.server + '/api/users/check_login',
           method: 'POST',

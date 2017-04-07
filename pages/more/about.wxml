@@ -40,6 +40,7 @@
         </view>
         <text class="desc-content">修复bug</text>
         <view class="desc-list">
+          <text class="desc-list-item">修复空教室scroll-view无法滑动</text>
           <text class="desc-list-item">修复资讯页面网络出错提示ok</text>
           <text class="desc-list-item">修复打开单页面显示登录状态失效</text>
           <text class="desc-list-item">调整课表指正时间</text>

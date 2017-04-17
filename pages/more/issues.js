@@ -27,12 +27,14 @@ Page({
         var info = '---\r\n**用户信息**\r\n';
         info += '用户名：' + app.user.wxinfo.nickName;
         if(app.user.is_bind){
-          info += '（' + app.user.wxinfo.type + '-' + app.user.student.name + '-' + app.user.student.studentid + '）';
+          info += '（' + app.user.student.name + '-' + app.user.student.studentid + '）';
         }
         info += '\r\n手机型号：' + res.model;
+        info += '\r\n操作系统：' + res.system;
         info += '（'+res.platform+' - '+res.windowWidth+'x'+res.windowHeight+ '）';
         info += '\r\n微信版本号：' + res.version;
         info += '\r\n小程序版本号：' + app.version;
+        info += '\r\n基础库版本：' + res.SDKVersion;
         _this.setData({
           info: info
         });
@@ -269,7 +271,7 @@ Page({
           wx.request({
             url: app.server + '/api/feedback',
             data: {
-              sessionid: app.user.wxinfo.id,
+              session_id: app.user.wxinfo.id,
               title: title,
               body: content
             },

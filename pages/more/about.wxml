@@ -3,7 +3,7 @@
 <view class="container">
   <view class="header">
     <view class="black-cover"></view>
-    <image class="about_bg" src="https://xmcdn.gxgk.cc/static/images/app/about_bg.jpg"></image>
+    <image class="about_bg" src="/images/more/about_bg.jpg"></image>
   </view>
   <view class="content">
     <view class="version">

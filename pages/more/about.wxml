@@ -37,6 +37,7 @@
           <text class="desc-list-item">对未绑定用户开放空课室查询和图书查询</text>
           <text class="desc-list-item">适配教师课表</text>
           <text class="desc-list-item">无借书显示图书馆卡片</text>
+          <text class="desc-list-item">适配用户反馈</text>
         </view>
         <text class="desc-content">修复bug</text>
         <view class="desc-list">

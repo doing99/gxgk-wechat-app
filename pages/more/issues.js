@@ -27,7 +27,7 @@ Page({
         var info = '---\r\n**用户信息**\r\n';
         info += '用户名：' + app.user.wxinfo.nickName;
         if(app.user.is_bind){
-          info += '（' + app.user.student.name + '-' + app.user.student.studentid + '）';
+          info += '（' + app.user.student.name + '-' + app.user.student.id + '）';
         }
         info += '\r\n手机型号：' + res.model;
         info += '\r\n操作系统：' + res.system;
@@ -88,7 +88,8 @@ Page({
         if(res.data.status === 200){
           _this.setData({
             upload: true,
-            qiniu: res.data.data.token
+            qiniu: res.data.data.token,
+            filename: res.data.data.filename
           });
         }
       },
@@ -198,20 +199,21 @@ Page({
     wx.showNavigationBarLoading();
     // 上传图片
     wx.uploadFile({
-      url: 'https://up.qbox.me',
+      url: 'https://upload-z2.qbox.me',
       header: {
         'Content-Type': 'multipart/form-data'
       },
       filePath: path,
       name: 'file',
       formData:{
-        token: _this.data.qiniu
+        'token': _this.data.qiniu,
+        'key': _this.data.filename
       },
       success: function(res){
         var data = JSON.parse(res.data);
         if(data.key){
           _this.setData({
-            imgs: _this.data.imgs.concat('http://wecqupt.congm.in/'+data.key)
+            imgs: _this.data.imgs.concat('http://qn.gxgk.cc/'+data.key)
           });
         }
         if(_this.data.imgs.length === _this.data.imgLen){
@@ -222,6 +224,7 @@ Page({
       },
       fail: function(res){
         _this.setData({
+          uploading: false,
           imgLen: _this.data.imgLen - 1
         });
       },
@@ -263,7 +266,7 @@ Page({
           content = _this.data.content + '\r\n\r\n' + _this.data.info;
           if(_this.data.imgLen){
             _this.data.imgs.forEach(function(e){
-              imgs += '\r\n\r\n' + '![img]('+e+'?imageView2/2/w/750/interlace/0/q/88|watermark/2/text/V2Xph43pgq4=/font/5b6u6L2v6ZuF6buR/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10)';
+              imgs += '\r\n\r\n' + '![img]('+e+'?imageView2/2/w/750/interlace/0/q/88|watermark/2/text/6I6e6aaZ5bCP5Za1/font/5b6u6L2v6ZuF6buR/fontsize/500/fill/I0VGRUZFRg==/dissolve/100/gravity/SouthEast/dx/10/dy/10)';
             });
             content += imgs;
           }

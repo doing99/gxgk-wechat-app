@@ -111,6 +111,7 @@ Page({
       success: function(res){
         var data = {}, content = res.data;
         content.body = content.body.split('\r\n\r\n---\r\n**用户信息**\r\n')[0];
+        data['list.data['+index+'].title'] = content.title;
         data['list.data['+index+'].content'] = content;
         data['item_remind'] = '';
         _this.setData(data);

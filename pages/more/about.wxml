@@ -10,7 +10,7 @@
       <view class="version-title">
         <text class="title-name">莞香小喵</text>
         <text class="version-text">{{version}}</text>
-        <text class="version-text">公测</text>
+        <text class="version-text">正式版</text>
       </view>
       <view bindtap="toggleLog">
         <text class="version-log-link" wx:if="{{!showLog}}">更新日志</text>
@@ -29,6 +29,16 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v1.0.0 正式版</text>
+          <text class="desc-time">2017.04.18</text>
+        </view>
+        <text class="desc-content">新增功能</text>
+        <view class="desc-list">
+          <text class="desc-list-item">完成用户反馈与图片上传</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v0.0.7 公测版</text>
           <text class="desc-time">2017.03.07</text>
         </view>
@@ -37,7 +47,6 @@
           <text class="desc-list-item">对未绑定用户开放空课室查询和图书查询</text>
           <text class="desc-list-item">适配教师课表</text>
           <text class="desc-list-item">无借书显示图书馆卡片</text>
-          <text class="desc-list-item">适配用户反馈</text>
         </view>
         <text class="desc-content">修复bug</text>
         <view class="desc-list">

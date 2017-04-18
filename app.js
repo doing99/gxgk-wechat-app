@@ -1,6 +1,6 @@
 //app.js
 App({
-  version: 'v0.0.7', //版本号
+  version: 'v1.0.0', //版本号
   scene: 1001,
   onLaunch: function (options) {
     var _this = this;

@@ -60,7 +60,7 @@ Page({
       url: app.server + "/api/users/get_score",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.wxinfo.id || '',
         student_id: options.id ? options.id : ''
       },
       success: function (res) {

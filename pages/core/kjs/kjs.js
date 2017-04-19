@@ -87,7 +87,7 @@ Page({
       weekDay: query.weekDay || activeData.weekDay,
       classNo: that.data.DATA.CLASSTIME_DATA[query.classNo || activeData.classNo].index,
       buildingNo: query.buildingNo || activeData.buildingNo,
-      session_id: app.user.wxinfo.id,
+      session_id: app.user.wxinfo.id || '',
     };
 
     // 对成功进行处理

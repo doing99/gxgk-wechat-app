@@ -20,7 +20,7 @@ App({
           wx.clearStorage();
         } else {
           _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
-          _this.user.id = _this.cache.id || {};
+          _this.user.id = _this.cache.id;
           _this.processData(_this.cache.userdata);
         }
       }
@@ -57,28 +57,39 @@ App({
         typeof onLoad == "function" && onLoad(e);
       });
     } else {
-      //有登录信息
-      if (share || _this.scene != 1001) {
-        wx.request({
-          url: _this.server + '/api/users/check_login',
-          method: 'POST',
-          data: {
-            session_id: _this.user.id
-          },
-          success: function (res) {
-            if (res.data && res.data.status === 200) {
-              typeof onLoad == "function" && onLoad();
-            }
-            else {
-              _this.getUser(function (e) {
-                typeof onLoad == "function" && onLoad(e);
-              });
-            }
+      //有登录信息,检查微信session是否过期
+      wx.checkSession({
+        success: function () {
+          //session 未过期，并且在本生命周期一直有效
+          if (share || _this.scene != 1001) {
+            wx.request({
+              url: _this.server + '/api/users/check_login',
+              method: 'POST',
+              data: {
+                session_id: _this.user.id
+              },
+              success: function (res) {
+                if (res.data && res.data.status === 200) {
+                  typeof onLoad == "function" && onLoad();
+                }
+                else {
+                  _this.getUser(function (e) {
+                    typeof onLoad == "function" && onLoad(e);
+                  });
+                }
+              }
+            });
+          } else {
+            typeof onLoad == "function" && onLoad();
           }
-        });
-      } else {
-        typeof onLoad == "function" && onLoad();
-      }
+        },
+        fail: function () {
+          //登录态过期
+          _this.getUser(function (e) {
+            typeof onLoad == "function" && onLoad(e);
+          });
+        }
+      })
     }
   },
   //getUser函数，在index中调用

@@ -70,7 +70,7 @@ Page({
       app.showErrorModal('卡号及密码不能为空', '提醒');
       return false;
     }
-    if (!app.user.wxinfo.id) {
+    if (!app.user.id) {
       app.showErrorModal('未能成功登录', '错误');
       return false;
     }
@@ -79,7 +79,7 @@ Page({
       method: 'POST',
       url: app.server + '/api/users/bind',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
         bind_type: _this.data.bind_type

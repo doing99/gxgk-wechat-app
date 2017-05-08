@@ -72,7 +72,7 @@ Page({
       name: name
     });
     var data = {
-      session_id: app.user.wxinfo.id,
+      session_id: app.user.id,
       student_id: options.id ? id : ''
     };
     if (app.user.is_teacher && !options.name) { data.type = 'teacher'; }

@@ -20,6 +20,7 @@ App({
           wx.clearStorage();
         } else {
           _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
+          _this.user.id = _this.cache.id || {};
           _this.processData(_this.cache.userdata);
         }
       }
@@ -62,7 +63,7 @@ App({
           url: _this.server + '/api/users/check_login',
           method: 'POST',
           data: {
-            session_id: _this.user.wxinfo.id
+            session_id: _this.user.id
           },
           success: function (res) {
             if (res.data && res.data.status === 200) {
@@ -202,7 +203,7 @@ App({
   },
   processData: function (msg) {
     var _this = this;
-    _this.user.wxinfo.id = msg.session_id;
+    _this.user.id = msg.session_id;
     _this.user.school.weeknum = msg.school.weeknum;
     _this.user.school.weekday = msg.school.weekday;
     _this.user.school.term = msg.school.term;
@@ -226,6 +227,7 @@ App({
       }
     }
     _this._t = msg.session_id;
+    _this.saveCache('userid', _this.user.id);
   },
   showErrorModal: function (content, title) {
     wx.showModal({

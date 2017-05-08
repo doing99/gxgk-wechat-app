@@ -216,7 +216,7 @@ Page({
       url: app.server + '/api/search_book',
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         key: inputValue,
         page: that.data.main.page
       },

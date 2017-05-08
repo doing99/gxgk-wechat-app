@@ -260,7 +260,7 @@ Page({
     }
     // 根据获取课表
     var _this = this, data = {
-      session_id: app.user.wxinfo.id,
+      session_id: app.user.id,
       week: _this.data.week,
       is_teacher: app.user.is_teacher,
       weekday: '',

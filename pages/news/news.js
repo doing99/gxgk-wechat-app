@@ -95,7 +95,7 @@ Page({
     wx.request({
       url: app.server + '/api/get_news_list',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         news_type: _this.data.list[typeId].type,
         page: _this.data.page + 1,
       },

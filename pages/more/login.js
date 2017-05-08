@@ -14,7 +14,7 @@ Page({
   onReady: function () {
     var _this = this;
     setTimeout(function () {
-      if (app.user.wxinfo.id) {
+      if (app.user.id) {
         _this.setData({
           remind: ''
         });
@@ -44,7 +44,7 @@ Page({
   },
   loginHandler: function () {
     var _this = this;
-    if (!app.user.wxinfo.id) {
+    if (!app.user.id) {
       _this.setData({
         remind: '网络错误，请稍后再试'
       });
@@ -60,7 +60,7 @@ Page({
       app.showErrorModal('账号及密码不能为空', '提醒');
       return false;
     }
-    if (!app.user.wxinfo.id) {
+    if (!app.user.id) {
       var _this = this;
       app.loginLoad(function () {
         _this.loginHandler.call(_this);
@@ -71,7 +71,7 @@ Page({
       method: 'POST',
       url: app.server + '/api/users/bind',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
         bind_type: 'login'

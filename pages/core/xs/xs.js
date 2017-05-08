@@ -273,7 +273,7 @@ Page({
       url: app.server + '/api/get_student_info',
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         key: inputValue,
         page: that.data.main.page
       },

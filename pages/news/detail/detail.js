@@ -57,7 +57,7 @@ module.exports.ipage = {
       'type': options.type,
       id: options.id
     });
-    options.session_id = app.user.wxinfo.id;
+    options.session_id = app.user.id;
     wx.request({
       url: app.server + '/api/get_news_detail',
       data: options,

@@ -42,7 +42,7 @@ Page({
       url: app.server + "/api/get_book_detail",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         url: options.url
       },
       success: function (res) {

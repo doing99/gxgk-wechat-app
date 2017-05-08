@@ -34,7 +34,7 @@ Page({
   },
   loginHandler: function (options) {
     var _this = this;
-    if (!app.user.wxinfo.id || !app.user.is_bind) {
+    if (!app.user.id || !app.user.is_bind) {
       _this.setData({
         remind: '未绑定'
       });
@@ -60,7 +60,7 @@ Page({
       url: app.server + "/api/users/get_score",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id || '',
+        session_id: app.user.id || '',
         student_id: options.id ? options.id : ''
       },
       success: function (res) {

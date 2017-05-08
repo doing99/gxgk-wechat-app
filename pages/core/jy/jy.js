@@ -21,7 +21,7 @@ Page({
   },
   getData: function (renew = false) {
     var _this = this;
-    if (!app.user.wxinfo.id || !app.user.is_bind_library) {
+    if (!app.user.id || !app.user.is_bind_library) {
       _this.setData({
         remind: '未绑定'
       });
@@ -40,7 +40,7 @@ Page({
       url: app.server + "/api/users/get_user_library",
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id,
+        session_id: app.user.id,
         renew: renew
       },
       success: function (res) {

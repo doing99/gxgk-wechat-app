@@ -23,11 +23,24 @@ Page({
     return {
       title: name + '的成绩单',
       desc: '快来莞香小喵查询你的期末成绩单',
-      path: '/pages/core/cj/cj?id=' + id + '&name=' + name
+      path: '/pages/core/cj/cj?id=' + id + '&name=' + name,
+      success: function (res) {
+        if (res.shareTickets) {
+          app.sendGroupMsg(res.shareTickets);
+          //console.log(res);
+        }
+        // 分享成功
+      },
+      fail: function (res) {
+        // 分享失败
+      }
     };
   },
   onLoad: function (options) {
     var _this = this;
+    wx.showShareMenu({
+      withShareTicket: true
+    })
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
     }, options.id);

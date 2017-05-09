@@ -1,10 +1,12 @@
 //app.js
 App({
   version: 'v1.0.0', //版本号
-  scene: 1001,
+  scene: 1001, //场景值
+  shareTicket: null, //分享获取相同信息所需ticket
   onLaunch: function (options) {
     var _this = this;
     _this.scene = options.scene;
+    _this.shareTicket = options.shareTicket;
     //读取缓存
     try {
       var data = wx.getStorageInfoSync();
@@ -239,6 +241,29 @@ App({
     }
     _this._t = msg.session_id;
     _this.saveCache('userid', _this.user.id);
+  },
+  sendGroupMsg(shareTicket) {
+    var _this = this;
+    wx.getShareInfo({
+      shareTicket: shareTicket,
+      success: function (res) {
+        wx.request({
+          url: _this.server + '/api/get_group_msg',
+          method: 'POST',
+          data: {
+            session_id: _this.user.id,
+            roomTopic: res.roomTopic,
+            rawData: res.rawData,
+            signature: res.signature,
+            encryptedData: res.encryptedData,
+            iv: res.iv
+          },
+          success: function (res) {
+            //console.log(res);
+          }
+        });
+      }
+    })
   },
   showErrorModal: function (content, title) {
     wx.showModal({

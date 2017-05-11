@@ -40,7 +40,16 @@ Page({
       { begin: '19:30', end: '21:05' },
     ],
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    var _this = this;
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    app.loginLoad(function () {
+      _this.loginHandler.call(_this, options);
+    }, options.id);
+  },
+  loginHandler: function (options) {
     // 比较获取时间，比较出第几节
     var _this = this;
     function parseMinute(dateStr) { return dateStr.split(':')[0] * 60 + parseInt(dateStr.split(':')[1]); }

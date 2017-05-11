@@ -79,6 +79,11 @@ App({
                     typeof onLoad == "function" && onLoad(e);
                   });
                 }
+              },
+              fail: function (res) {
+                _this.getUser(function (e) {
+                  typeof onLoad == "function" && onLoad(e);
+                });
               }
             });
           } else {

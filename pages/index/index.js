@@ -278,7 +278,7 @@ Page({
       url: app.server + '/api/users/get_mealcard',
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id
+        session_id: app.user.id
       },
       success: function (res) {
         if (res.data && res.data.status === 200) {

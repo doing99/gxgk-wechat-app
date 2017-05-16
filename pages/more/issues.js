@@ -45,7 +45,7 @@ Page({
     wx.request({
       url: app.server + '/api/get_feedback',
       method: 'POST',
-      data: {session_id: app.user.wxinfo.id}
+      data: {session_id: app.user.id}
       ,
       success: function(res){
         if(res.data.status === 200){
@@ -82,7 +82,7 @@ Page({
       url: app.server + '/api/upload/get_upload_token',
       method: 'POST',
       data: {
-        session_id: app.user.wxinfo.id
+        session_id: app.user.id
       },
       success: function(res){
         if(res.data.status === 200){
@@ -275,7 +275,7 @@ Page({
           wx.request({
             url: app.server + '/api/feedback',
             data: {
-              session_id: app.user.wxinfo.id,
+              session_id: app.user.id,
               title: title,
               body: content
             },

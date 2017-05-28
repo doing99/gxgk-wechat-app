@@ -16,6 +16,17 @@
       <view class="bd">
         <text class="append-title">{{title}}</text>
         <form class="append-form">
+        
+          <view class="input-group" wx:if="{{ title == '绑定教务系统' }}">
+          <text class="input-label">{{form_utype}}</text>
+            <radio-group class="radio-group" id="utype" bindchange="radioChange">
+            <label class="radio" wx:for="{{usertype}}">
+            <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+            </label>
+            </radio-group>
+          </view>  
+          
+            
           <view class="input-group {{userid_focus ? 'active' : ''}}">
             <text class="input-label">{{form_id}}</text>
             <input type="number" id="userid" maxlength="18" placeholder="请输入你的{{form_id}}" bindinput="useridInput" bindfocus="inputFocus" bindblur="inputBlur" />

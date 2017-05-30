@@ -63,7 +63,7 @@ Page({
       _this.setData({
         rank: data.rank,
         cjInfo: data.data,
-        xqName: app.user.school.term,
+        xqName: data.year + '学年第' + data.term + '学期',
         update_time: data.update_time,
         remind: ''
       });

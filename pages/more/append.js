@@ -75,7 +75,9 @@ Page({
       app.showErrorModal('未能成功登录', '错误');
       return false;
     }
-    app.showLoadToast('绑定中');
+    wx.showLoading({
+      title: '绑定中',
+    })
     wx.request({
       method: 'POST',
       url: app.server + '/api/users/bind',
@@ -139,6 +141,9 @@ Page({
       fail: function (res) {
         wx.hideToast();
         app.showErrorModal(res.errMsg, '绑定失败');
+      },
+      complete: function(res){
+        wx.hideLoading();
       }
     });
   },

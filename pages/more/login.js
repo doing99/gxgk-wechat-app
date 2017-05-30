@@ -74,7 +74,9 @@ Page({
         _this.loginHandler.call(_this);
       });
     }
-    app.showLoadToast('绑定中');
+    wx.showLoading({
+      title: '绑定中',
+    })
     wx.request({
       method: 'POST',
       url: app.server + '/api/users/bind',
@@ -140,11 +142,13 @@ Page({
       fail: function (res) {
         wx.hideToast();
         app.showErrorModal(res.errMsg, '绑定失败');
+      },
+      complete: function(res){
+        wx.hideLoading()
       }
     });
   },
   schoolPickerChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index: e.detail.value
     })

@@ -3,12 +3,20 @@
 var app = getApp();
 Page({
   data: {
+    school: ['广东科技学院'],
+    index: 0,
+    usertype: [
+      { name: '1', value: '学生', checked: 'true' },
+      { name: '2', value: '教师' },
+      { name: '3', value: '部门' },
+    ],
     remind: '加载中',
     help_status: false,
     userid_focus: false,
     passwd_focus: false,
     userid: '',
     passwd: '',
+    utype: 1,
     angle: 0
   },
   onReady: function () {
@@ -74,21 +82,25 @@ Page({
         session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
-        bind_type: 'login'
+        bind_type: 'login',
+        school: _this.data.school[_this.data.index],
+        form_utype: _this.data.utype
       },
       success: function (res) {
-        if(res.data && res.data.status === 200){
+        if (res.data && res.data.status === 200) {
           app.showLoadToast('请稍候');
           //清除缓存
-          app.cache = {};
-          var jump_url = '';
-          wx.clearStorage();
+          if (app.cache) {
+            app.removeCache('ykt');
+            app.removeCache('jy');
+          }
           app.getUser(function () {
             wx.showToast({
               title: '绑定成功',
               icon: 'success',
               duration: 1500
             });
+            var jump_url = '';
             if (!app.user.is_teacher) {
               if (!app.user.is_bind_mealcard) {
                 jump_url = 'append?type=mealcard';
@@ -129,6 +141,17 @@ Page({
         wx.hideToast();
         app.showErrorModal(res.errMsg, '绑定失败');
       }
+    });
+  },
+  schoolPickerChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value
+    })
+  },
+  radioChange: function (e) {
+    this.setData({
+      utype: e.detail.value
     });
   },
   useridInput: function (e) {

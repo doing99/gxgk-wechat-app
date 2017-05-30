@@ -3,11 +3,6 @@
 var app = getApp();
 Page({
   data: {
-    usertype: [
-      {name: '1', value: '学生', checked: 'true'},
-      {name: '2', value: '教师'},
-      {name: '3', value: '部门'},
-    ],
     remind: '加载中',
     help_status: false,
     title: '',
@@ -27,7 +22,6 @@ Page({
         title: '绑定教务系统',
         form_id: '账号',
         form_pwd: '密码',
-        form_utype: '类型',
         bind_type: 'login'
       })
     }
@@ -89,7 +83,6 @@ Page({
         session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
-        form_utype: _this.data.utype,
         bind_type: _this.data.bind_type
       },
       success: function (res) {
@@ -161,13 +154,7 @@ Page({
     this.setData({
       passwd: e.detail.value
     });
-  },
-  radioChange: function(e) {
-    this.setData({
-      utype: e.detail.value
-      });
-  },
-  
+  }, 
   inputFocus: function (e) {
     if (e.target.id == 'userid') {
       this.setData({

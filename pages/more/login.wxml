@@ -8,26 +8,40 @@
     <image class="title" src="/images/more/title.png"></image>
     <view class="content">
       <view class="hd" style="transform:rotateZ({{angle}}deg);">
-          <image class="logo" src="/images/more/logo.png"></image>
-          <image class="wave" src="/images/more/wave.png" mode="aspectFill"></image>
-          <image class="wave wave-bg" src="/images/more/wave.png" mode="aspectFill"></image>
+        <image class="logo" src="/images/more/logo.png"></image>
+        <image class="wave" src="/images/more/wave.png" mode="aspectFill"></image>
+        <image class="wave wave-bg" src="/images/more/wave.png" mode="aspectFill"></image>
       </view>
       <view class="bd">
         <form class="login-form">
+          <view class="input-group">
+            <picker style="padding: 0 0rpx;" bindchange="schoolPickerChange" value="{{index}}" range="{{school}}">
+              <view class="picker">
+                <text class="input-label">学校</text>
+                <text style="padding: 0 25rpx;">{{school[index]}}</text>
+              </view>
+            </picker>
+          </view>
           <view class="input-group {{userid_focus ? 'active' : ''}}">
             <text class="input-label">帐号</text>
-            <input type="number" cursor-spacing="30" id="userid" maxlength="11" placeholder="请输入你的学号" bindinput="useridInput" bindfocus="inputFocus" bindblur="inputBlur" />
+            <input type="number" cursor-spacing="30" id="userid" maxlength="11" placeholder="请输入你的学号/职工号" bindinput="useridInput" bindfocus="inputFocus" bindblur="inputBlur" />
           </view>
           <view class="input-group {{passwd_focus ? 'active' : ''}}">
             <text class="input-label">密码</text>
-            <input password="true" cursor-spacing="30" id="passwd" placeholder="初始密码为身份证" bindinput="passwdInput" bindfocus="inputFocus" bindblur="inputBlur" />
+            <input password="true" cursor-spacing="30" id="passwd" placeholder="初始密码为身份证/职工号" bindinput="passwdInput" bindfocus="inputFocus" bindblur="inputBlur" />
+          </view>
+          <view class="user-type">
+            <radio-group class="radio-group" id="utype" bindchange="radioChange">
+              <label class="radio" wx:for="{{usertype}}" wx:key="item.name">
+                <radio value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+              </label>
+            </radio-group>
           </view>
         </form>
         <view class="confirm-btn" bindtap="bind">
-            <text>确认绑定</text>
+          <text>确认绑定</text>
         </view>
       </view>
-
     </view>
   </block>
 

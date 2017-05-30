@@ -252,3 +252,8 @@ form {
 page .wx-video-bar{
   display: none;
 }
+.user-type{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

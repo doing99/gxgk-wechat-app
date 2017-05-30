@@ -139,7 +139,7 @@ App({
                   // 未绑定，跳转到登录
                   if (!_this.user.is_bind) {
                     wx.navigateTo({
-                      url: '/pages/more/append?type=login'
+                      url: '/pages/more/login'
                     });
                   }
                   //如果缓存有更新，则执行回调函数

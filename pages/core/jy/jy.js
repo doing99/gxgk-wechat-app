@@ -13,7 +13,14 @@ Page({
     },
     yjxjTap: false //点击一键续借
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    var _this = this;
+    app.loginLoad(function () {
+      _this.loginHandler.call(_this, options);
+    }, options.id);
+  },
+  //让分享时自动登录
+  loginHandler: function (options) {
     this.getData();
   },
   onPullDownRefresh: function () {

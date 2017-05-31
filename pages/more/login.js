@@ -56,7 +56,21 @@ Page({
       _this.setData({
         remind: '网络错误，请稍后再试'
       });
-    }
+    };
+    wx.request({
+      method: 'POST',
+      url: app.server + '/api/school-list',
+      data: {
+        session_id: app.user.id,
+      },
+      success: function (res) {
+        if (res.data && res.data.status === 200) {
+          _this.setData({
+            school: res.data.data.school
+          })
+        }
+      }
+    });
   },
   bind: function () {
     var _this = this;
@@ -143,7 +157,7 @@ Page({
         wx.hideToast();
         app.showErrorModal(res.errMsg, '绑定失败');
       },
-      complete: function(res){
+      complete: function (res) {
         wx.hideLoading()
       }
     });

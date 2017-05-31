@@ -1,6 +1,6 @@
 //app.js
 App({
-  version: 'v1.0.0', //版本号
+  version: 'v1.0.1', //版本号
   scene: 1001, //场景值
   shareTicket: null, //分享获取相同信息所需ticket
   onLaunch: function (options) {

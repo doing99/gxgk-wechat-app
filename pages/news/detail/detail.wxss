@@ -1,4 +1,5 @@
 /**detail.wxss (common)**/
+@import "/wxParse/wxParse.wxss";
 
 .container {
   background: #fff;

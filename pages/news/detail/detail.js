@@ -1,5 +1,6 @@
 //detail.js (common)
 var app = getApp();
+var WxParse = require('../../../wxParse/wxParse.js');
 module.exports.ipage = {
   data: {
     remind: "加载中",
@@ -46,7 +47,6 @@ module.exports.ipage = {
   },
   loginHandler: function (options) {
     var _this = this;
-
     if (!options.type || !options.id) {
       _this.setData({
         remind: '404'
@@ -64,6 +64,11 @@ module.exports.ipage = {
       success: function (res) {
         if (res.data.data && res.statusCode == 200) {
           var info = res.data.data;
+          if (info.html) {
+            var article = app.util.base64.decode(info.html)
+            WxParse.wxParse('article', 'html', article, _this, 5);
+            info.body = '';
+          }
           _this.setData({
             date: info.time || "",  // 发布日期
             author: info.author || "",     // 发布作者
@@ -145,7 +150,7 @@ module.exports.ipage = {
                   wx.hideNavigationBarLoading();
                   if (wx.showLoading) {
                     wx.hideLoading();
-                  } else{
+                  } else {
                     wx.hideToast();
                   }
                   _this.setData({

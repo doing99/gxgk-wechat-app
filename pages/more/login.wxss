@@ -1,4 +1,9 @@
 /**login.wxss**/
+.remind-text {
+  font-size: 12pt;
+  line-height: 150%;
+  color:white;
+}
 .container {
   background: #079df2;
   align-items: stretch;

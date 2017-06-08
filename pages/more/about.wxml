@@ -35,6 +35,7 @@
         <view class="desc-list">
           <text class="desc-list-item">支持多种用户类型绑定</text>
           <text class="desc-list-item">初步适配多个学校</text>
+          <text class="desc-list-item">资讯页支持富文本</text>
         </view>
         <text class="desc-content">修复bug</text>
         <view class="desc-list">

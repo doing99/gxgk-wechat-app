@@ -77,6 +77,9 @@
 .list-item.jw{
   background-color: #f6bd6c;
 }
+.list-item.xm{
+  background-color: #f6bd6c;
+}
 .list-item.new{
   background-color: #7acfa6;
 }

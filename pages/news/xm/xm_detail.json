@@ -1,6 +1,6 @@
 {    
-    "navigationBarBackgroundColor": "#78c9a2",
+    "navigationBarBackgroundColor": "#c895ed",
     "navigationBarTitleText": "小喵推送",
-    "backgroundColor": "#78c9a2",
+    "backgroundColor": "#c895ed",
     "enablePullDownRefresh": false
 }

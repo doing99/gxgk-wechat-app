@@ -78,7 +78,7 @@
   background-color: #f6bd6c;
 }
 .list-item.xm{
-  background-color: #f6bd6c;
+  background-color: #c895ed;
 }
 .list-item.new{
   background-color: #7acfa6;

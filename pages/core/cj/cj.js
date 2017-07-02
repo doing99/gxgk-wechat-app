@@ -38,9 +38,11 @@ Page({
   },
   onLoad: function (options) {
     var _this = this;
-    wx.showShareMenu({
-      withShareTicket: true
-    })
+    if (wx.showShareMenu){
+      wx.showShareMenu({
+        withShareTicket: true
+      })
+    }
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
     }, options.id);

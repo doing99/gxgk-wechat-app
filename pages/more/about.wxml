@@ -40,6 +40,7 @@
         <text class="desc-content">修复bug</text>
         <view class="desc-list">
           <text class="desc-list-item">修复非法登录</text>
+          <text class="desc-list-item">修复旧版本微信无法查询成绩bug</text>
         </view>
       </view>
       <view class="describe">

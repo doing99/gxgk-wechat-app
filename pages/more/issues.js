@@ -22,24 +22,32 @@ Page({
   },
   onLoad: function(){
     var _this = this;
-    wx.getSystemInfo({
-      success: function(res) {
-        var info = '---\r\n**用户信息**\r\n';
-        info += '用户名：' + app.user.wxinfo.nickName;
-        if(app.user.is_bind){
-          info += '（' + app.user.student.name + '-' + app.user.student.id + '）';
-        }
-        info += '\r\n手机型号：' + res.model;
-        info += '\r\n操作系统：' + res.system;
-        info += '（'+res.platform+' - '+res.windowWidth+'x'+res.windowHeight+ '）';
-        info += '\r\n微信版本号：' + res.version;
-        info += '\r\n小程序版本号：' + app.version;
-        info += '\r\n基础库版本：' + res.SDKVersion;
-        _this.setData({
-          info: info
+    wx.getNetworkType({
+      success: function (res) {
+        // 返回网络类型, 有效值：
+        // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+        var networkType = res.networkType
+        wx.getSystemInfo({
+          success: function (res) {
+            var info = '---\r\n**用户信息**\r\n';
+            info += '用户名：' + app.user.wxinfo.nickName;
+            if (app.user.is_bind) {
+              info += '（' + app.user.student.name + '-' + app.user.student.id + '）';
+            }
+            info += '\r\n手机型号：' + res.model;
+            info += '\r\n操作系统：' + res.system;
+            info += '（' + res.platform + ' - ' + res.screenWidth + 'x' + res.screenHeight + '）';
+            info += '\r\n微信版本号：' + res.version;
+            info += '\r\n小程序版本号：' + app.version;
+            info += '\r\n基础库版本：' + res.SDKVersion;
+            info += '\r\n网络类型：' + networkType;
+            _this.setData({
+              info: info
+            });
+          }
         });
       }
-    });
+    })
     if(app.g_status){ return; }
     wx.showNavigationBarLoading();
     wx.request({

@@ -5,7 +5,9 @@ App({
   shareTicket: null, //分享获取相同信息所需ticket
   onLaunch: function (options) {
     var _this = this;
-    _this.scene = options.scene;
+    if (options.scene){
+      _this.scene = options.scene;
+    }
     _this.shareTicket = options.shareTicket;
     //读取缓存
     try {

@@ -149,8 +149,8 @@ Page({
     function set_item_switch(item) {
       var is_teacher = app.user.is_teacher;
       if (!item.disabled) {
-        if (item.guest_view){
-            item.disabled = false;
+        if (item.guest_view) {
+          item.disabled = false;
         }
         else if (app.user.is_admin) {
           item.disabled = false;
@@ -220,6 +220,18 @@ Page({
     if (load_cache) { return; }
     wx.showNavigationBarLoading();
     //获取课表数据
+    function endRequest() {
+      loadsum--; //减少正在请求连接
+      if (!loadsum) {
+        if (_this.data.remind) {
+          _this.setData({
+            remind: '首页暂无展示'
+          });
+        }
+        wx.hideNavigationBarLoading();
+        wx.stopPullDownRefresh();
+      }
+    }
     //课表渲染
     function kbRender(info) {
       _this.setData({
@@ -250,16 +262,7 @@ Page({
         } else { app.removeCache('kb'); }
       },
       complete: function () {
-        loadsum--; //减少正在请求连接
-        if (!loadsum) {
-          if (_this.data.remind) {
-            _this.setData({
-              remind: '首页暂无展示'
-            });
-          }
-          wx.hideNavigationBarLoading();
-          wx.stopPullDownRefresh();
-        }
+        endRequest();
       }
     });
     //一卡通渲染
@@ -291,16 +294,7 @@ Page({
         } else { app.removeCache('ykt'); }
       },
       complete: function () {
-        loadsum--; //减少正在请求连接
-        if (!loadsum) {
-          if (_this.data.remind) {
-            _this.setData({
-              remind: '首页暂无展示'
-            });
-          }
-          wx.hideNavigationBarLoading();
-          wx.stopPullDownRefresh();
-        }
+        endRequest();
       }
     });
 
@@ -332,16 +326,7 @@ Page({
         } else { app.removeCache('jy'); }
       },
       complete: function () {
-        loadsum--; //减少正在请求连接
-        if (!loadsum) {
-          if (_this.data.remind) {
-            _this.setData({
-              remind: '首页暂无展示'
-            });
-          }
-          wx.hideNavigationBarLoading();
-          wx.stopPullDownRefresh();
-        }
+        endRequest();
       }
     });
   }

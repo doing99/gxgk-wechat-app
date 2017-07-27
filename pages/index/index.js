@@ -212,8 +212,6 @@ Page({
     var user = app.user;
     //判断并读取缓存
     if (app.cache.kb) { kbRender(app.cache.kb); }
-    if (app.cache.ykt) { yktRender(app.cache.ykt); }
-    if (app.cache.jy) { jyRender(app.cache.jy); }
     if (_this.data.offline) { return; }
     if (load_cache) { return; }
     wx.showNavigationBarLoading();
@@ -274,6 +272,7 @@ Page({
       });
     }
     if (app.user.is_bind_mealcard) {
+      if (app.cache.ykt) { yktRender(app.cache.ykt); }
       loadsum++; //新增正在请求连接
       //获取一卡通数据
       wx.request({
@@ -296,6 +295,8 @@ Page({
           endRequest();
         }
       });
+    } else {
+      app.removeCache('ykt');
     }
     //借阅信息渲染
     function jyRender(info) {
@@ -306,6 +307,7 @@ Page({
       });
     }
     if (app.user.is_bind_library) {
+      if (app.cache.jy) { jyRender(app.cache.jy); }
       loadsum++; //新增正在请求连接
       //获取借阅信息
       wx.request({
@@ -329,6 +331,8 @@ Page({
           endRequest();
         }
       });
+    } else {
+      app.removeCache('jy');
     }
   }
 });

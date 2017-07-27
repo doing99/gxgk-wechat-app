@@ -5,7 +5,7 @@ App({
   shareTicket: null, //分享获取相同信息所需ticket
   onLaunch: function (options) {
     var _this = this;
-    if (options.scene){
+    if (options.scene) {
       _this.scene = options.scene;
     }
     _this.shareTicket = options.shareTicket;
@@ -23,12 +23,16 @@ App({
           _this.cache = {};
           wx.clearStorage();
         } else {
-          _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
           _this.user.id = _this.cache.id;
           _this.processData(_this.cache.userdata);
+          if (_this.cache.userinfo) {
+            _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
+          }
         }
       }
-    } catch (e) { console.warn('获取缓存失败'); }
+    } catch (e) {
+      console.warn('获取缓存失败');
+    }
   },
   //保存缓存
   saveCache: function (key, value) {
@@ -108,73 +112,57 @@ App({
     wx.login({
       success: function (res) {
         if (res.code) {
-          //调用函数获取微信用户信息
-          _this.getUserInfo(function (info) {
-            _this.saveCache('userinfo', info);
-            _this.user.wxinfo = info.userInfo;
-            if (!info.encryptedData || !info.iv) {
-              _this.g_status = '无关联AppID';
-              typeof response == "function" && response(_this.g_status);
-              return;
-            }
-            //发送code与微信用户信息，获取学生数据
-            wx.request({
-              method: 'POST',
-              url: _this.server + '/api/users/get_info',
-              data: {
-                code: res.code,
-                key: info.encryptedData,
-                iv: info.iv,
-                rawData: info.rawData,
-                signature: info.signature
-              },
-              success: function (res) {
-                if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
-                  var status = false, data = res.data.msg;
-                  //判断缓存是否有更新
-                  if (_this.cache.version !== _this.version || _this.cache.userdata !== data) {
-                    _this.saveCache('version', _this.version);
-                    _this.saveCache('userdata', data);
-                    _this.processData(data);
-                    status = true;
-                  }
-                  // 未绑定，跳转到登录
-                  if (!_this.user.is_bind) {
-                    wx.navigateTo({
-                      url: '/pages/more/login'
-                    });
-                  }
-                  //如果缓存有更新，则执行回调函数
-                  if (status) {
-                    typeof response == "function" && response();
-                  }
-                } else {
-                  //清除缓存
-                  if (_this.cache) {
-                    _this.cache = {};
-                    wx.clearStorage();
-                  }
-                  typeof response == "function" && response(res.data.message || '加载失败');
+          wx.request({
+            method: 'POST',
+            url: _this.server + '/api/users/get_login',
+            data: {
+              code: res.code
+            },
+            success: function (res) {
+              if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
+                var status = false, data = res.data.msg;
+                //判断缓存是否有更新
+                if (_this.cache.version !== _this.version || _this.cache.userdata !== data) {
+                  _this.saveCache('version', _this.version);
+                  _this.saveCache('userdata', data);
+                  _this.processData(data);
+                  status = true;
                 }
-              },
-              fail: function (res) {
-                var status = '';
-                // 判断是否有缓存
-                console.warn(res);
-                if (_this.cache.version === _this.version) {
-                  status = '离线缓存模式';
-                } else {
-                  status = '网络错误';
+                // 未绑定，跳转到登录
+                if (!_this.user.is_bind) {
+                  wx.navigateTo({
+                    url: '/pages/more/login'
+                  });
                 }
-                _this.g_status = status;
-                typeof response == "function" && response(status);
-                console.warn(status);
-              },
-              complete: function () {
-                wx.hideNavigationBarLoading();
+                //如果缓存有更新，则执行回调函数
+                if (status) {
+                  typeof response == "function" && response();
+                }
+              } else {
+                //清除缓存
+                if (_this.cache) {
+                  _this.cache = {};
+                  wx.clearStorage();
+                }
+                typeof response == "function" && response(res.data.message || '加载失败');
               }
-
-            });
+            },
+            fail: function (res) {
+              var status = '';
+              // 判断是否有缓存
+              console.warn(res);
+              if (_this.cache.version === _this.version) {
+                status = '离线缓存模式';
+              } else {
+                status = '网络错误';
+              }
+              _this.g_status = status;
+              typeof response == "function" && response(status);
+              console.warn(status);
+            },
+            complete: function () {
+              wx.hideNavigationBarLoading();
+            }
           });
         }
         else {
@@ -188,7 +176,15 @@ App({
     //获取微信用户信息
     wx.getUserInfo({
       success: function (res) {
-        typeof cb == "function" && cb(res);
+        var info = res;
+        _this.saveCache('userinfo', info);
+        _this.user.wxinfo = info.userInfo;
+        if (!info.encryptedData || !info.iv) {
+          _this.g_status = '无关联AppID';
+          typeof response == "function" && response(_this.g_status);
+          return;
+        }
+        typeof cb == "function" && cb();
       },
       fail: function (res) {
         if (wx.openSetting) {
@@ -205,7 +201,7 @@ App({
                       //回调重新授权
                       _this.getUserInfo(cb)
                     } else {
-                      _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+                      _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
                     }
                   }
                 })
@@ -215,7 +211,7 @@ App({
             }
           });
         } else {
-          _this.showErrorModal('已拒绝授权，小程序无法正常运行', '授权失败');
+          _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
         }
         _this.g_status = '未授权';
       }

@@ -6,7 +6,10 @@ Page({
     user: {}
   },
   onShow: function () {
-    this.getData();
+    var _this = this;
+    app.getUserInfo(function () {
+      _this.getData();
+    });
   },
   getData: function () {
     var _this = this;

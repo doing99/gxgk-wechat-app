@@ -273,29 +273,30 @@ Page({
         'remind': ''
       });
     }
-    loadsum++; //新增正在请求连接
-    //获取一卡通数据
-    wx.request({
-      url: app.server + '/api/users/get_mealcard',
-      method: 'POST',
-      data: {
-        session_id: app.user.id
-      },
-      success: function (res) {
-        if (res.data && res.data.status === 200) {
-          var list = res.data.data;
-          if (list) {
-            //保存一卡通缓存
-            app.saveCache('ykt', list);
-            yktRender(list);
-          }
-        } else { app.removeCache('ykt'); }
-      },
-      complete: function () {
-        endRequest();
-      }
-    });
-
+    if (app.user.is_bind_mealcard) {
+      loadsum++; //新增正在请求连接
+      //获取一卡通数据
+      wx.request({
+        url: app.server + '/api/users/get_mealcard',
+        method: 'POST',
+        data: {
+          session_id: app.user.id
+        },
+        success: function (res) {
+          if (res.data && res.data.status === 200) {
+            var list = res.data.data;
+            if (list) {
+              //保存一卡通缓存
+              app.saveCache('ykt', list);
+              yktRender(list);
+            }
+          } else { app.removeCache('ykt'); }
+        },
+        complete: function () {
+          endRequest();
+        }
+      });
+    }
     //借阅信息渲染
     function jyRender(info) {
       _this.setData({
@@ -304,28 +305,30 @@ Page({
         'remind': ''
       });
     }
-    loadsum++; //新增正在请求连接
-    //获取借阅信息
-    wx.request({
-      url: app.server + "/api/users/get_user_library",
-      method: 'POST',
-      data: {
-        session_id: app.user.id,
-        renew: false
-      },
-      success: function (res) {
-        if (res.data && res.data.status === 200) {
-          var info = res.data.data;
-          if (info) {
-            //保存借阅缓存
-            app.saveCache('jy', info);
-            jyRender(info);
-          }
-        } else { app.removeCache('jy'); }
-      },
-      complete: function () {
-        endRequest();
-      }
-    });
+    if (app.user.is_bind_library) {
+      loadsum++; //新增正在请求连接
+      //获取借阅信息
+      wx.request({
+        url: app.server + "/api/users/get_user_library",
+        method: 'POST',
+        data: {
+          session_id: app.user.id,
+          renew: false
+        },
+        success: function (res) {
+          if (res.data && res.data.status === 200) {
+            var info = res.data.data;
+            if (info) {
+              //保存借阅缓存
+              app.saveCache('jy', info);
+              jyRender(info);
+            }
+          } else { app.removeCache('jy'); }
+        },
+        complete: function () {
+          endRequest();
+        }
+      });
+    }
   }
 });

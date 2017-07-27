@@ -182,12 +182,10 @@ Page({
         'remind': '未绑定'
       });
     } else {
-      _this.setData({
-        'remind': '加载中'
-      });
       //清空数据
       _this.setData({
         user: app._user,
+        'remind': '加载中',
         'card.kb.show': false,
         'card.ykt.show': false,
         'card.jy.show': false

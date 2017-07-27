@@ -184,7 +184,27 @@ App({
           typeof response == "function" && response(_this.g_status);
           return;
         }
-        typeof cb == "function" && cb();
+        wx.request({
+          method: 'POST',
+          url: _this.server + '/api/users/get_info',
+          data: {
+            session_id: _this.user.id,
+            key: info.encryptedData,
+            iv: info.iv,
+            rawData: info.rawData,
+            signature: info.signature
+          },
+          success: function (res) {
+            if (res.data && res.data.status === 200) {
+            }
+          },
+          fail: function (res) {
+          },
+          complete: function () {
+            typeof cb == "function" && cb();
+          }
+        });
+        
       },
       fail: function (res) {
         if (wx.openSetting) {

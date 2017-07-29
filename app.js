@@ -173,69 +173,73 @@ App({
   },
   getUserInfo: function (cb) {
     var _this = this;
-    //获取微信用户信息
-    wx.getUserInfo({
-      success: function (res) {
-        var info = res;
-        _this.saveCache('userinfo', info);
-        _this.user.wxinfo = info.userInfo;
-        if (!info.encryptedData || !info.iv) {
-          _this.g_status = '无关联AppID';
-          typeof response == "function" && response(_this.g_status);
-          return;
-        }
-        wx.request({
-          method: 'POST',
-          url: _this.server + '/api/users/get_userinfo',
-          data: {
-            session_id: _this.user.id,
-            key: info.encryptedData,
-            iv: info.iv,
-            rawData: info.rawData,
-            signature: info.signature
-          },
-          success: function (res) {
-            if (res.data && res.data.status === 200) {
-            }
-          },
-          fail: function (res) {
-          },
-          complete: function () {
-            typeof cb == "function" && cb();
+    if (!_this.user.wxinfo) {
+      //获取微信用户信息
+      wx.getUserInfo({
+        success: function (res) {
+          var info = res;
+          _this.saveCache('userinfo', info);
+          _this.user.wxinfo = info.userInfo;
+          if (!info.encryptedData || !info.iv) {
+            _this.g_status = '无关联AppID';
+            typeof response == "function" && response(_this.g_status);
+            return;
           }
-        });
-        
-      },
-      fail: function (res) {
-        if (wx.openSetting) {
-          wx.showModal({
-            title: '授权失败',
-            content: '已拒绝授权，小程序无法正常运行，是否打开设置允许授权',
-            confirmColor: "#1f7bff",
-            showCancel: true,
+          wx.request({
+            method: 'POST',
+            url: _this.server + '/api/users/get_userinfo',
+            data: {
+              session_id: _this.user.id,
+              key: info.encryptedData,
+              iv: info.iv,
+              rawData: info.rawData,
+              signature: info.signature
+            },
             success: function (res) {
-              if (res.confirm) {
-                wx.openSetting({
-                  success: function (res) {
-                    if (res.authSetting['scope.userInfo']) {
-                      //回调重新授权
-                      _this.getUserInfo(cb)
-                    } else {
-                      _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
-                    }
-                  }
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
+              if (res.data && res.data.status === 200) {
               }
+            },
+            fail: function (res) {
+            },
+            complete: function () {
+              typeof cb == "function" && cb();
             }
           });
-        } else {
-          _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
+
+        },
+        fail: function (res) {
+          if (wx.openSetting) {
+            wx.showModal({
+              title: '授权失败',
+              content: '已拒绝授权，小程序无法正常运行，是否打开设置允许授权',
+              confirmColor: "#1f7bff",
+              showCancel: true,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.openSetting({
+                    success: function (res) {
+                      if (res.authSetting['scope.userInfo']) {
+                        //回调重新授权
+                        _this.getUserInfo(cb)
+                      } else {
+                        _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
+                      }
+                    }
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            });
+          } else {
+            _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
+          }
+          _this.g_status = '未授权';
         }
-        _this.g_status = '未授权';
-      }
-    });
+      });
+    } else{
+      typeof cb == "function" && cb();
+    }
   },
   processData: function (msg) {
     var _this = this;
@@ -262,6 +266,7 @@ App({
         _this.user.student.specialty = msg.student.specialty;
       }
     }
+    _this.user.wxinfo = msg.userinfo;
     _this._t = msg.session_id;
     _this.saveCache('userid', _this.user.id);
   },

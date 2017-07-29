@@ -2,40 +2,40 @@
 <!--more.wxml-->
 <view class="container">
   <view class="top-bgcolor"> </view>
-  <block wx:if="{{is_bind}}">
+  <block wx:if="{{user.is_bind}}">
     <view class="user-info-box">
-      <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
-      <view wx:if="{{!is_teacher || !teacher.realname}}">
-        <text class="user-name">{{student.name}}</text>
+      <image class="user-image" src="{{user.wxinfo.avatarUrl}}"></image>
+      <view wx:if="{{!user.is_teacher || !user.teacher.realname}}">
+        <text class="user-name">{{user.student.name}}</text>
         <view class="user-infos">
           <view class="info1">
             <view class="xuehao">学号</view>
-            <view>{{student.id}}</view>
+            <view>{{user.student.id}}</view>
           </view>
           <view class="info2">
             <view class="xibie">系别</view>
-            <view>{{student.dept}}</view>
+            <view>{{user.student.dept}}</view>
           </view>
           <view class="info3">
             <view class="banji">班级</view>
-            <view>{{student.class}}</view>
+            <view>{{user.student.class}}</view>
           </view>
         </view>
       </view>
       <view wx:else>
-        <text class="user-name">{{teacher.realname}}</text>
+        <text class="user-name">{{user..teacher.realname}}</text>
         <view class="user-infos">
           <view class="info1">
             <view class="xuehao">职工号</view>
-            <view>{{teacher.teacherid}}</view>
+            <view>{{user.teacher.teacherid}}</view>
           </view>
           <view class="info2">
             <view class="xibie">部门</view>
-            <view>{{teacher.dept}}</view>
+            <view>{{user.teacher.dept}}</view>
           </view>
           <view class="info3">
             <view class="banji">职务</view>
-            <view>{{teacher.duties}}</view>
+            <view>{{user.teacher.duties}}</view>
           </view>
         </view>
       </view>
@@ -51,7 +51,7 @@
       </navigator>
       -->
       <navigator url="append?type=mealcard">
-        <view class="more-info-btn" wx:if="{{!is_bind_mealcard}}">
+        <view class="more-info-btn" wx:if="{{!user.is_bind_mealcard}}">
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">绑定校园卡</text>
         </view>
@@ -61,7 +61,7 @@
         </view>
       </navigator>
       <navigator url="append?type=library">
-        <view class="more-info-btn" wx:if="{{!is_bind_library}}">
+        <view class="more-info-btn" wx:if="{{!user.is_bind_library}}">
           <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
           <text class="btn-text">绑定图书证</text>
         </view>
@@ -90,8 +90,8 @@
     <view class="user-info-box">
       <navigator url="login">
         <view>
-          <image class="user-image" src="{{wxinfo.avatarUrl}}"></image>
-          <text class="user-name">{{wxinfo.nickName}}</text>
+          <image class="user-image" src="{{user.wxinfo.avatarUrl}}"></image>
+          <text class="user-name">{{user.wxinfo.nickName}}</text>
           <view class="user-infos">
             <view class="info2">
               <view class="xibie">请先绑定教务系统 | 前往绑定
@@ -118,7 +118,7 @@
     </view>
   </block>
   <navigator url="login" class="login-btn">
-    <text wx:if="{{is_bind}}">切换绑定</text>
+    <text wx:if="{{user.is_bind}}">切换绑定</text>
     <text wx:else>立即绑定</text>
   </navigator>
 </view>

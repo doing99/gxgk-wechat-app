@@ -29,9 +29,9 @@ Page({
   getData: function (renew = false) {
     var _this = this;
     if (!app.user.id || !app.user.is_bind_library) {
-      _this.setData({
-        remind: '未绑定'
-      });
+      wx.redirectTo({
+        url: '/pages/more/append?type=library'
+      })
       return false;
     }
     //判断并读取缓存

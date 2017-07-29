@@ -44,7 +44,9 @@ Page({
       })
     }
     app.loginLoad(function () {
-      _this.loginHandler.call(_this, options);
+      app.getUserInfo(function () {
+        _this.loginHandler.call(_this, options);
+      });
     }, options.id);
   },
   loginHandler: function (options) {

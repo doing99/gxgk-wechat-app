@@ -186,7 +186,7 @@ App({
         }
         wx.request({
           method: 'POST',
-          url: _this.server + '/api/users/get_info',
+          url: _this.server + '/api/users/get_userinfo',
           data: {
             session_id: _this.user.id,
             key: info.encryptedData,

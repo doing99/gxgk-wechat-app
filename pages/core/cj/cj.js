@@ -14,7 +14,9 @@ Page({
     xqName: {
       grade: '',
       semester: ''
-    }
+    },
+    // 轮询次数
+    polling: 20
   },
   //分享
   onShareAppMessage: function () {
@@ -38,7 +40,7 @@ Page({
   },
   onLoad: function (options) {
     var _this = this;
-    if (wx.showShareMenu){
+    if (wx.showShareMenu) {
       wx.showShareMenu({
         withShareTicket: true
       })
@@ -62,17 +64,21 @@ Page({
       name: options.name ? options.name : app.user.student.name
     });
     //判断并读取缓存
-    if (app.cache.cj && !options.id) { cjRender(app.cache.cj); }
-    function cjRender(data) {
-      _this.setData({
-        rank: data.rank,
-        cjInfo: data.data,
-        xqName: data.year + '学年第' + data.term + '学期',
-        update_time: data.update_time,
-        remind: ''
-      });
-    }
+    if (app.cache.cj && !options.id) { _this.cjRender(app.cache.cj); }
     wx.showNavigationBarLoading();
+    _this.getData(options);
+  },
+  cjRender: function (data) {
+    this.setData({
+      rank: data.rank,
+      cjInfo: data.data,
+      xqName: data.year + '学年第' + data.term + '学期',
+      update_time: data.update_time,
+      remind: ''
+    });
+  },
+  getData: function (options) {
+    var _this = this;
     wx.request({
       url: app.server + "/api/users/get_score",
       method: 'POST',
@@ -82,13 +88,17 @@ Page({
       },
       success: function (res) {
         if (res.data && res.data.status === 200) {
+          // 停止异步轮询
+          _this.data.polling = 0;
           var _data = res.data;
           if (_data) {
             //保存成绩缓存
             app.saveCache('cj', _data);
-            cjRender(_data);
+            _this.cjRender(_data);
           } else { _this.setData({ remind: '暂无数据' }); }
 
+        } else if (res.data && res.data.status === 404) {
+          // 异步等待中
         } else {
           app.removeCache('cj');
           _this.setData({
@@ -106,6 +116,13 @@ Page({
       },
       complete: function () {
         wx.hideNavigationBarLoading();
+        // 回调轮询
+        setTimeout(function () {
+          if (_this.data.polling > 0) {
+            _this.data.polling = _this.data.polling - 1;
+            _this.getData(options);
+          }
+        }, 2000);
       }
     });
   }

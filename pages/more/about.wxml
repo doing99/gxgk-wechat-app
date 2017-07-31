@@ -28,6 +28,19 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v1.0.2 正式版</text>
+          <text class="desc-time">2017.07.31</text>
+        </view>
+        <text class="desc-content">功能优化</text>
+        <view class="desc-list">
+          <text class="desc-list-item">优化首页和用户信息加载</text>
+          <text class="desc-list-item">提示未绑定改为自动跳转到绑定页面</text>
+          <text class="desc-list-item">修改校园卡、借阅信息与成绩查询获取信息方式</text>
+          <text class="desc-list-item">优化头条新闻加载速度</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v1.0.1 正式版</text>
           <text class="desc-time">2017.05.31</text>
         </view>

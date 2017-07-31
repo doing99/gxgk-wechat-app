@@ -11,7 +11,8 @@ Page({
       dbet: 0,        //欠费
       nothing: true   //当前是否有借阅
     },
-    yjxjTap: false //点击一键续借
+    yjxjTap: false,   //点击一键续借
+    polling: 20       // 轮询次数
   },
   onLoad: function (options) {
     var _this = this;
@@ -21,12 +22,12 @@ Page({
   },
   //让分享时自动登录
   loginHandler: function (options) {
-    this.getData();
+    this.loadData();
   },
   onPullDownRefresh: function () {
-    this.getData();
+    this.loadData();
   },
-  getData: function (renew = false) {
+  loadData: function () {
     var _this = this;
     if (!app.user.id || !app.user.is_bind_library) {
       wx.redirectTo({
@@ -35,14 +36,18 @@ Page({
       return false;
     }
     //判断并读取缓存
-    if (app.cache.jy) { jyRender(app.cache.jy); }
-    function jyRender(info) {
-      _this.setData({
-        jyData: info,
-        remind: ''
-      });
-    }
+    if (app.cache.jy) { _this.jyRender(app.cache.jy); }
     wx.showNavigationBarLoading();
+    _this.getData();
+  },
+  jyRender: function (info) {
+    this.setData({
+      jyData: info,
+      remind: ''
+    });
+  },
+  getData: function (renew = false) {
+    var _this = this;
     wx.request({
       url: app.server + "/api/users/get_user_library",
       method: 'POST',
@@ -52,6 +57,8 @@ Page({
       },
       success: function (res) {
         if (res.data && res.data.status === 200) {
+          // 停止异步轮询
+          _this.data.polling = 0;
           var info = res.data.data;
           if (info) {
             if (renew) {
@@ -66,11 +73,14 @@ Page({
               if (info.book.length) {
                 //保存借阅缓存
                 app.saveCache('jy', info);
-                jyRender(info);
+                _this.jyRender(info);
               } else { _this.setData({ remind: '暂无在借图书' }); }
             }
           }
+
           else { _this.setData({ remind: '暂无数据' }); }
+        } else if (res.data && res.data.status === 404) {
+          // 异步等待中
         } else {
           app.removeCache('jy');
           _this.setData({
@@ -88,6 +98,12 @@ Page({
       },
       complete: function () {
         wx.hideNavigationBarLoading();
+        setTimeout(function () {
+          if (_this.data.polling > 0) {
+            _this.data.polling = _this.data.polling - 1;
+            _this.getData();
+          }
+        }, 2000);
       }
     });
   },

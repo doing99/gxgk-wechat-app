@@ -118,7 +118,10 @@ Page({
         wx.hideNavigationBarLoading();
         // 回调轮询
         setTimeout(function () {
-          if (_this.data.polling > 0) {
+          if (_this.data.polling == 1) {
+            //轮询失败
+            _this.setData({ remind: '服务器繁忙，请稍后再试' });
+          } else if (_this.data.polling > 0) {
             _this.data.polling = _this.data.polling - 1;
             _this.getData(options);
           }

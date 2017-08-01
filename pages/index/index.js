@@ -277,7 +277,8 @@ Page({
         url: app.server + '/api/users/get_mealcard',
         method: 'POST',
         data: {
-          session_id: app.user.id
+          session_id: app.user.id,
+          index: true
         },
         success: function (res) {
           if (res.data && res.data.status === 200) {
@@ -313,7 +314,8 @@ Page({
         method: 'POST',
         data: {
           session_id: app.user.id,
-          renew: false
+          renew: false,
+          index: true
         },
         success: function (res) {
           if (res.data && res.data.status === 200) {

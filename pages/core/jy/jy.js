@@ -12,7 +12,7 @@ Page({
       nothing: true   //当前是否有借阅
     },
     yjxjTap: false,   //点击一键续借
-    polling: 20       // 轮询次数
+    polling: 10       // 轮询次数
   },
   onLoad: function (options) {
     var _this = this;
@@ -99,7 +99,10 @@ Page({
       complete: function () {
         wx.hideNavigationBarLoading();
         setTimeout(function () {
-          if (_this.data.polling > 0) {
+          if (_this.data.polling == 1) {
+            //轮询失败
+            _this.setData({ remind: '服务器繁忙，请稍后再试' });
+          } else if (_this.data.polling > 0) {
             _this.data.polling = _this.data.polling - 1;
             _this.getData();
           }

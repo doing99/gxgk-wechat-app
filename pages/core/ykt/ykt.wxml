@@ -53,10 +53,6 @@
           <text class="detail-item-label">餐费比重</text>
           <text class="detail-item-value">{{ykt_info.meal_xffare_per * 100}}%</text>
         </view>
-        <view class="detail-item">
-          <text class="detail-item-label">最后消费</text>
-          <text class="detail-item-value">{{ykt_info.lastFareDate}}</text>
-        </view>
       </view>
     </view>
   </block>

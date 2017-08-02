@@ -7,7 +7,7 @@ Page({
   },
   onShow: function () {
     var _this = this;
-    app.getUserInfo(function () {
+    app.getUserInfo(function (res) {
       _this.getData();
     });
   },

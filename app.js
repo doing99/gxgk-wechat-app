@@ -119,8 +119,8 @@ App({
               code: res.code
             },
             success: function (res) {
-              if (res.data.msg != 'error' && res.statusCode >= 200 && res.statusCode < 400) {
-                var status = false, data = res.data.msg;
+              if (res.data && res.data.status === 200) {
+                var status = false, data = res.data.data;
                 //判断缓存是否有更新
                 if (_this.cache.version !== _this.version || _this.cache.userdata !== data) {
                   _this.saveCache('version', _this.version);
@@ -144,7 +144,20 @@ App({
                   _this.cache = {};
                   wx.clearStorage();
                 }
-                typeof response == "function" && response(res.data.message || '加载失败');
+                _this.user.wxinfo = null;
+                if (res.data && res.data.status === 401) {
+                  _this.user.id = res.data.data.session_id;
+                  _this.getUserInfo(function(res) {
+                    if (res){
+                      _this.getUser(response);
+                      typeof response == "function" && response();
+                    } else{
+                      typeof response == "function" && response(res.data.message || '加载失败');
+                    }
+                  })
+                } else {
+                  typeof response == "function" && response(res.data.message || '加载失败');
+                }
               }
             },
             fail: function (res) {
@@ -197,12 +210,13 @@ App({
             },
             success: function (res) {
               if (res.data && res.data.status === 200) {
+                typeof cb == "function" && cb(1);
               }
             },
             fail: function (res) {
+              typeof cb == "function" && cb(0);
             },
             complete: function () {
-              typeof cb == "function" && cb();
             }
           });
 

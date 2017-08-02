@@ -100,6 +100,8 @@ Page({
         } else if (res.data && res.data.status === 404) {
           // 异步等待中
         } else {
+          // 停止异步轮询
+          _this.data.polling = 0;
           app.removeCache('cj');
           _this.setData({
             remind: res.data.message || '未知错误'

@@ -51,7 +51,7 @@ Page({
     if(app.g_status){ return; }
     wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + '/api/get_feedback',
+      url: app.server + '/api/feedback/get_feedback',
       method: 'POST',
       data: {session_id: app.user.id}
       ,
@@ -281,7 +281,7 @@ Page({
           }
           app.showLoadToast();
           wx.request({
-            url: app.server + '/api/feedback',
+            url: app.server + '/api/feedback/post',
             data: {
               session_id: app.user.id,
               title: title,

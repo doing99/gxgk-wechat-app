@@ -213,7 +213,7 @@ Page({
     });
     app.showLoadToast();
     wx.request({
-      url: app.server + '/api/search_book',
+      url: app.server + '/api/library/search_book',
       method: 'POST',
       data: {
         session_id: app.user.id,

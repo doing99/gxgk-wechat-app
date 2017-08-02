@@ -59,7 +59,7 @@ module.exports.ipage = {
     });
     options.session_id = app.user.id;
     wx.request({
-      url: app.server + '/api/get_news_detail',
+      url: app.server + '/api/msg/get_news_detail',
       data: options,
       success: function (res) {
         if (res.data.data && res.statusCode == 200) {

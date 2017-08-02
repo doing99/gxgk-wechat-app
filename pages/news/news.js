@@ -93,7 +93,7 @@ Page({
     });
     wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + '/api/get_news_list',
+      url: app.server + '/api/msg/get_news_list',
       data: {
         session_id: app.user.id,
         news_type: _this.data.list[typeId].type,

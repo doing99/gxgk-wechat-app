@@ -39,7 +39,7 @@ Page({
     }
     wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + "/api/get_book_detail",
+      url: app.server + "/api/library/get_book_detail",
       method: 'POST',
       data: {
         session_id: app.user.id,

@@ -4,7 +4,7 @@ var app = getApp();
 Page({
   data: {
     remind: '加载中',
-    _days: ['一', '二', '三', '四', '五'],
+    _days: ['一', '二', '三', '四', '五', '六', '日'],
     _weeks: ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周', '十一周', '十二周', '十三周', '十四周', '十五周', '十六周', '十七周', '十八周', '十九周', '二十周'],
     _time: [ //课程时间与指针位置的映射，{begin:课程开始,end:结束时间,top:指针距开始top格数}
       { begin: '0:00', end: '8:29', beginTop: -4, endTop: -4 },
@@ -51,6 +51,12 @@ Page({
   },
   onLoad: function (options) {
     var _this = this;
+    //查询其他人课表时显示
+    if (options.name) {
+      wx.setNavigationBarTitle({
+        title: options.name + '的课表'
+      });
+    }
     app.loginLoad(function () {
       _this.loginHandler.call(_this, options);
     }, options.id);
@@ -98,15 +104,6 @@ Page({
     _this.setData({
       'scroll.left': (nowWeek === 6 || nowWeek === 0) ? 102 : 0
     });
-  },
-  onReady: function () {
-    var _this = this;
-    //查询其他人课表时显示
-    if (_this.data.name) {
-      wx.setNavigationBarTitle({
-        title: _this.data.name + '的课表'
-      });
-    }
   },
   scrollXHandle: function (e) {
     this.setData({

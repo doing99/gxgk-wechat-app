@@ -36,6 +36,8 @@
           <text class="desc-list-item">修复教师个人页面姓名显示</text>
           <text class="desc-list-item">修复课表周末的时候时间不准</text>
           <text class="desc-list-item">修复学生查询不显示学生姓名</text>
+          <text class="desc-list-item">修复绑定无法如果为身份证无法输入X</text>
+          <text class="desc-list-item">修复反馈提交昵称显示不正确</text>
         </view>
       </view>
       <view class="describe">

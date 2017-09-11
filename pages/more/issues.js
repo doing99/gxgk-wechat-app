@@ -30,7 +30,7 @@ Page({
         wx.getSystemInfo({
           success: function (res) {
             var info = '---\r\n**用户信息**\r\n';
-            info += '用户名：' + app.user.wxinfo.nickName;
+            info += '用户名：' + app.user.wxinfo.nickname;
             if (app.user.is_bind) {
               info += '（' + app.user.student.name + '-' + app.user.student.id + '）';
             }
@@ -271,7 +271,7 @@ Page({
       content: '是否确认提交反馈？',
       success: function(res) {
         if (res.confirm) {
-          title = '【' + app.user.wxinfo.nickName + '】' + _this.data.title;
+          title = '【' + app.user.wxinfo.nickname + '】' + _this.data.title;
           content = _this.data.content + '\r\n\r\n' + _this.data.info;
           if(_this.data.imgLen){
             _this.data.imgs.forEach(function(e){

@@ -23,7 +23,7 @@
         </view>
       </view>
       <view wx:else>
-        <text class="user-name">{{user..teacher.realname}}</text>
+        <text class="user-name">{{user.teacher.realname}}</text>
         <view class="user-infos">
           <view class="info1">
             <view class="xuehao">职工号</view>

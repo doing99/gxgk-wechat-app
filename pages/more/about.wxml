@@ -28,6 +28,18 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v1.0.3 正式版</text>
+          <text class="desc-time">2017.09.11</text>
+        </view>
+        <text class="desc-content">修复bug</text>
+        <view class="desc-list">
+          <text class="desc-list-item">修复教师个人页面姓名显示</text>
+          <text class="desc-list-item">修复课表周末的时候时间不准</text>
+          <text class="desc-list-item">修复学生查询不显示学生姓名</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v1.0.2 正式版</text>
           <text class="desc-time">2017.07.31</text>
         </view>

@@ -100,7 +100,7 @@ module.exports.ipage = {
         }
       },
       fail: function () {
-        app.showErrorModal(res.errMsg);
+        app.showErrorModal('网络错误');
         _this.setData({
           remind: '网络错误'
         });

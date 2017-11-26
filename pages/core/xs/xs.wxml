@@ -38,7 +38,7 @@
     </view>
 
     <!--主体部分内容列表-->
-    <view class="main-list" wx:for="{{testData}}" wx:key="xh">
+    <view class="main-list" wx:for="{{testData}}" wx:key="headImg">
 
       <!--列表的一个元素的模板结构-->
       <view class="list-item">

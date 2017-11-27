@@ -26,7 +26,7 @@
 .detail {
   font-size: 11pt;
   line-height: 150%;
-  padding: 30rpx 15rpx 200rpx;
+  margin: 30rpx 15rpx 200rpx;
   word-break: break-all;
   text-align: justify;
 }

@@ -15,10 +15,10 @@
       <view class="bd">
         <form class="login-form">
           <view class="input-group">
-            <picker style="padding: 0 0rpx;" bindchange="schoolPickerChange" value="{{index}}" range="{{school}}">
+            <picker style="padding: 0 0rpx;" bindchange="schoolPickerChange" value="{{index}}" range-key="name" range="{{schools_list}}">
               <view class="picker">
                 <text class="input-label">学校</text>
-                <text style="padding: 0 25rpx;">{{school[index]}}</text>
+                <text style="padding: 0 25rpx;">{{schools_list[index].name}}</text>
               </view>
             </picker>
           </view>

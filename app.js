@@ -114,8 +114,9 @@ App({
         if (res.code) {
           wx.request({
             method: 'POST',
-            url: _this.server + '/api/users/get_login',
+            url: _this.server + '/../get_login',
             data: {
+              name: 'gxxm',
               code: res.code
             },
             success: function (res) {
@@ -258,9 +259,10 @@ App({
   processData: function (msg) {
     var _this = this;
     _this.user.id = msg.session_id;
-    _this.user.school.weeknum = msg.school.weeknum;
-    _this.user.school.weekday = msg.school.weekday;
-    _this.user.school.term = msg.school.term;
+    // _this.user.school.weeknum = msg.school.weeks;
+    // _this.user.school.weekday = msg.school.week_day;
+    // _this.user.school.term = msg.school.term_text;
+    _this.user.school = msg.school 
     _this.user.is_bind = msg.is_bind;
     _this.user.is_bind_mealcard = msg.is_bind_mealcard;
     _this.user.is_bind_library = msg.is_bind_library;
@@ -272,11 +274,11 @@ App({
         _this.user.teacher = msg.teacher;
       }
       else {
-        _this.user.student.name = msg.student.realname;
-        _this.user.student.class = msg.student.classname;
-        _this.user.student.id = msg.student.studentid;
-        _this.user.student.grade = msg.student.studentid.substr(0, 4);
-        _this.user.student.dept = msg.student.dept;
+        _this.user.student.name = msg.student.real_name;
+        _this.user.student.class = msg.student.class_name;
+        _this.user.student.id = msg.student.account;
+        _this.user.student.grade = msg.student.grade;
+        _this.user.student.dept = msg.student.faculty;
         _this.user.student.specialty = msg.student.specialty;
       }
     }

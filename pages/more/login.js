@@ -3,12 +3,12 @@
 var app = getApp();
 Page({
   data: {
-    school: ['广东科技学院'],
+    schools_list: [{ 'school_id': 1, 'code': 'gdst', 'name': '广东科技学院' }],
     index: 0,
     usertype: [
-      { name: '1', value: '学生', checked: 'true' },
-      { name: '2', value: '教师' },
-      { name: '3', value: '部门' },
+      { name: '0', value: '学生', checked: 'true' },
+      { name: '1', value: '教师' },
+      { name: '2', value: '部门' },
     ],
     remind: '加载中',
     help_status: false,
@@ -16,7 +16,7 @@ Page({
     passwd_focus: false,
     userid: '',
     passwd: '',
-    utype: 1,
+    utype: 0,
     angle: 0
   },
   onReady: function () {
@@ -59,14 +59,14 @@ Page({
     };
     wx.request({
       method: 'POST',
-      url: app.server + '/api/school-list',
+      url: app.server + '/school/school_list',
       data: {
         session_id: app.user.id,
       },
       success: function (res) {
         if (res.data && res.data.status === 200) {
           _this.setData({
-            school: res.data.data.school
+            schools_list: res.data.data
           })
         }
       }
@@ -93,17 +93,18 @@ Page({
     })
     wx.request({
       method: 'POST',
-      url: app.server + '/api/users/bind',
+      url: app.server + '/school/bind_school',
       data: {
         session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
         bind_type: 'login',
-        school: _this.data.school[_this.data.index],
+        school_id: _this.data.schools_list[_this.data.index].school_id,
+        school_code: _this.data.schools_list[_this.data.index].code,
         form_utype: _this.data.utype
       },
       success: function (res) {
-        if (res.data && res.data.status === 200) {
+        if (res.data && res.data.state === 200) {
           app.showLoadToast('请稍候');
           //清除缓存
           if (app.cache) {
@@ -150,7 +151,7 @@ Page({
           });
         } else {
           wx.hideToast();
-          app.showErrorModal(res.data.message, '绑定失败');
+          app.showErrorModal(res.data.msg, '绑定失败');
         }
       },
       fail: function (res) {
@@ -163,8 +164,9 @@ Page({
     });
   },
   schoolPickerChange: function (e) {
+    console.log(this.data.schools_list[e.detail.value].id)
     this.setData({
-      index: e.detail.value
+      index: e.detail.value,
     })
   },
   radioChange: function (e) {

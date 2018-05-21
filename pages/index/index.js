@@ -19,13 +19,6 @@ Page({
     card: {
       'kb': {
         show: false,
-        time_list: [
-          { begin: '8:30', end: '10:05' },
-          { begin: '10:25', end: '12:00' },
-          { begin: '14:40', end: '16:15' },
-          { begin: '16:30', end: '18:05' },
-          { begin: '19:30', end: '21:05' },
-        ],
         data: {}
       },
       'ykt': {
@@ -235,22 +228,22 @@ Page({
         'remind': ''
       });
     }
+    console.log(app.user.school)
     loadsum++; //新增正在请求连接
     wx.request({
-      url: app.server + '/api/users/get_schedule',
+      url: app.server + '/get_schedule',
       method: 'POST',
       data: {
-        is_teacher: app.user.is_teacher,
         session_id: app.user.id,
-        week: app.user.school.weeknum,
-        weekday: app.user.school.weekday
+        weeks: app.user.school.weeks,
+        week_day: app.user.school.week_day
       },
       success: function (res) {
-        if (res.data && res.data.status === 200) {
+        if (res.data && res.data.state === 200) {
           var info = res.data.data;
           if (info) {
             //保存课表缓存
-            app.saveCache('kb', info);
+            // app.saveCache('kb', info);
             kbRender(info);
           }
         } else { app.removeCache('kb'); }

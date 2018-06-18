@@ -22,12 +22,6 @@ App({
         if (_this.cache.version !== _this.version) {
           _this.cache = {};
           wx.clearStorage();
-        } else {
-          _this.user.id = _this.cache.id;
-          _this.processData(_this.cache.userdata);
-          if (_this.cache.userinfo) {
-            _this.user.wxinfo = _this.cache.userinfo.userInfo || {};
-          }
         }
       }
     } catch (e) {
@@ -60,49 +54,13 @@ App({
   //判断是否有登录信息，让分享时自动登录
   loginLoad: function (onLoad, share = false) {
     var _this = this;
-    if (!_this._t) {  //无登录信息
+    if (!_this.user.id) {  //无登录信息
       _this.getUser(function (e) {
         typeof onLoad == "function" && onLoad(e);
       });
     } else {
       //有登录信息,检查微信session是否过期
-      wx.checkSession({
-        success: function () {
-          //session 未过期，并且在本生命周期一直有效
-          if (share || _this.scene != 1001) {
-            wx.request({
-              url: _this.server + '/api/users/check_login',
-              method: 'POST',
-              data: {
-                session_id: _this.user.id
-              },
-              success: function (res) {
-                if (res.data && res.data.status === 200) {
-                  typeof onLoad == "function" && onLoad();
-                }
-                else {
-                  _this.getUser(function (e) {
-                    typeof onLoad == "function" && onLoad(e);
-                  });
-                }
-              },
-              fail: function (res) {
-                _this.getUser(function (e) {
-                  typeof onLoad == "function" && onLoad(e);
-                });
-              }
-            });
-          } else {
-            typeof onLoad == "function" && onLoad();
-          }
-        },
-        fail: function () {
-          //登录态过期
-          _this.getUser(function (e) {
-            typeof onLoad == "function" && onLoad(e);
-          });
-        }
-      })
+      typeof onLoad == "function" && onLoad();
     }
   },
   //getUser函数，在index中调用
@@ -114,30 +72,28 @@ App({
         if (res.code) {
           wx.request({
             method: 'POST',
-            url: _this.server + '/api/users/get_login',
+            url: _this.server + '/login',
             data: {
               code: res.code
             },
             success: function (res) {
               if (res.data && res.data.status === 200) {
-                var status = false, data = res.data.data;
-                //判断缓存是否有更新
-                if (_this.cache.version !== _this.version || _this.cache.userdata !== data) {
-                  _this.saveCache('version', _this.version);
-                  _this.saveCache('userdata', data);
-                  _this.processData(data);
-                  status = true;
-                }
+                var data = res.data.data;
+                _this.user.id = data.session_id;
+                _this.user.wxinfo = data.userinfo;
+                _this.banner_show = data.is_show_banner;
                 // 未绑定，跳转到登录
-                if (!_this.user.is_bind) {
+                if (!_this.user.wxinfo || !data.is_bind) {
                   wx.navigateTo({
                     url: '/pages/more/login'
                   });
                 }
-                //如果缓存有更新，则执行回调函数
-                if (status) {
-                  typeof response == "function" && response();
+                _this.user.is_admin = data.is_admin;
+                _this.user.is_bind = data.is_bind;
+                if (data.is_bind) {
+                  _this.processData(data.bind_info);
                 }
+                typeof response == "function" && response();
               } else {
                 //清除缓存
                 if (_this.cache) {
@@ -145,19 +101,7 @@ App({
                   wx.clearStorage();
                 }
                 _this.user.wxinfo = null;
-                if (res.data && res.data.status === 401) {
-                  _this.user.id = res.data.data.session_id;
-                  _this.getUserInfo(function(res) {
-                    if (res){
-                      _this.getUser(response);
-                      typeof response == "function" && response();
-                    } else{
-                      typeof response == "function" && response(res.data.message || '加载失败');
-                    }
-                  })
-                } else {
-                  typeof response == "function" && response(res.data.message || '加载失败');
-                }
+                typeof response == "function" && response(res.data.message || '加载失败');
               }
             },
             fail: function (res) {
@@ -183,6 +127,21 @@ App({
         }
       }
     });
+  },
+  processData: function (msg) {
+    var _this = this;
+    // _this.user.school.weeknum = msg.school.weeknum;
+    // _this.user.school.weekday = msg.school.weekday;
+    _this.user.school.term = msg.school_info.term;
+    _this.user.school.term = msg.school_info.year;
+    _this.user.is_bind_library = msg.is_bind_library;
+    _this.user.is_teacher = msg.is_teacher;
+    if (msg.is_teacher) {
+      _this.user.teacher = msg.teacher;
+    }
+    else {
+      _this.user.student = msg.student;
+    }
   },
   getUserInfo: function (cb) {
     var _this = this;
@@ -251,38 +210,9 @@ App({
           _this.g_status = '未授权';
         }
       });
-    } else{
+    } else {
       typeof cb == "function" && cb();
     }
-  },
-  processData: function (msg) {
-    var _this = this;
-    _this.user.id = msg.session_id;
-    _this.user.school.weeknum = msg.school.weeknum;
-    _this.user.school.weekday = msg.school.weekday;
-    _this.user.school.term = msg.school.term;
-    _this.user.is_bind = msg.is_bind;
-    _this.user.is_bind_mealcard = msg.is_bind_mealcard;
-    _this.user.is_bind_library = msg.is_bind_library;
-    _this.banner_show = msg.show_banner;
-    _this.user.is_admin = msg.is_admin;
-    _this.user.is_teacher = msg.is_teacher;
-    if (msg.is_bind) {
-      if (msg.is_teacher && msg.teacher) {
-        _this.user.teacher = msg.teacher;
-      }
-      else {
-        _this.user.student.name = msg.student.realname;
-        _this.user.student.class = msg.student.classname;
-        _this.user.student.id = msg.student.studentid;
-        _this.user.student.grade = msg.student.studentid.substr(0, 4);
-        _this.user.student.dept = msg.student.dept;
-        _this.user.student.specialty = msg.student.specialty;
-      }
-    }
-    _this.user.wxinfo = msg.userinfo;
-    _this._t = msg.session_id;
-    _this.saveCache('userid', _this.user.id);
   },
   sendGroupMsg(shareTicket) {
     var _this = this;

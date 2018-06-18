@@ -38,9 +38,10 @@
             </radio-group>
           </view>
         </form>
-        <view class="confirm-btn" bindtap="bind">
+        <button class="confirm-btn" open-type="getUserInfo" bindtap="bind">确认绑定</button>
+        <!-- <view class="confirm-btn" bindtap="bind">
           <text>确认绑定</text>
-        </view>
+        </view> -->
       </view>
     </view>
   </block>

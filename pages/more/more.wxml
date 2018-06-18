@@ -50,7 +50,7 @@
         </view>
       </navigator>
       -->
-      <navigator url="append?type=mealcard">
+      <!-- <navigator url="append?type=mealcard">
         <view class="more-info-btn" wx:if="{{!user.is_bind_mealcard}}">
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">绑定校园卡</text>
@@ -59,7 +59,7 @@
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">改绑校园卡</text>
         </view>
-      </navigator>
+      </navigator> -->
       <navigator url="append?type=library">
         <view class="more-info-btn" wx:if="{{!user.is_bind_library}}">
           <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
@@ -90,8 +90,8 @@
     <view class="user-info-box">
       <navigator url="login">
         <view>
-          <image class="user-image" src="{{user.wxinfo.avatarUrl}}"></image>
-          <text class="user-name">{{user.wxinfo.nickName}}</text>
+          <image class="user-image" src="{{user.wxinfo.head_img_url}}"></image>
+          <text class="user-name">{{user.wxinfo.nickname}}</text>
           <view class="user-infos">
             <view class="info2">
               <view class="xibie">请先绑定教务系统 | 前往绑定

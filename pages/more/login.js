@@ -6,9 +6,9 @@ Page({
     school: ['广东科技学院'],
     index: 0,
     usertype: [
-      { name: '1', value: '学生', checked: 'true' },
-      { name: '2', value: '教师' },
-      { name: '3', value: '部门' },
+      { name: '0', value: '学生', checked: 'true' },
+      { name: '1', value: '教师' },
+      { name: '2', value: '部门' },
     ],
     remind: '加载中',
     help_status: false,
@@ -16,7 +16,7 @@ Page({
     passwd_focus: false,
     userid: '',
     passwd: '',
-    utype: 1,
+    utype: 0,
     angle: 0
   },
   onReady: function () {
@@ -52,14 +52,9 @@ Page({
   },
   loginHandler: function () {
     var _this = this;
-    if (!app.user.id) {
-      _this.setData({
-        remind: '网络错误，请稍后再试'
-      });
-    };
     wx.request({
       method: 'POST',
-      url: app.server + '/api/school-list',
+      url: app.server + '/gxcat/school-list',
       data: {
         session_id: app.user.id,
       },
@@ -74,31 +69,21 @@ Page({
   },
   bind: function () {
     var _this = this;
-    if (app.g_status) {
-      app.showErrorModal(app.g_status, '绑定失败');
-      return;
-    }
+    //判断用户是否授权获取用户信息
     if (!_this.data.userid || !_this.data.passwd) {
       app.showErrorModal('账号及密码不能为空', '提醒');
       return false;
-    }
-    if (!app.user.id) {
-      var _this = this;
-      app.loginLoad(function () {
-        _this.loginHandler.call(_this);
-      });
     }
     wx.showLoading({
       title: '绑定中',
     })
     wx.request({
       method: 'POST',
-      url: app.server + '/api/users/bind',
+      url: app.server + '/gxcat/school/bind',
       data: {
         session_id: app.user.id,
         from_id: _this.data.userid,
         form_pwd: _this.data.passwd,
-        bind_type: 'login',
         school: _this.data.school[_this.data.index],
         form_utype: _this.data.utype
       },
@@ -107,7 +92,6 @@ Page({
           app.showLoadToast('请稍候');
           //清除缓存
           if (app.cache) {
-            app.removeCache('ykt');
             app.removeCache('jy');
           }
           app.getUser(function () {

@@ -49,7 +49,7 @@ App({
   },
   //后台切换至前台时
   onShow: function () {
-
+    this.getUser(function (e) {});
   },
   //判断是否有登录信息，让分享时自动登录
   loginLoad: function (onLoad, share = false) {
@@ -130,10 +130,7 @@ App({
   },
   processData: function (msg) {
     var _this = this;
-    // _this.user.school.weeknum = msg.school.weeknum;
-    // _this.user.school.weekday = msg.school.weekday;
-    _this.user.school.term = msg.school_info.term;
-    _this.user.school.term = msg.school_info.year;
+    _this.user.school = msg.school_info;
     _this.user.is_bind_library = msg.is_bind_library;
     _this.user.is_teacher = msg.is_teacher;
     if (msg.is_teacher) {
@@ -144,6 +141,7 @@ App({
     }
   },
   getUserInfo: function (cb) {
+    //等待重构
     var _this = this;
     if (!_this.user.wxinfo) {
       //获取微信用户信息

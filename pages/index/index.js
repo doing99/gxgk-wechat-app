@@ -101,18 +101,8 @@ Page({
   },
   login: function () {
     var _this = this;
-    //如果有缓存，则提前加载缓存
-    if (app.cache.version === app.version) {
-      try {
-        _this.response(undefined, true);
-      } catch (e) {
-        //报错则清除缓存
-        app.cache = {};
-        wx.clearStorage();
-      }
-    }
     //然后再尝试登录用户, 如果缓存更新将执行该回调函数
-    app.getUser(function (status) {
+    app.loginLoad(function (status) {
       _this.response.call(_this, status, false);
     });
   },

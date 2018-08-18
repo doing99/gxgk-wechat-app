@@ -59,11 +59,6 @@ Page({
   },
   onShow: function () {
     var _this = this;
-    //离线模式重新登录
-    if (_this.data.offline) {
-      _this.login();
-      return false;
-    }
     function isEmptyObject(obj) { for (var key in obj) { return false; } return true; }
     function isEqualObject(obj1, obj2) { if (JSON.stringify(obj1) != JSON.stringify(obj2)) { return false; } return true; }
     var l_user = _this.data.user,  //本页用户数据
@@ -103,6 +98,7 @@ Page({
     var _this = this;
     //然后再尝试登录用户, 如果缓存更新将执行该回调函数
     app.loginLoad(function (status) {
+      console.log("登录后回调了" + status)
       _this.response.call(_this, status, false);
     });
   },

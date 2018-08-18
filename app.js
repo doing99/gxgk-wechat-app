@@ -94,27 +94,38 @@ App({
   },
   check_session: function(response) {
     var _this = this;
-    wx.request({
-      url: _this.server + '/check_session',
-      data: {
-        'session_id': _this.session_id
-      },
-      method: "POST",
-      success: function(res) {
-        if (!res.data) {
-          // 网络出错
-        } else {
-          if (res.data.status == 200) {
-            typeof response == "function" && response(res)
-          } else if (res.data.status == 403) {
-            _this.session_login(response);
+    wx.checkSession({
+      success: function() {
+        wx.request({
+          url: _this.server + '/check_session',
+          data: {
+            'session_id': _this.session_id
+          },
+          method: "POST",
+          success: function(res) {
+            if (!res.data) {
+              // 网络出错
+              _this.showLoadToast("服务器出错")
+            } else {
+              if (res.data.status == 200) {
+                _this.is_login = true
+                console.log("session状态有效")
+                typeof response == "function" && response(res)
+              } else if (res.data.status == 403) {
+                _this.session_login(response);
+              }
+            }
+          },
+          fail: function(res) {
+            _this.showLoadToast("网络出错")
           }
-        }
+        });
       },
-      fail: function(res) {
-        typeof response == "function" && fail_cb(res)
+      fail: function () {
+        // 没有登录微信
+        _this.session_login(response);
       }
-    });
+    })
   },
   session_login: function(response) {
     var _this = this;
@@ -139,12 +150,14 @@ App({
               _this.saveCache('session_id', data.session_id);
               _this.session_id = data.session_id;
               if (data.login_require) {
-                _this.getUserInfo(response);
-              } else {
-                //如果缓存有更新，则执行回调函数
-                if (status) {
+                _this.getUserInfo(function() {
+                  _this.is_login = true
                   typeof response == "function" && response();
-                }
+                });
+              } else {
+                _this.is_login = true
+                console.log("session登陆成功")
+                typeof response == "function" && response();
               }
             } else {
               //清除缓存
@@ -196,13 +209,15 @@ App({
           },
           success: function(res) {
             if (res.data && res.data.status === 200) {
+              _this.is_login = true
+              console.log("获取用户信息成功")
               typeof cb == "function" && cb();
             } else {
-              _this.showErrorModal("服务器异常，请稍后再试")
+              _this.showLoadToast("服务器异常，请稍后再试")
             }
           },
           fail: function(res) {
-            _this.showErrorModal("网络出错")
+            _this.showLoadToast("网络出错")
           },
           complete: function() {}
         });
@@ -216,34 +231,9 @@ App({
       }
     });
   },
-  processData: function(msg) {
+  initUserData: function() {
     var _this = this;
-    _this.user.id = msg.session_id;
-    // _this.user.school.weeknum = msg.school.weeks;
-    // _this.user.school.weekday = msg.school.week_day;
-    // _this.user.school.term = msg.school.term_text;
-    _this.user.school = msg.school
-    _this.user.is_bind = msg.is_bind;
-    _this.user.is_bind_mealcard = msg.is_bind_mealcard;
-    _this.user.is_bind_library = msg.is_bind_library;
-    _this.banner_show = msg.show_banner;
-    _this.user.is_admin = msg.is_admin;
-    _this.user.is_teacher = msg.is_teacher;
-    if (msg.is_bind) {
-      if (msg.is_teacher && msg.teacher) {
-        _this.user.teacher = msg.teacher;
-      } else {
-        _this.user.student.name = msg.student.real_name;
-        _this.user.student.class = msg.student.class_name;
-        _this.user.student.id = msg.student.account;
-        _this.user.student.grade = msg.student.grade;
-        _this.user.student.dept = msg.student.faculty;
-        _this.user.student.specialty = msg.student.specialty;
-      }
-    }
-    _this.user.wxinfo = msg.userinfo;
-    _this._t = msg.session_id;
-    _this.saveCache('userid', _this.user.id);
+    _this.wx_request()
   },
   showErrorModal: function(content, title) {
     wx.showModal({
@@ -273,6 +263,8 @@ App({
     //学校参数
     school: {}
   },
+  // 是否已经登录
+  is_login: false,
   banner_show: false,
   util: require('./utils/util')
 })

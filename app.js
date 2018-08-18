@@ -55,7 +55,6 @@ App({
   },
   //后台切换至前台时
   onShow: function() {
-
   },
   //判断是否有登录信息，让分享时自动登录
   loginLoad: function() {
@@ -64,19 +63,20 @@ App({
       if (!_this.session_id) { //无登录信息
         _this.session_login().then(function() {
           resolve();
-        }).catch(function () {
-          reject();
+        }).catch(function (res) {
+          reject(res);
         });
       } else { //有登录信息
         _this.check_session().then(function() {
           resolve();
-        }).catch(function() {
-          reject();
+        }).catch(function(res) {
+          reject(res);
         })
       }
     })
   },
   wx_request: function(enpoint, method, data) {
+    // 全局网络请求封装
     return new Promise(function(resolve, reject) {
       const session_id = wx.getStorageSync('session_id')
       let header = {}
@@ -118,7 +118,6 @@ App({
                 reject();
               } else {
                 if (res.data.status == 200) {
-                  _this.is_login = true
                   console.log("session状态有效")
                   resolve();
                 } else if (res.data.status == 403) {
@@ -168,11 +167,9 @@ App({
                 _this.session_id = data.session_id;
                 if (data.login_require) {
                   _this.getUserInfo().then(function() {
-                    _this.is_login = true
                     resolve()
                   });
                 } else {
-                  _this.is_login = true
                   console.log("session登陆成功")
                   resolve();
                 }
@@ -191,7 +188,7 @@ App({
               console.warn(res);
               _this.g_status = '网络错误';
               console.warn(status);
-              reject();
+              reject(res);
             },
             complete: function() {
               wx.hideNavigationBarLoading();
@@ -211,8 +208,7 @@ App({
           _this.saveCache('userinfo', info);
           _this.user.wxinfo = info.userInfo;
           if (!info.encryptedData || !info.iv) {
-            _this.g_status = '无关联AppID';
-            typeof response == "function" && response(_this.g_status);
+            reject('无关联AppID');
             return;
           }
           wx.request({
@@ -227,9 +223,8 @@ App({
             },
             success: function(res) {
               if (res.data && res.data.status === 200) {
-                _this.is_login = true
                 console.log("获取用户信息成功")
-                resolve(res)
+                resolve(res);
               } else {
                 _this.showLoadToast("服务器异常")
               }
@@ -246,7 +241,7 @@ App({
           wx.navigateTo({
             url: '/pages/authorize/index'
           });
-          reject(res)
+          reject(res);
         }
       });
     })
@@ -283,8 +278,6 @@ App({
     //学校参数
     school: {}
   },
-  // 是否已经登录
-  is_login: false,
   banner_show: false,
   util: require('./utils/util')
 })

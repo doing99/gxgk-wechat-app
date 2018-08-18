@@ -121,57 +121,53 @@ App({
     wx.showNavigationBarLoading();
     wx.login({
       success: function(res) {
-        if (res.code) {
-          wx.request({
-            method: 'POST',
-            url: _this.server + '/session_login',
-            data: {
-              code: res.code
-            },
-            success: function(res) {
-              if (res.data && res.data.status === 200) {
-                var status = false,
-                  data = res.data.data;
-                //判断缓存是否有更新
-                if (_this.cache.version !== _this.version) {
-                  _this.saveCache('version', _this.version);
-                  status = true;
-                }
-                _this.saveCache('session_id', data.session_id);
-                _this.session_id = data.session_id;
-                if (data.login_require) {
-                  _this.getUserInfo(response);
-                } else {
-                  //如果缓存有更新，则执行回调函数
-                  if (status) {
-                    typeof response == "function" && response();
-                  }
-                }
-              } else {
-                //清除缓存
-                if (_this.cache) {
-                  _this.cache = {};
-                  wx.clearStorage();
-                }
-                _this.user.wxinfo = null;
-                typeof response == "function" && response(res.data.message || '加载失败');
+        wx.request({
+          method: 'POST',
+          url: _this.server + '/session_login',
+          data: {
+            code: res.code
+          },
+          success: function(res) {
+            if (res.data && res.data.status === 200) {
+              var status = false,
+                data = res.data.data;
+              //判断缓存是否有更新
+              if (_this.cache.version !== _this.version) {
+                _this.saveCache('version', _this.version);
+                status = true;
               }
-            },
-            fail: function(res) {
-              var status = '';
-              // 判断是否有缓存
-              console.warn(res);
-              _this.g_status = '网络错误';
-              typeof response == "function" && response(status);
-              console.warn(status);
-            },
-            complete: function() {
-              wx.hideNavigationBarLoading();
+              _this.saveCache('session_id', data.session_id);
+              _this.session_id = data.session_id;
+              if (data.login_require) {
+                _this.getUserInfo(response);
+              } else {
+                //如果缓存有更新，则执行回调函数
+                if (status) {
+                  typeof response == "function" && response();
+                }
+              }
+            } else {
+              //清除缓存
+              if (_this.cache) {
+                _this.cache = {};
+                wx.clearStorage();
+              }
+              _this.user.wxinfo = null;
+              typeof response == "function" && response(res.data.message || '加载失败');
             }
-          });
-        } else {
-          console.log('获取用户登录态失败！' + res.errMsg)
-        }
+          },
+          fail: function(res) {
+            var status = '';
+            // 判断是否有缓存
+            console.warn(res);
+            _this.g_status = '网络错误';
+            typeof response == "function" && response(status);
+            console.warn(status);
+          },
+          complete: function() {
+            wx.hideNavigationBarLoading();
+          }
+        });
       }
     });
   },
@@ -200,21 +196,22 @@ App({
           },
           success: function(res) {
             if (res.data && res.data.status === 200) {
-              typeof cb == "function" && cb(1);
+              typeof cb == "function" && cb();
+            } else {
+              _this.showErrorModal("服务器异常，请稍后再试")
             }
           },
           fail: function(res) {
-            typeof cb == "function" && cb(0);
+            _this.showErrorModal("网络出错")
           },
           complete: function() {}
         });
-
       },
       fail: function(res) {
         // 提示用户授权页面
         _this.g_status = '未授权';
         wx.navigateTo({
-          url: 'pages/authorize/index'
+          url: '/pages/authorize/index'
         });
       }
     });

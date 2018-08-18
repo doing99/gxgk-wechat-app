@@ -6,12 +6,15 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     hasUserInfo: false
   },
-  getUserInfo: function() {
+  getUserInfo: function(e) {
     const that = this
     // 授权成功才会返回detail
     if (e.detail.userInfo) {
       that.setData({
         'hasUserInfo': true
+      })
+      app.getUserInfo(function () {
+        wx.navigateBack()
       })
     } else {
       wx.showToast({

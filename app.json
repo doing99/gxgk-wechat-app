@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/authorize/index",
     "pages/index/index",
+    "pages/authorize/index",
     "pages/core/kb/kb",
     "pages/core/ykt/ykt",
     "pages/core/cj/cj",

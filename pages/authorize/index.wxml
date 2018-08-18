@@ -1,0 +1,9 @@
+<!--pages/authorize/authorize.wxml-->
+<view class="container">
+  <view class="icon">
+    <image class="icon-img" src='/images/headimg.jpg' background-size="cover"></image>
+  </view>
+  <view class="title">授权登录</view>
+  <view class="tip">请允许“莞香小喵”获取登录授权</view>
+  <button class="auth-btn" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权登录</button>
+</view>

@@ -1,0 +1,34 @@
+.container {
+  text-align: center;
+}
+.icon {
+  text-align: center;
+  margin: 120rpx auto 30rpx auto;
+}
+.icon-img{
+  width: 178rpx;
+  height: 178rpx;
+  margin: 0 auto;
+}
+.title {
+  font-size: 34rpx;
+  color: #353535;
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+.tip {
+  font-size: 32rpx;
+  color: #888888;
+  text-align: center;
+}
+.auth-btn{
+  width: 480rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  padding: 0;
+  margin:60rpx auto 10rpx;
+  background-color: #079df2;
+  color: #fff;
+  border: 0px;
+}

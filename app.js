@@ -61,7 +61,7 @@ App({
   loginLoad: function(onLoad) {
     var _this = this;
     if (!_this.session_id) { //无登录信息
-      _this.wechat_login(function(e) {
+      _this.session_login(function(e) {
         typeof onLoad == "function" && onLoad(e);
       });
     } else { //有登录信息
@@ -107,7 +107,7 @@ App({
           if (res.data.status == 200) {
             typeof response == "function" && response(res)
           } else if (res.data.status == 403) {
-            _this.wechat_login(response);
+            _this.session_login(response);
           }
         }
       },
@@ -116,7 +116,7 @@ App({
       }
     });
   },
-  wechat_login: function(response) {
+  session_login: function(response) {
     var _this = this;
     wx.showNavigationBarLoading();
     wx.login({
@@ -124,7 +124,7 @@ App({
         if (res.code) {
           wx.request({
             method: 'POST',
-            url: _this.server + '/login',
+            url: _this.server + '/session_login',
             data: {
               code: res.code
             },
@@ -190,9 +190,9 @@ App({
         }
         wx.request({
           method: 'POST',
-          url: _this.server + '/get_userinfo',
+          url: _this.server + '/wechat_login',
           data: {
-            session_id: _this.user.id,
+            session_id: _this.session_id,
             key: info.encryptedData,
             iv: info.iv,
             rawData: info.rawData,
@@ -211,33 +211,11 @@ App({
 
       },
       fail: function(res) {
-        if (wx.openSetting) {
-          wx.showModal({
-            title: '授权失败',
-            content: '已拒绝授权，小程序无法正常运行，是否打开设置允许授权',
-            confirmColor: "#1f7bff",
-            showCancel: true,
-            success: function(res) {
-              if (res.confirm) {
-                wx.openSetting({
-                  success: function(res) {
-                    if (res.authSetting['scope.userInfo']) {
-                      //回调重新授权
-                      _this.getUserInfo(cb)
-                    } else {
-                      _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
-                    }
-                  }
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
-          });
-        } else {
-          _this.showErrorModal('已拒绝授权，无法获取用户信息', '授权失败');
-        }
+        // 提示用户授权页面
         _this.g_status = '未授权';
+        wx.navigateTo({
+          url: 'pages/authorize/index'
+        });
       }
     });
   },
@@ -269,29 +247,6 @@ App({
     _this.user.wxinfo = msg.userinfo;
     _this._t = msg.session_id;
     _this.saveCache('userid', _this.user.id);
-  },
-  sendGroupMsg(shareTicket) {
-    var _this = this;
-    wx.getShareInfo({
-      shareTicket: shareTicket,
-      success: function(res) {
-        wx.request({
-          url: _this.server + '/api/get_group_msg',
-          method: 'POST',
-          data: {
-            session_id: _this.user.id,
-            roomTopic: res.roomTopic,
-            rawData: res.rawData,
-            signature: res.signature,
-            encryptedData: res.encryptedData,
-            iv: res.iv
-          },
-          success: function(res) {
-            //console.log(res);
-          }
-        });
-      }
-    })
   },
   showErrorModal: function(content, title) {
     wx.showModal({

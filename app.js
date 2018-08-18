@@ -58,178 +58,198 @@ App({
 
   },
   //判断是否有登录信息，让分享时自动登录
-  loginLoad: function(onLoad) {
+  loginLoad: function() {
     var _this = this;
-    if (!_this.session_id) { //无登录信息
-      _this.session_login(function(e) {
-        typeof onLoad == "function" && onLoad(e);
-      });
-    } else { //有登录信息
-      _this.check_session(function(e) {
-        typeof onLoad == "function" && onLoad();
-      })
-    }
-  },
-  wx_request: (enpoint, method, data, suceess_cb, fail_cb) => {
-    const session_id = wx.getStorageSync('session_id')
-    let header = {}
-    if (session_id) {
-      header = {
-        'content-type': 'application/json',
-        'session_id': session_id
-      }
-    }
-    wx.request({
-      url: _this.server + enpoint,
-      data: data || '',
-      method: method || 'GET',
-      header: header,
-      success: function(res) {
-        suceess_cb && suceess_cb(res)
-      },
-      fail: function(res) {
-        fail_cb && fail_cb(res)
-      }
-    });
-  },
-  check_session: function(response) {
-    var _this = this;
-    wx.checkSession({
-      success: function() {
-        wx.request({
-          url: _this.server + '/check_session',
-          data: {
-            'session_id': _this.session_id
-          },
-          method: "POST",
-          success: function(res) {
-            if (!res.data) {
-              // 网络出错
-              _this.showLoadToast("服务器出错")
-            } else {
-              if (res.data.status == 200) {
-                _this.is_login = true
-                console.log("session状态有效")
-                typeof response == "function" && response(res)
-              } else if (res.data.status == 403) {
-                _this.session_login(response);
-              }
-            }
-          },
-          fail: function(res) {
-            _this.showLoadToast("网络出错")
-          }
+    return new Promise(function(resolve, reject) {
+      if (!_this.session_id) { //无登录信息
+        _this.session_login().then(function() {
+          resolve();
+        }).catch(function () {
+          reject();
         });
-      },
-      fail: function () {
-        // 没有登录微信
-        _this.session_login(response);
+      } else { //有登录信息
+        _this.check_session().then(function() {
+          resolve();
+        }).catch(function() {
+          reject();
+        })
       }
     })
   },
-  session_login: function(response) {
-    var _this = this;
-    wx.showNavigationBarLoading();
-    wx.login({
-      success: function(res) {
-        wx.request({
-          method: 'POST',
-          url: _this.server + '/session_login',
-          data: {
-            code: res.code
-          },
-          success: function(res) {
-            if (res.data && res.data.status === 200) {
-              var status = false,
-                data = res.data.data;
-              //判断缓存是否有更新
-              if (_this.cache.version !== _this.version) {
-                _this.saveCache('version', _this.version);
-                status = true;
-              }
-              _this.saveCache('session_id', data.session_id);
-              _this.session_id = data.session_id;
-              if (data.login_require) {
-                _this.getUserInfo(function() {
-                  _this.is_login = true
-                  typeof response == "function" && response();
-                });
-              } else {
-                _this.is_login = true
-                console.log("session登陆成功")
-                typeof response == "function" && response();
-              }
-            } else {
-              //清除缓存
-              if (_this.cache) {
-                _this.cache = {};
-                wx.clearStorage();
-              }
-              _this.user.wxinfo = null;
-              typeof response == "function" && response(res.data.message || '加载失败');
-            }
-          },
-          fail: function(res) {
-            var status = '';
-            // 判断是否有缓存
-            console.warn(res);
-            _this.g_status = '网络错误';
-            typeof response == "function" && response(status);
-            console.warn(status);
-          },
-          complete: function() {
-            wx.hideNavigationBarLoading();
-          }
-        });
+  wx_request: function(enpoint, method, data) {
+    return new Promise(function(resolve, reject) {
+      const session_id = wx.getStorageSync('session_id')
+      let header = {}
+      if (session_id) {
+        header = {
+          'content-type': 'application/json',
+          'session_id': session_id
+        }
       }
+      wx.request({
+        url: _this.server + enpoint,
+        data: data || '',
+        method: method || 'GET',
+        header: header,
+        success: function(res) {
+          resolve(res);
+        },
+        fail: function(res) {
+          reject(res);
+        }
+      });
+    })
+  },
+  check_session: function() {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      wx.checkSession({
+        success: function() {
+          wx.request({
+            url: _this.server + '/check_session',
+            data: {
+              'session_id': _this.session_id
+            },
+            method: "POST",
+            success: function(res) {
+              if (!res.data) {
+                // 网络出错
+                _this.showLoadToast("服务器出错")
+                reject();
+              } else {
+                if (res.data.status == 200) {
+                  _this.is_login = true
+                  console.log("session状态有效")
+                  resolve();
+                } else if (res.data.status == 403) {
+                  _this.session_login().then(function() {
+                    resolve();
+                  });
+                }
+              }
+            },
+            fail: function(res) {
+              _this.showLoadToast("网络出错")
+              reject(res);
+            }
+          });
+        },
+        fail: function() {
+          // 没有登录微信
+          _this.session_login().then(function () {
+            reject();
+          });
+        }
+      })
     });
   },
-  getUserInfo: function(cb) {
+  session_login: function() {
     var _this = this;
-    //获取微信用户信息
-    wx.getUserInfo({
-      success: function(res) {
-        var info = res;
-        _this.saveCache('userinfo', info);
-        _this.user.wxinfo = info.userInfo;
-        if (!info.encryptedData || !info.iv) {
-          _this.g_status = '无关联AppID';
-          typeof response == "function" && response(_this.g_status);
-          return;
-        }
-        wx.request({
-          method: 'POST',
-          url: _this.server + '/wechat_login',
-          data: {
-            session_id: _this.session_id,
-            key: info.encryptedData,
-            iv: info.iv,
-            rawData: info.rawData,
-            signature: info.signature
-          },
-          success: function(res) {
-            if (res.data && res.data.status === 200) {
-              _this.is_login = true
-              console.log("获取用户信息成功")
-              typeof cb == "function" && cb();
-            } else {
-              _this.showLoadToast("服务器异常，请稍后再试")
+    return new Promise(function(resolve, reject) {
+      wx.showNavigationBarLoading();
+      wx.login({
+        success: function(res) {
+          wx.request({
+            method: 'POST',
+            url: _this.server + '/session_login',
+            data: {
+              code: res.code
+            },
+            success: function(res) {
+              if (res.data && res.data.status === 200) {
+                var status = false,
+                  data = res.data.data;
+                //判断缓存是否有更新
+                if (_this.cache.version !== _this.version) {
+                  _this.saveCache('version', _this.version);
+                  status = true;
+                }
+                _this.saveCache('session_id', data.session_id);
+                _this.session_id = data.session_id;
+                if (data.login_require) {
+                  _this.getUserInfo().then(function() {
+                    _this.is_login = true
+                    resolve()
+                  });
+                } else {
+                  _this.is_login = true
+                  console.log("session登陆成功")
+                  resolve();
+                }
+              } else {
+                //清除缓存
+                if (_this.cache) {
+                  _this.cache = {};
+                  wx.clearStorage();
+                }
+                reject();
+              }
+            },
+            fail: function(res) {
+              var status = '';
+              // 判断是否有缓存
+              console.warn(res);
+              _this.g_status = '网络错误';
+              console.warn(status);
+              reject();
+            },
+            complete: function() {
+              wx.hideNavigationBarLoading();
             }
-          },
-          fail: function(res) {
-            _this.showLoadToast("网络出错")
-          },
-          complete: function() {}
-        });
-      },
-      fail: function(res) {
-        // 提示用户授权页面
-        _this.g_status = '未授权';
-        wx.navigateTo({
-          url: '/pages/authorize/index'
-        });
-      }
-    });
+          });
+        }
+      });
+    })
+  },
+  getUserInfo: function() {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      //获取微信用户信息
+      wx.getUserInfo({
+        success: function(res) {
+          var info = res;
+          _this.saveCache('userinfo', info);
+          _this.user.wxinfo = info.userInfo;
+          if (!info.encryptedData || !info.iv) {
+            _this.g_status = '无关联AppID';
+            typeof response == "function" && response(_this.g_status);
+            return;
+          }
+          wx.request({
+            method: 'POST',
+            url: _this.server + '/wechat_login',
+            data: {
+              session_id: _this.session_id,
+              key: info.encryptedData,
+              iv: info.iv,
+              rawData: info.rawData,
+              signature: info.signature
+            },
+            success: function(res) {
+              if (res.data && res.data.status === 200) {
+                _this.is_login = true
+                console.log("获取用户信息成功")
+                resolve(res)
+              } else {
+                _this.showLoadToast("服务器异常")
+              }
+            },
+            fail: function(res) {
+              _this.showLoadToast("网络出错")
+            },
+            complete: function() {}
+          });
+        },
+        fail: function(res) {
+          // 提示用户授权页面
+          _this.g_status = '未授权';
+          wx.navigateTo({
+            url: '/pages/authorize/index'
+          });
+          reject(res)
+        }
+      });
+    })
   },
   initUserData: function() {
     var _this = this;

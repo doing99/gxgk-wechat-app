@@ -13,7 +13,7 @@ Page({
       that.setData({
         'hasUserInfo': true
       })
-      app.getUserInfo(function () {
+      app.getUserInfo().then(function () {
         wx.navigateBack()
       })
     } else {

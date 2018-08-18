@@ -97,7 +97,7 @@ Page({
   login: function () {
     var _this = this;
     //然后再尝试登录用户, 如果缓存更新将执行该回调函数
-    app.loginLoad(function (status) {
+    app.loginLoad().then(function (status) {
       console.log("登录后回调了" + status)
       _this.response.call(_this, status, false);
     });

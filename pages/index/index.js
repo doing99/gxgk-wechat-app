@@ -6,15 +6,78 @@ Page({
     banner: false,
     offline: false,
     remind: '加载中',
-    core: [
-      { id: 'kb', name: '课表查询', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'cj', name: '成绩查询', disabled: false, guest_view: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
-      { id: 'kjs', name: '空教室', disabled: false, guest_view: true, student_disable: false, teacher_disabled: false, offline_disabled: true },
-      { id: 'ks', name: '考试安排', disabled: false, guest_view: false, student_disable: false, teacher_disabled: true, offline_disabled: false },
-      { id: 'ykt', name: '校园卡', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'jy', name: '借阅信息', disabled: false, guest_view: false, student_disable: false, teacher_disabled: false, offline_disabled: false },
-      { id: 'xs', name: '学生查询', disabled: false, guest_view: false, student_disable: true, teacher_disabled: false, offline_disabled: true },
-      { id: 'zs', name: '我要找书', disabled: false, guest_view: true, student_disable: false, teacher_disabled: false, offline_disabled: true }
+    core: [{
+        id: 'kb',
+        name: '课表查询',
+        disabled: false,
+        guest_view: false,
+        student_disable: false,
+        teacher_disabled: false,
+        offline_disabled: false
+      },
+      {
+        id: 'cj',
+        name: '成绩查询',
+        disabled: false,
+        guest_view: false,
+        student_disable: false,
+        teacher_disabled: true,
+        offline_disabled: false
+      },
+      {
+        id: 'kjs',
+        name: '空教室',
+        disabled: false,
+        guest_view: true,
+        student_disable: false,
+        teacher_disabled: false,
+        offline_disabled: true
+      },
+      {
+        id: 'ks',
+        name: '考试安排',
+        disabled: false,
+        guest_view: false,
+        student_disable: false,
+        teacher_disabled: true,
+        offline_disabled: false
+      },
+      {
+        id: 'ykt',
+        name: '校园卡',
+        disabled: false,
+        guest_view: false,
+        student_disable: false,
+        teacher_disabled: false,
+        offline_disabled: false
+      },
+      {
+        id: 'jy',
+        name: '借阅信息',
+        disabled: false,
+        guest_view: false,
+        student_disable: false,
+        teacher_disabled: false,
+        offline_disabled: false
+      },
+      {
+        id: 'xs',
+        name: '学生查询',
+        disabled: false,
+        guest_view: false,
+        student_disable: true,
+        teacher_disabled: false,
+        offline_disabled: true
+      },
+      {
+        id: 'zs',
+        name: '我要找书',
+        disabled: false,
+        guest_view: true,
+        student_disable: false,
+        teacher_disabled: false,
+        offline_disabled: true
+      }
     ],
     card: {
       'kb': {
@@ -42,7 +105,7 @@ Page({
     disabledItemTap: false //点击了不可用的页面
   },
   //分享
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: '莞香小喵',
       desc: '广东科技学院唯一的小程序',
@@ -50,98 +113,63 @@ Page({
     };
   },
   //下拉更新
-  onPullDownRefresh: function () {
-    if (app.user.is_bind) {
-      this.login();
-    } else {
-      wx.stopPullDownRefresh();
-    }
+  onPullDownRefresh: function() {
+    _this.getCardData();
   },
-  onShow: function () {
+  onShow: function() {
     var _this = this;
-    function isEmptyObject(obj) { for (var key in obj) { return false; } return true; }
-    function isEqualObject(obj1, obj2) { if (JSON.stringify(obj1) != JSON.stringify(obj2)) { return false; } return true; }
-    var l_user = _this.data.user,  //本页用户数据
-      g_user = app.user; //全局用户数据
-    //排除第一次加载页面的情况（全局用户数据未加载完整 或 本页用户数据与全局用户数据相等）
-    if (isEmptyObject(l_user) || !g_user.id || isEqualObject(l_user, g_user)) {
-      return false;
-    }
-    //全局用户数据和本页用户数据不一致时，重新获取卡片数据
-    if (!isEqualObject(l_user, g_user)) {
-      _this.setData({
-        'banner': app.banner_show
-      });
-      //判断绑定状态
-      if (!app.user.is_bind) {
+    //清空数据
+    _this.setData({
+      'remind': '加载中',
+      'card.kb.show': false,
+      'card.ykt.show': false,
+      'card.jy.show': false,
+      'card.sdf.show': false
+    });
+    _this.getCardData();
+  },
+  onLoad: function() {
+    var _this = this;
+    app.loginLoad().then(function() {
+      _this.getSchoolInfo()
+      _this.initButton()
+    });
+  },
+  getSchoolInfo: function() {
+    var _this = this;
+    //然后再尝试登录用户, 如果缓存更新将执行该回调函数
+    app.initSchoolUser().then(function(status) {}).catch(function(res) {
+      if (res.data.status === 100) {
         _this.setData({
           'remind': '未绑定'
         });
-      } else {
-        //清空数据
-        _this.setData({
-          user: app.user,
-          'remind': '加载中',
-          'card.kb.show': false,
-          'card.ykt.show': false,
-          'card.jy.show': false,
-          'card.sdf.show': false
-        });
-        _this.getCardData();
-      }
-    }
-  },
-  onLoad: function () {
-    var _this = this;
-    app.loginLoad().then(function () {
-      _this.getSchoolInfo()
-    });
-  },
-  getSchoolInfo: function () {
-    var _this = this;
-    //然后再尝试登录用户, 如果缓存更新将执行该回调函数
-    app.initSchoolUser().then(function (status) {
-    }).catch(function (res) {
-      if (res.data.status === 100) {
         wx.navigateTo({
           url: '/pages/more/login'
         });
       } else {
         app.showErrorModal(res.data.msg, '获取学校信息出错');
-      }
-    });
-  },
-  response: function (status, load_cache) {
-    var _this = this;
-    if (status) {
-      if (status != '离线缓存模式') {
-        //错误
         for (var i = 0, len = _this.data.core.length; i < len; i++) {
           _this.data.core[i].disabled = true;
         }
         _this.setData({
-          'remind': status,
+          offline: true,
+          'remind': res.data.msg,
           core: _this.data.core
         });
-        return;
-      } else {
-        //离线缓存模式
-        _this.setData({
-          offline: true
-        });
       }
-    }
+    });
+  },
+  initButton: function() {
+    var _this = this;
     //开关按钮设置
     function set_item_switch(item) {
-      var is_teacher = app.user.is_teacher;
+      var is_teacher = app.user.auth_user.user_type == 1;
       if (!item.disabled) {
         if (item.guest_view) {
           item.disabled = false;
-        }
-        else if (app.user.is_admin) {
+        } else if (app.user.is_admin) {
           item.disabled = false;
-        }
-        else if (!is_teacher) {
+        } else if (!is_teacher) {
           if (!item.student_disable)
             item.disabled = false;
           else
@@ -159,47 +187,31 @@ Page({
     }
     _this.setData({
       core: _this.data.core,
-      user: app.user,
       banner: app.banner_show
     });
-    //判断绑定状态
-    if (!app.user.is_bind) {
-      _this.setData({
-        'remind': '未绑定'
-      });
-    } else {
-      //清空数据
-      _this.setData({
-        user: app._user,
-        'remind': '加载中',
-        'card.kb.show': false,
-        'card.ykt.show': false,
-        'card.jy.show': false
-      });
-      _this.getCardData(load_cache);
-    }
   },
-  disabled_item: function () {
+  disabled_item: function() {
+    //点击了不可用按钮
     var _this = this;
     if (!_this.data.disabledItemTap) {
       _this.setData({
         disabledItemTap: true
       });
-      setTimeout(function () {
+      setTimeout(function() {
         _this.setData({
           disabledItemTap: false
         });
       }, 2000);
     }
   },
-  getCardData: function (load_cache) {
+  getCardData: function(load_cache) {
+    console.log("获取首页卡片信息")
     var _this = this;
+    if (_this.data.offline) {
+      return;
+    }
     var loadsum = 0; //正在请求连接数
-    var user = app.user;
     //判断并读取缓存
-    if (app.cache.kb) { kbRender(app.cache.kb); }
-    if (_this.data.offline) { return; }
-    if (load_cache) { return; }
     wx.showNavigationBarLoading();
     //获取课表数据
     function endRequest() {
@@ -223,29 +235,19 @@ Page({
         'remind': ''
       });
     }
-    console.log(app.user.school)
     loadsum++; //新增正在请求连接
-    wx.request({
-      url: app.server + '/get_schedule',
-      method: 'POST',
-      data: {
-        session_id: app.user.id,
-        weeks: app.user.school.weeks,
-        week_day: app.user.school.week_day
-      },
-      success: function (res) {
-        if (res.data && res.data.state === 200) {
-          var info = res.data.data;
-          if (info) {
-            //保存课表缓存
-            // app.saveCache('kb', info);
-            kbRender(info);
-          }
-        } else { app.removeCache('kb'); }
-      },
-      complete: function () {
+    if (app.cache.kb) {
+      kbRender(app.cache.kb);
+    }
+    app.wx_request('/school_sys/api_schedule').then(function() {
+      if (res.data && res.data.status === 200) {
+        kbRender(res.data.data);
+        app.saveCache('kb', res.data.data);
         endRequest();
       }
+    }).catch(function(res) {
+      app.removeCache('kb');
+      endRequest();
     });
     //一卡通渲染
     function yktRender(data) {
@@ -258,29 +260,20 @@ Page({
       });
     }
     if (app.user.is_bind_mealcard) {
-      if (app.cache.ykt) { yktRender(app.cache.ykt); }
+      if (app.cache.ykt) {
+        yktRender(app.cache.ykt);
+      }
       loadsum++; //新增正在请求连接
       //获取一卡通数据
-      wx.request({
-        url: app.server + '/api/users/get_mealcard',
-        method: 'POST',
-        data: {
-          session_id: app.user.id,
-          index: true
-        },
-        success: function (res) {
-          if (res.data && res.data.status === 200) {
-            var list = res.data.data;
-            if (list) {
-              //保存一卡通缓存
-              app.saveCache('ykt', list);
-              yktRender(list);
-            }
-          } else { app.removeCache('ykt'); }
-        },
-        complete: function () {
+      app.wx_request('/school_sys/api_mealcard').then(function () {
+        if (res.data && res.data.status === 200) {
+          yktRender(res.data.data);
+          app.saveCache('ykt', res.data.data);
           endRequest();
         }
+      }).catch(function (res) {
+        app.removeCache('ykt');
+        endRequest();
       });
     } else {
       app.removeCache('ykt');
@@ -294,30 +287,20 @@ Page({
       });
     }
     if (app.user.is_bind_library) {
-      if (app.cache.jy) { jyRender(app.cache.jy); }
+      if (app.cache.jy) {
+        jyRender(app.cache.jy);
+      }
       loadsum++; //新增正在请求连接
       //获取借阅信息
-      wx.request({
-        url: app.server + "/api/users/get_user_library",
-        method: 'POST',
-        data: {
-          session_id: app.user.id,
-          renew: false,
-          index: true
-        },
-        success: function (res) {
-          if (res.data && res.data.status === 200) {
-            var info = res.data.data;
-            if (info) {
-              //保存借阅缓存
-              app.saveCache('jy', info);
-              jyRender(info);
-            }
-          } else { app.removeCache('jy'); }
-        },
-        complete: function () {
+      app.wx_request('/school_sys/api_library').then(function () {
+        if (res.data && res.data.status === 200) {
+          jyRender(res.data.data);
+          app.saveCache('jy', res.data.data);
           endRequest();
         }
+      }).catch(function (res) {
+        app.removeCache('jy');
+        endRequest();
       });
     } else {
       app.removeCache('jy');

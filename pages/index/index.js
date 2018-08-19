@@ -92,14 +92,21 @@ Page({
     }
   },
   onLoad: function () {
-    this.login();
+    var _this = this;
+    app.loginLoad().then(function () {
+      _this.getSchoolInfo()
+    });
   },
-  login: function () {
+  getSchoolInfo: function () {
     var _this = this;
     //然后再尝试登录用户, 如果缓存更新将执行该回调函数
-    app.loginLoad().then(function (status) {
-      console.log("登录后回调了" + status)
-      _this.response.call(_this, status, false);
+    app.initSchoolUser().then(function (status) {
+    }).catch(function (res) {
+      if (res.data.status === 100) {
+        wx.navigateTo({
+          url: '/pages/more/login'
+        });
+      }
     });
   },
   response: function (status, load_cache) {

@@ -282,10 +282,10 @@ App({
           _this.saveCache('auth_user', data.auth_user);
           if (_this.auth_user.user_type === 0) {
             _this.saveCache('student', data.user_info);
-            _this.user.student = res.data.data;
+            _this.user.student = data.user_info;
           } else if (_this.auth_user.user_type === 1) {
             _this.saveCache('teacher', data.user_info);
-            _this.user.teacher = res.data.data;
+            _this.user.teacher = data.user_info;
           }
           resolve();
         } else {

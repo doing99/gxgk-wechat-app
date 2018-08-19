@@ -7,16 +7,14 @@ Page({
   },
   onShow: function () {
     var _this = this;
-    app.getUserInfo(function (res) {
+    app.loginLoad().then(function () {
       _this.getData();
-    });
+    })
   },
   getData: function () {
     var _this = this;
-    var days = ['日', '一', '二', '三', '四', '五', '六'];
-    _this.setData({
-      'user': app.user,
-      'weekday': days[app.user.school.weekday]
+    _this.setData({ 
+      'user': app.user
     });
   }
 });

@@ -2,32 +2,32 @@
 <!--more.wxml-->
 <view class="container">
   <view class="top-bgcolor"> </view>
-  <block wx:if="{{user.is_bind}}">
+  <block wx:if="{{user.auth_user}}">
     <view class="user-info-box">
-      <image class="user-image" src="{{user.wxinfo.avatarUrl}}"></image>
-      <view wx:if="{{!user.is_teacher || !user.teacher.realname}}">
-        <text class="user-name">{{user.student.name}}</text>
+      <image class="user-image" src="{{user.wx_info.head_img_url}}"></image>
+      <view wx:if="{{user.auth_user.user_type == 0}}">
+        <text class="user-name">{{user.student.real_name}}</text>
         <view class="user-infos">
           <view class="info1">
             <view class="xuehao">学号</view>
-            <view>{{user.student.id}}</view>
+            <view>{{user.auth_user.account}}</view>
           </view>
           <view class="info2">
             <view class="xibie">系别</view>
-            <view>{{user.student.dept}}</view>
+            <view>{{user.student.faculty}}</view>
           </view>
           <view class="info3">
             <view class="banji">班级</view>
-            <view>{{user.student.class}}</view>
+            <view>{{user.student.class_name}}</view>
           </view>
         </view>
       </view>
       <view wx:else>
-        <text class="user-name">{{user.teacher.realname}}</text>
+        <text class="user-name">{{user.teacher.real_name}}</text>
         <view class="user-infos">
           <view class="info1">
             <view class="xuehao">职工号</view>
-            <view>{{user.teacher.teacherid}}</view>
+            <view>{{user.auth_user.account}}</view>
           </view>
           <view class="info2">
             <view class="xibie">部门</view>
@@ -90,8 +90,8 @@
     <view class="user-info-box">
       <navigator url="login">
         <view>
-          <image class="user-image" src="{{user.wxinfo.avatarUrl}}"></image>
-          <text class="user-name">{{user.wxinfo.nickName}}</text>
+          <image class="user-image" src="{{user.wx_info.head_img_url}}"></image>
+          <text class="user-name">{{user.wx_info.nickname}}</text>
           <view class="user-infos">
             <view class="info2">
               <view class="xibie">请先绑定教务系统 | 前往绑定
@@ -118,7 +118,7 @@
     </view>
   </block>
   <navigator url="login" class="login-btn">
-    <text wx:if="{{user.is_bind}}">切换绑定</text>
+    <text wx:if="{{user.auth_user}}">切换绑定</text>
     <text wx:else>立即绑定</text>
   </navigator>
 </view>

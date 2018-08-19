@@ -13,6 +13,7 @@ Page({
   },
   getData: function () {
     var _this = this;
+    console.log(app.user)
     _this.setData({ 
       'user': app.user
     });

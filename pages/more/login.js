@@ -95,32 +95,44 @@ Page({
     app.wx_request("/school_sys/xcx_bind", 'POST', data).then(
       function(res) {
         if (res.data && res.data.status === 200) {
-          _this.checkBindResult(school_id, account).then(function(res) {
-            if (res.data.status === 200) {
-              wx.hideLoading()
-              wx.showToast({
-                title: '绑定成功',
-                icon: 'success',
-                duration: 1500
-              });
-              setTimeout(function (){
-                
-                wx.navigateBack();
-              }, 1500)
-              return
-            }
-          }).catch(function(res) {
-            wx.hideToast();
-            wx.hideLoading()
-            app.showErrorModal(res, '绑定失败');
-            return
-          })
+          _this.getBindResult(school_id, account)
+          return
+        } else {
+          wx.hideToast();
+          wx.hideLoading()
+          app.showErrorModal(res.data.msg, '绑定失败');
         }
       }
     ).catch(function(res) {
       wx.hideToast();
       wx.hideLoading()
       app.showErrorModal(res.errMsg, '绑定失败');
+    })
+  },
+  getBindResult: function (school_id, account){
+    var _this = this;
+    _this.checkBindResult(school_id, account).then(function (res) {
+      if (res.data.status === 100) {
+        // 绑定中，开始轮询
+        return _this.getBindResult(school_id, account)
+      }
+      if (res.data.status === 200) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '绑定成功',
+          icon: 'success',
+          duration: 1500
+        });
+        setTimeout(function () {
+          wx.navigateBack();
+        }, 1500)
+        return
+      }
+    }).catch(function (res) {
+      wx.hideToast();
+      wx.hideLoading()
+      app.showErrorModal(res, '绑定失败');
+      return
     })
   },
   checkBindResult: function(school_id, account) {
@@ -135,14 +147,14 @@ Page({
         if (res.data && res.data.status === 200) {
           resolve(res);
         } else if (res.data && res.data.status === 100) {
-          // 绑定中，开始轮训
-          _this.checkBindResult(school_id, account);
+          // 绑定中，开始轮询
+          resolve(res);
         } else {
           reject(res.data.msg);
         }
       }).catch(function(res) {
         console.log(res);
-        reject(res.errMsg);
+        reject(res);
       })
     })
   },

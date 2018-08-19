@@ -131,35 +131,41 @@ Page({
   onLoad: function() {
     var _this = this;
     app.loginLoad().then(function() {
-      _this.getSchoolInfo()
-      app.initWechatUser().then(function() {
-        _this.initButton()
+      _this.getSchoolInfo().then(function (){
+        app.initWechatUser().then(function () {
+          _this.initButton()
+        })
       })
     });
   },
   getSchoolInfo: function() {
     var _this = this;
-    //然后再尝试登录用户, 如果缓存更新将执行该回调函数
-    app.initSchoolUser().then(function(status) {}).catch(function(res) {
-      if (res.data.status === 100) {
-        _this.setData({
-          'remind': '未绑定'
-        });
-        wx.navigateTo({
-          url: '/pages/more/login'
-        });
-      } else {
-        app.showErrorModal(res.data.msg, '获取学校信息出错');
-        for (var i = 0, len = _this.data.core.length; i < len; i++) {
-          _this.data.core[i].disabled = true;
+    return new Promise(function(resolve, reject) {
+      //然后再尝试登录用户, 如果缓存更新将执行该回调函数
+      app.initSchoolUser().then(function(status) {
+        resolve();
+      }).catch(function(res) {
+        if (res.data.status === 100) {
+          _this.setData({
+            'remind': '未绑定'
+          });
+          wx.navigateTo({
+            url: '/pages/more/login'
+          });
+        } else {
+          app.showErrorModal(res.data.msg, '获取学校信息出错');
+          for (var i = 0, len = _this.data.core.length; i < len; i++) {
+            _this.data.core[i].disabled = true;
+          }
+          _this.setData({
+            offline: true,
+            'remind': res.data.msg,
+            core: _this.data.core
+          });
         }
-        _this.setData({
-          offline: true,
-          'remind': res.data.msg,
-          core: _this.data.core
-        });
-      }
-    });
+        reject(res);
+      });
+    })
   },
   initButton: function() {
     var _this = this;
@@ -216,6 +222,7 @@ Page({
     var loadsum = 0; //正在请求连接数
     //判断并读取缓存
     wx.showNavigationBarLoading();
+
     function endRequest() {
       loadsum--; //减少正在请求连接
       if (!loadsum) {
@@ -237,9 +244,9 @@ Page({
     })
     if (app.user.is_bind_mealcard) {
       loadsum++; //新增正在请求连接
-      _this.getMealcardCard().then(function () {
+      _this.getMealcardCard().then(function() {
         endRequest();
-      }).catch(function (res) {
+      }).catch(function(res) {
         console.log("一卡通信息加载失败")
         endRequest();
       })
@@ -249,9 +256,9 @@ Page({
     if (app.user.is_bind_library) {
       loadsum++; //新增正在请求连接
       //获取借阅信息
-      _this.getLibraryCard().then(function(){
+      _this.getLibraryCard().then(function() {
         endRequest();
-      }).catch(function (res) {
+      }).catch(function(res) {
         console.log("借阅信息加载失败")
         endRequest();
       })
@@ -290,7 +297,7 @@ Page({
       });
     })
   },
-  getMealcardCard: function () {
+  getMealcardCard: function() {
     var _this = this;
     //一卡通渲染
     function yktRender(data) {
@@ -305,9 +312,9 @@ Page({
     if (app.cache.ykt) {
       yktRender(app.cache.ykt);
     }
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       //获取借阅信息
-      app.wx_request('/school_sys/api_library').then(function (res) {
+      app.wx_request('/school_sys/api_library').then(function(res) {
         if (res.data && res.data.status === 200) {
           jyRender(res.data.data);
           app.saveCache('jy', res.data.data);
@@ -315,7 +322,7 @@ Page({
         } else {
           reject(res);
         }
-      }).catch(function (res) {
+      }).catch(function(res) {
         console.log(res)
         app.removeCache('jy');
         reject(res);
@@ -337,7 +344,7 @@ Page({
     }
     return new Promise(function(resolve, reject) {
       //获取一卡通数据
-      app.wx_request('/school_sys/api_mealcard').then(function (res) {
+      app.wx_request('/school_sys/api_mealcard').then(function(res) {
         if (res.data && res.data.status === 200) {
           yktRender(res.data.data);
           app.saveCache('ykt', res.data.data);
@@ -345,7 +352,7 @@ Page({
         } else {
           reject(res);
         }
-      }).catch(function (res) {
+      }).catch(function(res) {
         app.removeCache('ykt');
         reject();
       });

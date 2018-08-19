@@ -106,6 +106,8 @@ Page({
         wx.navigateTo({
           url: '/pages/more/login'
         });
+      } else {
+        app.showErrorModal(res.data.msg, '获取学校信息出错');
       }
     });
   },

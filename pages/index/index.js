@@ -27,7 +27,7 @@ Page({
       {
         id: 'kjs',
         name: '空教室',
-        disabled: false,
+        disabled: true,
         guest_view: true,
         student_disable: false,
         teacher_disabled: false,
@@ -36,7 +36,7 @@ Page({
       {
         id: 'ks',
         name: '考试安排',
-        disabled: false,
+        disabled: true,
         guest_view: false,
         student_disable: false,
         teacher_disabled: true,
@@ -45,7 +45,7 @@ Page({
       {
         id: 'ykt',
         name: '校园卡',
-        disabled: false,
+        disabled: true,
         guest_view: false,
         student_disable: false,
         teacher_disabled: false,
@@ -54,7 +54,7 @@ Page({
       {
         id: 'jy',
         name: '借阅信息',
-        disabled: false,
+        disabled: true,
         guest_view: false,
         student_disable: false,
         teacher_disabled: false,
@@ -72,7 +72,7 @@ Page({
       {
         id: 'zs',
         name: '我要找书',
-        disabled: false,
+        disabled: true,
         guest_view: true,
         student_disable: false,
         teacher_disabled: false,

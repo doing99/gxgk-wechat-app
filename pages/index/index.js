@@ -244,8 +244,11 @@ Page({
         kbRender(res.data.data);
         app.saveCache('kb', res.data.data);
         endRequest();
+      } else {
+        console.log("课表卡片加载失败")
       }
     }).catch(function(res) {
+      console.log("课表卡片加载失败")
       app.removeCache('kb');
       endRequest();
     });
@@ -270,8 +273,11 @@ Page({
           yktRender(res.data.data);
           app.saveCache('ykt', res.data.data);
           endRequest();
+        } else {
+          console.log("一卡通卡片加载失败")
         }
       }).catch(function (res) {
+        console.log("一卡通卡片加载失败")
         app.removeCache('ykt');
         endRequest();
       });

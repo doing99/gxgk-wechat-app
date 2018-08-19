@@ -114,26 +114,19 @@ Page({
   },
   //下拉更新
   onPullDownRefresh: function() {
+    var _this = this;
     _this.getCardData();
   },
   onShow: function() {
     var _this = this;
-    //清空数据
-    _this.setData({
-      'remind': '加载中',
-      'card.kb.show': false,
-      'card.ykt.show': false,
-      'card.jy.show': false,
-      'card.sdf.show': false
-    });
-    _this.getCardData();
   },
   onLoad: function() {
     var _this = this;
     app.loginLoad().then(function() {
       _this.getSchoolInfo().then(function (){
         app.initWechatUser().then(function () {
-          _this.initButton()
+          _this.initButton();
+          _this.getCardData();
         })
       })
     });
@@ -216,6 +209,14 @@ Page({
   getCardData: function(load_cache) {
     console.log("获取首页卡片信息")
     var _this = this;
+    //清空数据
+    _this.setData({
+      'remind': '加载中',
+      'card.kb.show': false,
+      'card.ykt.show': false,
+      'card.jy.show': false,
+      'card.sdf.show': false
+    });
     if (_this.data.offline) {
       return;
     }

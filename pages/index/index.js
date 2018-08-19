@@ -132,7 +132,9 @@ Page({
     var _this = this;
     app.loginLoad().then(function() {
       _this.getSchoolInfo()
-      _this.initButton()
+      app.initWechatUser().then(function(){
+        _this.initButton()
+      })
     });
   },
   getSchoolInfo: function() {
@@ -164,10 +166,11 @@ Page({
     //开关按钮设置
     function set_item_switch(item) {
       var is_teacher = app.user.auth_user.user_type == 1;
+      var is_admin = app.user.wx_info.is_admin;
       if (!item.disabled) {
         if (item.guest_view) {
           item.disabled = false;
-        } else if (app.user.is_admin) {
+        } else if (is_admin) {
           item.disabled = false;
         } else if (!is_teacher) {
           if (!item.student_disable)
@@ -239,7 +242,7 @@ Page({
     if (app.cache.kb) {
       kbRender(app.cache.kb);
     }
-    app.wx_request('/school_sys/api_schedule').then(function() {
+    app.wx_request('/school_sys/api_today_schdule').then(function(res) {
       if (res.data && res.data.status === 200) {
         kbRender(res.data.data);
         app.saveCache('kb', res.data.data);
@@ -248,6 +251,7 @@ Page({
         console.log("课表卡片加载失败")
       }
     }).catch(function(res) {
+      console.log(res)
       console.log("课表卡片加载失败")
       app.removeCache('kb');
       endRequest();
@@ -268,7 +272,7 @@ Page({
       }
       loadsum++; //新增正在请求连接
       //获取一卡通数据
-      app.wx_request('/school_sys/api_mealcard').then(function () {
+      app.wx_request('/school_sys/api_mealcard').then(function (res) {
         if (res.data && res.data.status === 200) {
           yktRender(res.data.data);
           app.saveCache('ykt', res.data.data);
@@ -298,7 +302,7 @@ Page({
       }
       loadsum++; //新增正在请求连接
       //获取借阅信息
-      app.wx_request('/school_sys/api_library').then(function () {
+      app.wx_request('/school_sys/api_library').then(function (res) {
         if (res.data && res.data.status === 200) {
           jyRender(res.data.data);
           app.saveCache('jy', res.data.data);

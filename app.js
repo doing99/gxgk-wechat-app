@@ -24,6 +24,10 @@ App({
           wx.clearStorage();
         } else {
           _this.session_id = _this.cache.session_id;
+          _this.user.wx_info = _this.cache.wx_info;
+          _this.user.auth_user = _this.cache.auth_user;
+          _this.user.student = _this.cache.student;
+          _this.user.teacher = _this.cache.teacher;
         }
       }
     } catch (e) {
@@ -54,8 +58,7 @@ App({
     });
   },
   //后台切换至前台时
-  onShow: function() {
-  },
+  onShow: function() {},
   //判断是否有登录信息，让分享时自动登录
   loginLoad: function() {
     var _this = this;
@@ -63,7 +66,7 @@ App({
       if (!_this.session_id) { //无登录信息
         _this.session_login().then(function() {
           resolve();
-        }).catch(function (res) {
+        }).catch(function(res) {
           reject(res);
         });
       } else { //有登录信息
@@ -77,13 +80,14 @@ App({
   },
   wx_request: function(enpoint, method, data) {
     // 全局网络请求封装
+    var _this = this;
     return new Promise(function(resolve, reject) {
       const session_id = wx.getStorageSync('session_id')
       let header = {}
       if (session_id) {
         header = {
           'content-type': 'application/json',
-          'session_id': session_id
+          'session-id': session_id
         }
       }
       wx.request({
@@ -95,6 +99,7 @@ App({
           resolve(res);
         },
         fail: function(res) {
+          _this.showLoadToast("网络出错")
           reject(res);
         }
       });
@@ -106,7 +111,7 @@ App({
       wx.checkSession({
         success: function() {
           wx.request({
-            url: _this.server + '/check_session',
+            url: _this.server + '/mini_program/check_session',
             data: {
               'session_id': _this.session_id
             },
@@ -135,7 +140,7 @@ App({
         },
         fail: function() {
           // 没有登录微信
-          _this.session_login().then(function () {
+          _this.session_login().then(function() {
             reject();
           });
         }
@@ -150,7 +155,7 @@ App({
         success: function(res) {
           wx.request({
             method: 'POST',
-            url: _this.server + '/session_login',
+            url: _this.server + '/mini_program/session_login',
             data: {
               code: res.code
             },
@@ -205,15 +210,14 @@ App({
       wx.getUserInfo({
         success: function(res) {
           var info = res;
-          _this.saveCache('userinfo', info);
-          _this.user.wxinfo = info.userInfo;
+          // _this.user.wxinfo = info.userInfo;
           if (!info.encryptedData || !info.iv) {
             reject('无关联AppID');
             return;
           }
           wx.request({
             method: 'POST',
-            url: _this.server + '/wechat_login',
+            url: _this.server + '/mini_program/wechat_login',
             data: {
               session_id: _this.session_id,
               key: info.encryptedData,
@@ -246,9 +250,39 @@ App({
       });
     })
   },
-  initUserData: function() {
+  initWechatUser: function() {
+    // 获取必要的微信信息
     var _this = this;
-    _this.wx_request()
+    return new Promise(function(resolve, reject) {
+      _this.wx_request("/mini_program/wechat_user", "POST").then(function(res) {
+        _this.user.wx_info = res.data.data;
+        _this.saveCache('wx_info', res.data.data);
+        resolve();
+      }).catch(function(res) {
+        reject(res);
+      })
+    })
+  },
+  initSchoolUser: function() {
+    // 获取必要的绑定信息
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      _this.wx_request("/school_sys/user_info", "POST").then(function(res) {
+        var data = res.data.data;
+        _this.auth_user = data.auth_user;
+        _this.saveCache('auth_user', data.auth_user);
+        if (_this.auth_user.user_type === 0) {
+          _this.saveCache('student', data.user_info);
+          _this.user.student = res.data.data;
+        } else if (_this.auth_user.user_type === 1) {
+          _this.saveCache('teacher', data.user_info);
+          _this.user.teacher = res.data.data;
+        }
+        resolve();
+      }).catch(function(res) {
+        reject(res);
+      })
+    })
   },
   showErrorModal: function(content, title) {
     wx.showModal({
@@ -271,6 +305,8 @@ App({
   user: {
     //微信数据
     wxinfo: {},
+    //认证数据
+    auth_user: {},
     //学生数据
     student: {},
     //教师数据

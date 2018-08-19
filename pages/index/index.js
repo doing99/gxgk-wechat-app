@@ -132,7 +132,7 @@ Page({
     var _this = this;
     app.loginLoad().then(function() {
       _this.getSchoolInfo()
-      app.initWechatUser().then(function(){
+      app.initWechatUser().then(function() {
         _this.initButton()
       })
     });
@@ -216,7 +216,6 @@ Page({
     var loadsum = 0; //正在请求连接数
     //判断并读取缓存
     wx.showNavigationBarLoading();
-    //获取课表数据
     function endRequest() {
       loadsum--; //减少正在请求连接
       if (!loadsum) {
@@ -229,6 +228,39 @@ Page({
         wx.stopPullDownRefresh();
       }
     }
+    loadsum++; //新增正在请求连接
+    _this.getScheduleCard().then(function() {
+      endRequest();
+    }).catch(function(res) {
+      console.log("课表加载失败")
+      endRequest();
+    })
+    if (app.user.is_bind_mealcard) {
+      loadsum++; //新增正在请求连接
+      _this.getMealcardCard().then(function () {
+        endRequest();
+      }).catch(function (res) {
+        console.log("一卡通信息加载失败")
+        endRequest();
+      })
+    } else {
+      app.removeCache('ykt');
+    }
+    if (app.user.is_bind_library) {
+      loadsum++; //新增正在请求连接
+      //获取借阅信息
+      _this.getLibraryCard().then(function(){
+        endRequest();
+      }).catch(function (res) {
+        console.log("借阅信息加载失败")
+        endRequest();
+      })
+    } else {
+      app.removeCache('jy');
+    }
+  },
+  getScheduleCard: function() {
+    var _this = this;
     //课表渲染
     function kbRender(info) {
       _this.setData({
@@ -238,24 +270,28 @@ Page({
         'remind': ''
       });
     }
-    loadsum++; //新增正在请求连接
-    if (app.cache.kb) {
-      kbRender(app.cache.kb);
-    }
-    app.wx_request('/school_sys/api_today_schdule').then(function(res) {
-      if (res.data && res.data.status === 200) {
-        kbRender(res.data.data);
-        app.saveCache('kb', res.data.data);
-        endRequest();
-      } else {
-        console.log("课表卡片加载失败")
+    return new Promise(function(resolve, reject) {
+      if (app.cache.kb) {
+        kbRender(app.cache.kb);
       }
-    }).catch(function(res) {
-      console.log(res)
-      console.log("课表卡片加载失败")
-      app.removeCache('kb');
-      endRequest();
-    });
+      //获取课表数据
+      app.wx_request('/school_sys/api_today_schdule').then(function(res) {
+        if (res.data && res.data.status === 200) {
+          kbRender(res.data.data);
+          app.saveCache('kb', res.data.data);
+          resolve();
+        } else {
+          reject(res);
+        }
+      }).catch(function(res) {
+        console.log(res)
+        app.removeCache('kb');
+        reject(res);
+      });
+    })
+  },
+  getMealcardCard: function () {
+    var _this = this;
     //一卡通渲染
     function yktRender(data) {
       _this.setData({
@@ -266,28 +302,28 @@ Page({
         'remind': ''
       });
     }
-    if (app.user.is_bind_mealcard) {
-      if (app.cache.ykt) {
-        yktRender(app.cache.ykt);
-      }
-      loadsum++; //新增正在请求连接
-      //获取一卡通数据
-      app.wx_request('/school_sys/api_mealcard').then(function (res) {
+    if (app.cache.ykt) {
+      yktRender(app.cache.ykt);
+    }
+    return new Promise(function (resolve, reject) {
+      //获取借阅信息
+      app.wx_request('/school_sys/api_library').then(function (res) {
         if (res.data && res.data.status === 200) {
-          yktRender(res.data.data);
-          app.saveCache('ykt', res.data.data);
-          endRequest();
+          jyRender(res.data.data);
+          app.saveCache('jy', res.data.data);
+          resolve();
         } else {
-          console.log("一卡通卡片加载失败")
+          reject(res);
         }
       }).catch(function (res) {
-        console.log("一卡通卡片加载失败")
-        app.removeCache('ykt');
-        endRequest();
+        console.log(res)
+        app.removeCache('jy');
+        reject(res);
       });
-    } else {
-      app.removeCache('ykt');
-    }
+    })
+  },
+  getLibraryCard: function() {
+    var _this = this;
     //借阅信息渲染
     function jyRender(info) {
       _this.setData({
@@ -296,24 +332,23 @@ Page({
         'remind': ''
       });
     }
-    if (app.user.is_bind_library) {
-      if (app.cache.jy) {
-        jyRender(app.cache.jy);
-      }
-      loadsum++; //新增正在请求连接
-      //获取借阅信息
-      app.wx_request('/school_sys/api_library').then(function (res) {
+    if (app.cache.jy) {
+      jyRender(app.cache.jy);
+    }
+    return new Promise(function(resolve, reject) {
+      //获取一卡通数据
+      app.wx_request('/school_sys/api_mealcard').then(function (res) {
         if (res.data && res.data.status === 200) {
-          jyRender(res.data.data);
-          app.saveCache('jy', res.data.data);
-          endRequest();
+          yktRender(res.data.data);
+          app.saveCache('ykt', res.data.data);
+          resolve();
+        } else {
+          reject(res);
         }
       }).catch(function (res) {
-        app.removeCache('jy');
-        endRequest();
+        app.removeCache('ykt');
+        reject();
       });
-    } else {
-      app.removeCache('jy');
-    }
+    })
   }
 });

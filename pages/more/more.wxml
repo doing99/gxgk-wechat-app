@@ -40,8 +40,7 @@
         </view>
       </view>
     </view>
-    <view class="more-info">
-
+    <view class="more-info" wx:if="{{0}}">
       <!--
       <navigator url="#">
         <view class="more-info-btn">
@@ -72,12 +71,12 @@
       </navigator>
     </view>
     <view class="more-info">
-      <navigator url="/pages/more/issues">
+      <!-- <navigator url="/pages/more/issues">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/envelope.png"></image>
           <text class="btn-text">用户反馈</text>
         </view>
-      </navigator>
+      </navigator> -->
       <navigator url="about">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/aboutmiao.png"></image>
@@ -103,12 +102,12 @@
       </navigator>
     </view>
     <view class="more-info">
-      <navigator url="/pages/more/issues">
+      <!-- <navigator url="/pages/more/issues">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/envelope.png"></image>
           <text class="btn-text">用户反馈</text>
         </view>
-      </navigator>
+      </navigator> -->
       <navigator url="about">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/aboutmiao.png"></image>

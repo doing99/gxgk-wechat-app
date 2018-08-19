@@ -14,9 +14,7 @@ Page({
     xqName: {
       grade: '',
       semester: ''
-    },
-    // 轮询次数
-    polling: 20
+    }
   },
   //分享
   onShareAppMessage: function () {
@@ -40,28 +38,15 @@ Page({
   },
   onLoad: function (options) {
     var _this = this;
-    if (wx.showShareMenu) {
-      wx.showShareMenu({
-        withShareTicket: true
-      })
-    }
-    app.loginLoad(function () {
-      app.getUserInfo(function () {
-        _this.loginHandler.call(_this, options);
-      });
-    }, options.id);
+    app.loginLoad().then(function () {
+      _this.loginHandler.call(_this, options);
+    });
   },
   loginHandler: function (options) {
     var _this = this;
-    if (!app.user.id || !app.user.is_bind) {
-      _this.setData({
-        remind: '未绑定'
-      });
-      return false;
-    }
     _this.setData({
-      id: options.id ? options.id : app.user.student.id,
-      name: options.name ? options.name : app.user.student.name
+      id: options.id ? options.id : app.user.auth_user.account,
+      name: options.name ? options.name : app.user.student.real_name
     });
     //判断并读取缓存
     if (app.cache.cj && !options.id) { _this.cjRender(app.cache.cj); }
@@ -71,64 +56,37 @@ Page({
   cjRender: function (data) {
     this.setData({
       rank: data.rank,
-      cjInfo: data.data,
+      cjInfo: data.score,
       xqName: data.year + '学年第' + data.term + '学期',
-      update_time: data.update_time,
+      update_time: data.update_time || '暂无',
       remind: ''
     });
   },
   getData: function (options) {
     var _this = this;
-    wx.request({
-      url: app.server + "/api/users/get_score",
-      method: 'POST',
-      data: {
-        session_id: app.user.id || '',
-        student_id: options.id ? options.id : ''
-      },
-      success: function (res) {
+    var data = {
+      student_id: options.id ? options.id : ''
+    }
+    app.wx_request("/school_sys/api_score", "POST", data).then(function (res){
         if (res.data && res.data.status === 200) {
-          // 停止异步轮询
-          _this.data.polling = 0;
-          var _data = res.data;
+          var _data = res.data.data;
           if (_data) {
             //保存成绩缓存
             app.saveCache('cj', _data);
             _this.cjRender(_data);
           } else { _this.setData({ remind: '暂无数据' }); }
-
-        } else if (res.data && res.data.status === 404) {
-          // 异步等待中
         } else {
-          // 停止异步轮询
-          _this.data.polling = 0;
           app.removeCache('cj');
           _this.setData({
-            remind: res.data.message || '未知错误'
+            remind: res.data.msg || '未知错误'
           });
         }
-      },
-      fail: function (res) {
-        if (_this.data.remind == '加载中') {
-          _this.setData({
-            remind: '网络错误'
-          });
-        }
+      }).catch(function(res) {
+        _this.setData({
+          remind: '网络错误'
+        });
         console.warn('网络错误');
-      },
-      complete: function () {
         wx.hideNavigationBarLoading();
-        // 回调轮询
-        setTimeout(function () {
-          if (_this.data.polling == 1) {
-            //轮询失败
-            _this.setData({ remind: '服务器繁忙，请稍后再试' });
-          } else if (_this.data.polling > 0) {
-            _this.data.polling = _this.data.polling - 1;
-            _this.getData(options);
-          }
-        }, 2000);
-      }
-    });
+      });
   }
 });

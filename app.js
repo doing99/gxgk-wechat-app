@@ -59,6 +59,21 @@ App({
   },
   //后台切换至前台时
   onShow: function() {},
+  checkCache: function() {
+    var _this = this;
+    return new Promise(function(resolve, reject) {
+      if (!_this.user.wx_info) {
+        _this.initWechatUser().then(function() {
+          if (!_this.user.auth_user) {
+            _this.initSchoolUser().then(function() {
+              resolve();
+            })
+          }
+        })
+      }
+      resolve();
+    })
+  },
   //判断是否有登录信息，让分享时自动登录
   loginLoad: function() {
     var _this = this;
@@ -66,14 +81,18 @@ App({
       if (!_this.session_id) { //无登录信息
         _this.session_login().then(function() {
           _this.is_login = true
-          resolve();
+          _this.checkCache().then(function () {
+            resolve();
+          })
         }).catch(function(res) {
           reject(res);
         });
       } else if (!_this.is_login) { //有登录信息,并且为初始化程序
         _this.check_session().then(function() {
           _this.is_login = true
-          resolve();
+          _this.checkCache().then(function () {
+            resolve();
+          })
         }).catch(function(res) {
           reject(res);
         })
@@ -317,7 +336,7 @@ App({
   is_login: false,
   user: {
     //微信数据
-    wxinfo: {},
+    wx_info: {},
     //认证数据
     auth_user: {},
     //学生数据

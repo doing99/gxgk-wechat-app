@@ -119,15 +119,15 @@ Page({
     }
     app.loginLoad().then(function() {
       _this.loginHandler(_this, options);
+      var is_teacher = app.user.auth_user.user_type || 0
+      _this.setData({
+        'teacher': is_teacher == 1
+      });
     });
   },
   //让分享时自动登录
   loginHandler: function(options) {
     var _this = this;
-    _this.setData({
-      'term': app.user.school.term,
-      'teacher': app.user.auth_user.user_type == 1
-    });
     // onLoad时获取一次课表
     var id = options.id;
     if (options.id && options.name) {
@@ -136,7 +136,7 @@ Page({
         name: options.name
       });
     }
-    _this.get_kb(id);
+    _this.get_kb(id || null);
   },
   onShow: function() {
     var _this = this;
@@ -177,7 +177,7 @@ Page({
     lessons[dataset.cid].target = true;
     if (week != '*') {
       lessons = lessons.filter(function(e) {
-        return e.weeks.indexOf(parseInt(week)) !== -1;
+        return e.weeks_arr.indexOf(parseInt(week)) !== -1;
       });
     }
     lessons.map(function(e, i) {
@@ -347,7 +347,7 @@ Page({
       var today = parseInt(_data.now_week); //星期几，0周日,1周一
       today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
       var week = _data.week_num; //当前周
-      var lessons = _data.lessions;
+      var lessons = _data.lessons.schedule;
       //各周日期计算
       var nowD = new Date(),
         nowMonth = nowD.getMonth() + 1,

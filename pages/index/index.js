@@ -124,17 +124,15 @@ Page({
     var _this = this;
     app.loginLoad().then(function() {
       _this.getSchoolInfo().then(function (){
-        app.initWechatUser().then(function () {
-          _this.initButton();
-          _this.getCardData();
-        })
+        _this.initButton();
+        _this.getCardData();
       })
     });
   },
   getSchoolInfo: function() {
     var _this = this;
     return new Promise(function(resolve, reject) {
-      //然后再尝试登录用户, 如果缓存更新将执行该回调函数
+      //刷新缓存
       app.initSchoolUser().then(function(status) {
         resolve();
       }).catch(function(res) {

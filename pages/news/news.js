@@ -69,7 +69,7 @@ Page({
     if (1) {
       _this.setData({
         'active.showMore': false,
-        'active.remind': "暂无重构",
+        'active.remind': "暂未重构",
         loading: false
       });
       wx.stopPullDownRefresh();

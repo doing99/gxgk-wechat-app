@@ -41,13 +41,13 @@
           </view>
         </view>
         <view wx:else>
-          <view class="tb-main" wx:for="{{card.kb.data}}" wx:key="item[1]">
+          <view class="tb-main" wx:for="{{card.kb.data}}" wx:key="item">
             <view class="tb-content">
-              <text class="tb-name">{{item[0]}}</text>
-              <text class="tb-time">{{item[1]}}</text>
+              <text class="tb-name">{{item[0].name}}</text>
+              <text class="tb-time">{{item[0].time}}</text>
             </view>
             <view class="tb-place">
-              <text>{{item[2]}}</text>
+              <text>{{item[0].place}}</text>
             </view>
           </view>
         </view>

@@ -63,7 +63,7 @@ Page({
       {
         id: 'xs',
         name: '学生查询',
-        disabled: true,
+        disabled: false,
         guest_view: false,
         student_disable: true,
         teacher_disabled: false,

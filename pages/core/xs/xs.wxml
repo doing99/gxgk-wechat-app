@@ -48,8 +48,11 @@
           <view class="item-content">
             <image class="item-content-image" src="{{item.headImg}}"></image>
             <view class="item-content-state">
-              <view class="content-state-name">
+              <view class="content-state-name" wx:if="{{item.NameFront}}">
                 <text class="state-name-active">{{item.activeName}}</text>{{item.normalXm}}
+              </view>
+              <view class="content-state-name" wx:else>
+                {{item.normalXm}}<text class="state-name-active">{{item.activeName}}</text>
               </view>
               <view class="content-state-stuId">学号：
                 <text class="state-name-active">{{item.activeXh}}</text>{{item.normalXh}}</view>
@@ -70,7 +73,7 @@
           </view>
           <view class="item-ul-college item-ul-li">
             <text class="ul-li-label">系别</text>
-            <text class="ul-li-content">{{item.dept}}</text>
+            <text class="ul-li-content">{{item.faculty}}</text>
           </view>
           <view class="item-ul-major item-ul-li">
             <text class="ul-li-label">专业名</text>
@@ -78,7 +81,7 @@
           </view>
           <view class="item-ul-class item-ul-li">
             <text class="ul-li-label">班级</text>
-            <text class="ul-li-content">{{item.class}}</text>
+            <text class="ul-li-content">{{item.class_name}}</text>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">课表</text>

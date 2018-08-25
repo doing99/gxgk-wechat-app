@@ -19,11 +19,11 @@ Page({
     testData: [],
     messageObj: { // 查询失败的提示信息展示对象
       messageDisplay: true,
-      message: '' 
+      message: ''
     }
   },
 
-  bindClearSearchTap: function (e) {
+  bindClearSearchTap: function(e) {
     this.setData({
       'main.mainDisplay': true,
       'main.total': 0,
@@ -44,7 +44,7 @@ Page({
       'main.message': '上滑加载更多',
       'testData': []
     });
-    if(!this.data.messageObj.messageDisplay){
+    if (!this.data.messageObj.messageDisplay) {
       this.setData({
         'messageObj.messageDisplay': true,
         'messageObj.message': ''
@@ -54,7 +54,7 @@ Page({
   },
 
   // 点击搜索
-  bindConfirmSearchTap: function () {
+  bindConfirmSearchTap: function() {
     this.setData({
       'main.total': 0,
       'main.sum': 0,
@@ -66,22 +66,22 @@ Page({
   },
 
   // 上滑加载更多
-  onReachBottom: function(){
-    if(this.data.main.message != '已全部加载' && this.data.main.message != '正在加载中'){
+  onReachBottom: function() {
+    if (this.data.main.message != '已全部加载' && this.data.main.message != '正在加载中') {
       this.search();
     }
   },
 
   // 搜索
-  search: function (key) {
+  search: function(key) {
 
     var that = this,
-        inputValue = key || that.data.header.inputValue,
-        messageDisplay = false,
-        message = '',
-        reDdata = null,
-        numberSign = false; // 用户输入的是姓名还是学号的标识
-      
+      inputValue = key || that.data.header.inputValue,
+      messageDisplay = false,
+      message = '',
+      reDdata = null,
+      numberSign = false; // 用户输入的是姓名还是学号的标识
+
     // 消除字符串首尾的空格
     function trim(str) {
 
@@ -112,15 +112,17 @@ Page({
     // 防止注入攻击
     function checkData(v) {
 
-        var temp = v;
-          
-        v = v.replace(/\\|\/|\.|\'|\"|\<|\>/g, function (str) { return ''; });
-        v = trim(v);
+      var temp = v;
 
-        messageDisplay = v.length < temp.length ? false : true;
-        message = '请勿输入非法字符!';
+      v = v.replace(/\\|\/|\.|\'|\"|\<|\>/g, function(str) {
+        return '';
+      });
+      v = trim(v);
 
-        return v;
+      messageDisplay = v.length < temp.length ? false : true;
+      message = '请勿输入非法字符!';
+
+      return v;
     }
 
     // 对输入进行过滤
@@ -128,11 +130,11 @@ Page({
 
     setMessageObj(messageDisplay, message);
     this.setData({
-       'header.inputValue': inputValue
+      'header.inputValue': inputValue
     });
 
     // 存在非法输入只会提示错误消息而不会发送搜索请求
-    if (messageDisplay === false) { 
+    if (messageDisplay === false) {
       return false;
     }
 
@@ -150,9 +152,9 @@ Page({
       function doData(data) {
 
         var curData = null,
-            curXm = null,
-            curXh = null,
-            len = data.length;
+          curXm = null,
+          curXh = null,
+          len = data.length;
 
         // 若查询没有查出结果，则直接显示提示信息并退出
         if (len === 0) {
@@ -164,22 +166,24 @@ Page({
         function doXm(str, xm) {
 
           var activeName = '',
-              arrXm = xm.split(''),
-              strIndex = xm.indexOf(str),
-              strLength = str.length;
-          if(strIndex == -1){
+            arrXm = xm.split(''),
+            strIndex = xm.indexOf(str),
+            strLength = str.length;
+          if (strIndex == -1) {
             return {
               activeName: '',
-              xm: xm
+              xm: xm,
+              front: true
             };
-          }else{
+          } else {
             activeName = xm.substr(strIndex, strLength);
             arrXm.splice(strIndex, strLength);
             xm = arrXm.join('');
-
+            console.log(strIndex)
             return {
               activeName: activeName || '',
-              xm: xm || ''
+              xm: xm || '',
+              front: strIndex == 0
             };
           }
         }
@@ -188,15 +192,15 @@ Page({
         function doXh(str, xh) {
 
           var activeXh = '',
-              arrXh = xh.split(''),
-              strIndex = xh.indexOf(str),
-              strLength = str.length;
-          if(strIndex == -1){
+            arrXh = xh.split(''),
+            strIndex = xh.indexOf(str),
+            strLength = str.length;
+          if (strIndex == -1) {
             return {
               activeXh: '',
               xh: xh
             };
-          }else{
+          } else {
             activeXh = xh.substr(strIndex, strLength);
             arrXh.splice(strIndex, strLength);
             xh = arrXh.join('');
@@ -210,24 +214,25 @@ Page({
 
         for (var i = 0; i < len; i++) {
 
-          curData = data[ i ];
+          curData = data[i];
           curXm = numberSign ? curData.xm : doXm(inputValue, curData.xm);
           curXh = !numberSign ? curData.xh : doXh(inputValue, curData.xh);
           curData.display = false; // 添加控制隐藏列表信息显示的标识
           curData.headImg = curData.headImg || '/images/core/xs.png';
-          curData.activeName =  curXm.activeName || '';
-          curData.activeXh =  curXh.activeXh || '';
-          curData.normalXm =  numberSign ? curXm : curXm.xm;
-          curData.normalXh =  !numberSign ? curXh : curXh.xh;
-          curData.dept = curData.dept || '未知';
+          curData.activeName = curXm.activeName || '';
+          curData.NameFront = curXm.front;
+          curData.activeXh = curXh.activeXh || '';
+          curData.normalXm = numberSign ? curXm : curXm.xm;
+          curData.normalXh = !numberSign ? curXh : curXh.xh;
+          curData.faculty = curData.faculty || '未知';
           curData.specialty = curData.specialty || '未知';
         }
 
         return data;
       }
-     
+
       reDdata = doData(rows);
-      
+
       // 若reDdata===false, 查询没有结果
       if (reDdata === false) {
         return false;
@@ -247,73 +252,63 @@ Page({
         that.bindOpenList(0);
       }
 
-      if(data.total <= that.data.main.sum) {
+      if (data.total <= that.data.main.sum) {
         that.setData({
           'main.message': '已全部加载'
         });
       }
 
     }
-    
+
     // 处理没找到搜索到结果或错误情况
     function doFail(err) {
 
       var message = typeof err === 'undefined' ? '未搜索到相关结果' : err;
-      
+
       setMessageObj(false, message);
       wx.hideToast();
     }
-    
+
     that.setData({
       'main.message': '正在加载中',
       'main.page': that.data.main.page + 1
     });
     app.showLoadToast();
-    wx.request({
-      url: app.server + '/api/get_student_info',
-      method: 'POST',
-      data: {
-        session_id: app.user.id,
-        key: inputValue,
-        page: that.data.main.page
-      },
-      success: function(res) {
-        
-        if(res.data && res.data.status === 200) {
-
-          doSuccess(res.data.data, true);
-        }else{
-
-          app.showErrorModal(res.data.message);
-          doFail(res.data.message);
-        }
-      },
-      fail: function(res) {
-        
-        app.showErrorModal(res.errMsg);
-        doFail(res.errMsg);
+    var data = {
+      session_id: app.user.id,
+      key: inputValue,
+      page: that.data.main.page
+    }
+    app.wx_request('/school_sys/api_get_student_info', 'POST', data).then(function(res) {
+      if (res.data && res.data.status === 200) {
+        doSuccess(res.data.data, true);
+      } else {
+        app.showErrorModal(res.data.msg);
+        doFail(res.data.msg);
       }
-    });
-
+    }).catch(function(res) {
+      app.showErrorModal(res.errMsg);
+      doFail(res.errMsg);
+    })
   },
 
   // main——最优
-  bindOpenList: function (e) {
+  bindOpenList: function(e) {
     var index = !isNaN(e) ? e : parseInt(e.currentTarget.dataset.index),
-        data = {};
-    data['testData['+index+'].display'] = !this.data.testData[index].display;
+      data = {};
+    data['testData[' + index + '].display'] = !this.data.testData[index].display;
     this.setData(data);
   },
 
-  onLoad: function(options){
+  onLoad: function(options) {
     var _this = this;
-    app.loginLoad(function(){
+    app.loginLoad().then(function() {
       _this.loginHandler.call(_this, options);
     });
   },
   //让分享时自动登录
-  loginHandler: function (options) {
-    if(options.key){
+  loginHandler: function(options) {
+    if (options.key) {
       this.setData({
         'main.mainDisplay': false,
         'header.defaultValue': options.key,
@@ -323,17 +318,17 @@ Page({
     }
   },
 
-  tapHelp: function(e){
-    if(e.target.id == 'help'){
+  tapHelp: function(e) {
+    if (e.target.id == 'help') {
       this.hideHelp();
     }
   },
-  showHelp: function(e){
+  showHelp: function(e) {
     this.setData({
       'header.help_status': true
     });
   },
-  hideHelp: function(e){
+  hideHelp: function(e) {
     this.setData({
       'header.help_status': false
     });

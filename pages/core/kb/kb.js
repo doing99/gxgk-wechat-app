@@ -97,28 +97,22 @@ Page({
     week: 1, //视图周数（'*'表示学期视图）
     lessons: [], //课程data
     dates: [], //本周日期
-    teacher: false //是否为教师课表
+    teacher: false, //是否为教师课表
+    share_id: null
   },
   //分享
   onShareAppMessage: function() {
-    var name = this.data.name || app.user.student.name,
-      id = this.data.id || app.user.student.id;
+    var id = this.data.share_id;
     return {
       title: name + '的课表',
       desc: '莞香小喵 - 课表查询',
-      path: '/pages/core/kb/kb?id=' + id + '&name=' + name
+      path: '/pages/core/kb/kb?id=' + id
     };
   },
   onLoad: function(options) {
     var _this = this;
-    //查询其他人课表时显示
-    if (options.name) {
-      wx.setNavigationBarTitle({
-        title: options.name + '的课表'
-      });
-    }
     app.loginLoad().then(function() {
-      _this.loginHandler(_this, options);
+      _this.loginHandler(options);
       var is_teacher = app.user.auth_user.user_type || 0
       _this.setData({
         'teacher': is_teacher == 1
@@ -129,14 +123,8 @@ Page({
   loginHandler: function(options) {
     var _this = this;
     // onLoad时获取一次课表
-    var id = options.id;
-    if (options.id && options.name) {
-      _this.setData({
-        id: options.id,
-        name: options.name
-      });
-    }
-    _this.get_kb(id || null);
+    var share_id = options.id;
+    _this.get_kb(share_id || '');
   },
   onShow: function() {
     var _this = this;
@@ -316,7 +304,7 @@ Page({
     data[dataset.target] = parseInt(_this.data[dataset.target]) + i;
     _this.setData(data);
   },
-  get_kb: function(id) {
+  get_kb: function(share_id) {
     //数组去除指定值
     function removeByValue(array, val) {
       for (var i = 0, len = array.length; i < len; i++) {
@@ -332,13 +320,12 @@ Page({
       data = {
         week_num: _this.data.week,
         weekday: '',
-        studentid: id
       };
     if (app.user.is_teacher) {
       data.type = 'teacher';
     }
     //判断并读取缓存
-    if (app.cache.kb_all && !id) {
+    if (app.cache.kb_all && !share_id) {
       kbRender(app.cache.kb_all);
     }
     //课表渲染
@@ -375,13 +362,20 @@ Page({
     }
     wx.showNavigationBarLoading();
     //获取课表
-    app.wx_request("/school_sys/api_schdule", "POST", data).then(function(res) {
+    app.wx_request("/school_sys/api_schdule", "GET", {
+      'share_id': share_id
+    }).then(function(res) {
       if (res.data && res.data.status === 200) {
         var data = res.data.data;
         if (data) {
-          if (!id) {
+          if (!share_id) {
             //保存课表缓存
             app.saveCache('kb_all', data);
+          } else {
+            wx.setNavigationBarTitle({
+              title: data.real_name + '的课表'
+            });
+
           }
           kbRender(data);
         } else {

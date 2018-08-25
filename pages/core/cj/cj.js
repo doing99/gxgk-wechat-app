@@ -65,7 +65,7 @@ Page({
   getData: function (share_id) {
     var _this = this;
     var share_id = share_id;
-    app.wx_request("/school_sys/api_score?share_id=" + share_id, "POST", {}).then(function (res){
+    app.wx_request("/school_sys/api_score", "GET", { 'share_id': share_id}).then(function (res){
         if (res.data && res.data.status === 200) {
           var _data = res.data.data;
           if (_data) {

@@ -179,7 +179,6 @@ Page({
             activeName = xm.substr(strIndex, strLength);
             arrXm.splice(strIndex, strLength);
             xm = arrXm.join('');
-            console.log(strIndex)
             return {
               activeName: activeName || '',
               xm: xm || '',

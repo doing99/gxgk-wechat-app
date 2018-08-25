@@ -28,6 +28,18 @@
     <view class="log-list" wx:else>
       <view class="describe">
         <view class="desc-title">
+          <text class="desc-v">v2.0.0 正式版</text>
+          <text class="desc-time">2018.08.25</text>
+        </view>
+        <text class="desc-content">功能重构</text>
+        <view class="desc-list">
+          <text class="desc-list-item">修复学生查询姓名高亮问题</text>
+          <text class="desc-list-item">提高分享接口安全性</text>
+          <text class="desc-list-item">修改登陆机制</text>
+        </view>
+      </view>
+      <view class="describe">
+        <view class="desc-title">
           <text class="desc-v">v1.0.3 正式版</text>
           <text class="desc-time">2017.09.11</text>
         </view>

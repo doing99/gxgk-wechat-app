@@ -85,15 +85,15 @@
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">课表</text>
-            <navigator open-type="navigate" url="/pages/core/kb/kb?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-kb">点击查看</navigator>
+            <navigator open-type="navigate" url="/pages/core/kb/kb?id={{item.share_id}}" class="ul-li-more ul-li-kb">点击查看</navigator>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">成绩</text>
-            <navigator open-type="navigate" url="/pages/core/cj/cj?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-cj">点击查看</navigator>
+            <navigator open-type="navigate" url="/pages/core/cj/cj?id={{item.share_id}}" class="ul-li-more ul-li-cj">点击查看</navigator>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">考试安排</text>
-            <navigator open-type="navigate" url="/pages/core/ks/ks?id={{item.xh}}&name={{item.xm}}" class="ul-li-more ul-li-ks">点击查看</navigator>
+            <navigator open-type="navigate" url="/pages/core/ks/ks?id={{item.share_id}}" class="ul-li-more ul-li-ks">点击查看</navigator>
           </view>
         </view>
       </view>

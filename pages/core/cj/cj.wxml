@@ -12,8 +12,8 @@
     <view class="cj-header">
       <view class="cj-text">
         <text class="cj-header-title">成绩查询</text>
-        <text class="cj-header-info">学号：{{id}}</text>
-        <text class="cj-header-info">姓名：{{name}}</text>
+        <text class="cj-header-info">学号：{{account}}</text>
+        <text class="cj-header-info">姓名：{{real_name}}</text>
       </view>
       <image class="cj-bg" src="/images/core/cj.png"></image>
     </view>

@@ -219,6 +219,7 @@ Page({
           curXh = !numberSign ? curData.xh : doXh(inputValue, curData.xh);
           curData.display = false; // 添加控制隐藏列表信息显示的标识
           curData.headImg = curData.headImg || '/images/core/xs.png';
+          curData.share_id = curData.share_id;
           curData.activeName = curXm.activeName || '';
           curData.NameFront = curXm.front;
           curData.activeXh = curXh.activeXh || '';

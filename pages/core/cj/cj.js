@@ -14,16 +14,16 @@ Page({
     xqName: {
       grade: '',
       semester: ''
-    }
+    },
+    share_id: ''
   },
   //分享
   onShareAppMessage: function () {
-    var name = this.data.name || app.user.student.name,
-      id = this.data.id || app.user.student.id;
+    var id = this.data.share_id;
     return {
       title: name + '的成绩单',
       desc: '快来莞香小喵查询你的期末成绩单',
-      path: '/pages/core/cj/cj?id=' + id + '&name=' + name,
+      path: '/pages/core/cj/cj?id=' + share_id,
       success: function (res) {
         if (res.shareTickets) {
           app.sendGroupMsg(res.shareTickets);
@@ -44,17 +44,17 @@ Page({
   },
   loginHandler: function (options) {
     var _this = this;
-    _this.setData({
-      id: options.id ? options.id : app.user.auth_user.account,
-      name: options.name ? options.name : app.user.student.real_name
-    });
+    var share_id = options.id;
     //判断并读取缓存
     if (app.cache.cj && !options.id) { _this.cjRender(app.cache.cj); }
     wx.showNavigationBarLoading();
-    _this.getData(options);
+    _this.getData(share_id);
   },
   cjRender: function (data) {
     this.setData({
+      account: data.account,
+      real_name: data.real_name,
+      share_id: data.share_id,
       rank: data.rank,
       cjInfo: data.score,
       xqName: data.year + '学年第' + data.term + '学期',
@@ -62,12 +62,10 @@ Page({
       remind: ''
     });
   },
-  getData: function (options) {
+  getData: function (share_id) {
     var _this = this;
-    var data = {
-      student_id: options.id ? options.id : ''
-    }
-    app.wx_request("/school_sys/api_score", "POST", data).then(function (res){
+    var share_id = share_id;
+    app.wx_request("/school_sys/api_score?share_id=" + share_id, "POST", {}).then(function (res){
         if (res.data && res.data.status === 200) {
           var _data = res.data.data;
           if (_data) {

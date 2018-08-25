@@ -1,4 +1,3 @@
-
 <!--index.wxml-->
 <view class="container">
   <image wx:if="{{banner}}" class="top-banner" src="https://xmcdn.gxgk.cc/static/images/app/banner.jpg"></image>
@@ -6,14 +5,22 @@
   <view class="main-box">
     <view class="content-box">
       <block wx:for="{{core}}" wx:key="id">
-        <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{(remind !== '未绑定' || item.guest_view)&& !item.disabled && (!offline || !item.offline_disabled)}}">
-          <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
-          <text class="core-item-name">{{item.name}}</text>
-        </navigator>
-        <view wx:else class="content-box-item disabled" bindtap="disabled_item">
-          <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
-          <text class="core-item-name">{{item.name}}</text>
-        </view>
+        <block wx:if="{{item.btn_type == nil}}">
+          <navigator url="{{'/pages/core/'+item.id+'/'+item.id}}" class="content-box-item" wx:if="{{(remind !== '未绑定' || item.guest_view)&& !item.disabled && (!offline || !item.offline_disabled)}}">
+            <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
+            <text class="core-item-name">{{item.name}}</text>
+          </navigator>
+          <view wx:else class="content-box-item disabled" bindtap="disabled_item">
+            <image class="core-item-icon" src="/images/core/{{item.id}}@disabled.png"></image>
+            <text class="core-item-name">{{item.name}}</text>
+          </view>
+        </block>
+        <block wx:if="{{item.btn_type == 'mini_program'}}">
+          <navigator target="miniProgram" open-type="navigate" app-id="{{item.mini_program.app_id}}" path="{{item.mini_program.path}}" extra-data="" version="release" class="content-box-item" wx:if="{{(remind !== '未绑定' || item.guest_view)&& !item.disabled && (!offline || !item.offline_disabled)}}">
+            <image class="core-item-icon" src="/images/core/{{item.id}}.png"></image>
+            <text class="core-item-name">{{item.name}}</text>
+          </navigator>
+        </block>
       </block>
       <view class="fix_tip {{disabledItemTap?'active':''}}">
         <text wx:if="{{remind == '未绑定'}}">请先绑定帐号</text>
@@ -28,7 +35,7 @@
         <navigator wx:if="{{remind == '未绑定'}}" url="/pages/more/login" class="remind-btn">前往绑定</navigator>
       </block>
     </view>
-    
+
     <view class="content-box" wx:if="{{card.kb.show}}">
       <navigator url="/pages/core/kb/kb" class="tb-nav">
         <view class="tb">

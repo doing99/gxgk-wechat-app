@@ -89,14 +89,14 @@
             <view class="kb-card {{wid%2==0?'mg-8':'mg-12'}}" wx:for="{{day_lesson}}" wx:key="{{wid}}" wx:for-index="wid">
               <!-- 循环重叠课 -->
               <block wx:for="{{day_lesson[wid]}}" wx:key="{{cid}}" wx:for-item="cards" wx:for-index="cid">
-                <view style="height:{{cards.number*100}}rpx" data-day="{{day}}" data-wid="{{wid}}" data-cid="{{cid}}" bindtap="showDetail" wx:for="{{cards.weeks_arr}}" wx:key="*this" wx:for-item="iweek" class="mg-8 kb-card-content {{iweek==week || week == '*' ?cards.color:''}}"
+                <view style="height:{{cards.section*100}}rpx" data-day="{{day}}" data-wid="{{wid}}" data-cid="{{cid}}" bindtap="showDetail" wx:for="{{cards.weeks_arr}}" wx:key="*this" wx:for-item="iweek" class="mg-8 kb-card-content {{iweek==week || week == '*' ?cards.color:''}}"
                 wx:if="{{iweek==week || week == '*'}}">
 
                   <!-- 判断上课地点是数字还是汉字 -->
                   <text wx:if="{{cards.place < '99999'}}" class="kb-card-place-num">{{cards.place}}</text>
                   <text wx:else class="kb-card-place-words">{{cards.place}}</text>
                   <view class="kb-card-name">
-                    <text class="kb-card-name-text" style="-webkit-line-clamp:{{3*(cards.number-1)}};">{{cards.name}}</text>
+                    <text class="kb-card-name-text" style="-webkit-line-clamp:{{3*(cards.section-1)}};">{{cards.name}}</text>
                   </view>
                 </view>
               </block>
@@ -108,11 +108,11 @@
         <view bindtap="hideDetail" class="kb-detail" wx:if="{{blur}}">
           <view class="kb-detaile-card-ctn" style="top:{{targetY}}rpx;left:{{targetX}}rpx;">
             <block wx:for="{{targetLessons}}" wx:key="{{cid}}" wx:for-index="cid" wx:for-item="cards">
-              <view style="height:{{cards.number*100}}rpx;left:{{cards.left}}rpx;" class="kb-card-content kb-detail-card-content {{cards.color}} {{targetI == cid ? 'kb-detail-card-content-active':''}}" data-index="{{cid}}" catchtap="infoCardTap">
+              <view style="height:{{cards.section*100}}rpx;left:{{cards.left}}rpx;" class="kb-card-content kb-detail-card-content {{cards.color}} {{targetI == cid ? 'kb-detail-card-content-active':''}}" data-index="{{cid}}" catchtap="infoCardTap">
                 <text wx:if="{{cards.place < '99999'}}" class="kb-card-place-num">{{cards.place}}</text>
                 <text wx:else class="kb-card-place-words">{{cards.place}}</text>
                 <view class="kb-card-name">
-                  <text class="kb-card-name-text" style="-webkit-line-clamp:{{3*(cards.number-1)}};">{{cards.name}}</text>
+                  <text class="kb-card-name-text" style="-webkit-line-clamp:{{3*(cards.section-1)}};">{{cards.name}}</text>
                 </view>
               </view>
             </block>
@@ -161,7 +161,7 @@
           <block>
             <text wx:if="{{week != '*'}}" class="kb-info-week">{{week}}周周{{_days[targetDay]}}</text>
             <text wx:else class="kb-info-week">星期{{_days[targetDay]}}</text>
-            <text class="kb-lesson-time">{{targetWid*2+1}}-{{targetWid*2+targetLessons[targetI].number}}节</text>
+            <text class="kb-lesson-time">{{targetWid*2+1}}-{{targetWid*2+targetLessons[targetI].section}}节</text>
             <image class="kb-info-card-close" src="/images/core/common/down_w.png" bindtap="hideDetail"></image>
           </block>
         </view>
@@ -226,7 +226,7 @@
                       <text class="info-item-value">{{item.place}}</text>（上课地点）
                     </view>
                     <view class="info-item">
-                      <text class="info-item-value">{{item.weeks_text}}{{item.number===3?' / 三节连上':''}}</text>（课程周数）
+                      <text class="info-item-value">{{item.weeks_text}}{{item.section===3?' / 三节连上':''}}</text>（课程周数）
                     </view>
                     <view class="info-item">
                       <text class="info-item-value">{{item.class_id}}</text>（教学班）

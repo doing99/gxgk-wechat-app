@@ -44,9 +44,14 @@ Page({
       },
       {
         id: 'ykt',
-        name: '校园卡',
-        disabled: true,
-        guest_view: false,
+        name: '校园导览',
+        btn_type: 'mini_program',
+        mini_program: {
+          app_id: 'wxc788f5aef8a73386',
+          path: 'pages/index'
+        },
+        disabled: false,
+        guest_view: true,
         student_disable: false,
         teacher_disabled: false,
         offline_disabled: false

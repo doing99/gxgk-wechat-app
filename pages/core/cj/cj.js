@@ -44,7 +44,7 @@ Page({
   },
   loginHandler: function (options) {
     var _this = this;
-    var share_id = options.id;
+    var share_id = options.id || '';
     //判断并读取缓存
     if (app.cache.cj && !options.id) { _this.cjRender(app.cache.cj); }
     wx.showNavigationBarLoading();

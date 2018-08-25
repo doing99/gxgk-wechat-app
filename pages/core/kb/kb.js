@@ -123,8 +123,8 @@ Page({
   loginHandler: function(options) {
     var _this = this;
     // onLoad时获取一次课表
-    var share_id = options.id;
-    _this.get_kb(share_id || '');
+    var share_id = options.id || '';
+    _this.get_kb(share_id);
   },
   onShow: function() {
     var _this = this;

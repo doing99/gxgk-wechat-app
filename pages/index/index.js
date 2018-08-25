@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 var app = getApp();
+var mta = require('../../utils/mta_analysis.js')
 Page({
   data: {
     banner: false,
@@ -127,6 +128,7 @@ Page({
   },
   onLoad: function() {
     var _this = this;
+    mta.Page.init()
     app.loginLoad().then(function() {
       _this.getSchoolInfo().then(function (){
         _this.initButton();

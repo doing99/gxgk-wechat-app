@@ -1,4 +1,5 @@
 //app.js
+var mta = require('./utils/mta_analysis.js')
 App({
   version: 'v2.0.0', //版本号
   scene: 1001, //场景值
@@ -8,6 +9,13 @@ App({
     if (options.scene) {
       _this.scene = options.scene;
     }
+    mta.App.init({
+      "appID": "500620460",
+      "lauchOpts": options, //渠道分析,需在onLaunch方法传入options,如onLaunch:function(options){...}
+      "statPullDownFresh": true, // 使用分析-下拉刷新次数/人数，必须先开通自定义事件，并配置了合法的eventID
+      "statShareApp": true, // 使用分析-分享次数/人数，必须先开通自定义事件，并配置了合法的eventID
+      "statReachBottom": true // 使用分析-页面触底次数/人数，必须先开通自定义事件，并配置了合法的eventID
+    });
     _this.shareTicket = options.shareTicket;
     //读取缓存
     try {
@@ -62,9 +70,9 @@ App({
   checkCache: function() {
     var _this = this;
     return new Promise(function(resolve, reject) {
-      if (!_this.user.wx_info) {
+      if (_this.util.isEmptyObject(_this.user.wx_info)) {
         _this.initWechatUser().then(function() {
-          if (!_this.user.auth_user) {
+          if (_this.util.isEmptyObject(_this.user.auth_user)) {
             _this.initSchoolUser().then(function() {
               resolve();
             })
@@ -251,7 +259,9 @@ App({
             success: function(res) {
               if (res.data && res.data.status === 200) {
                 console.log("获取用户信息成功")
-                resolve(res);
+                _this.checkCache().then(function () {
+                  resolve(res);
+                })
               } else {
                 _this.showLoadToast("服务器异常")
               }
@@ -297,12 +307,12 @@ App({
       _this.wx_request("/school_sys/user_info").then(function(res) {
         if (res.data.status === 200) {
           var data = res.data.data;
-          _this.auth_user = data.auth_user;
+          _this.user.auth_user = data.auth_user;
           _this.saveCache('auth_user', data.auth_user);
-          if (_this.auth_user.user_type === 0) {
+          if (_this.user.auth_user.user_type === 0) {
             _this.saveCache('student', data.user_info);
             _this.user.student = data.user_info;
-          } else if (_this.auth_user.user_type === 1) {
+          } else if (_this.user.auth_user.user_type === 1) {
             _this.saveCache('teacher', data.user_info);
             _this.user.teacher = data.user_info;
           }

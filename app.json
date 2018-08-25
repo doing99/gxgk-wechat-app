@@ -42,12 +42,6 @@
         "selectedIconPath": "images/index/index@active.png"
       },
       {
-        "pagePath": "pages/news/news",
-        "text": "资讯",
-        "iconPath": "images/index/news.png",
-        "selectedIconPath": "images/index/news@active.png"
-      },
-      {
         "pagePath": "pages/more/more",
         "text": "个人",
         "iconPath": "images/index/more.png",

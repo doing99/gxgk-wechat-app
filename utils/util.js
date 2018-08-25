@@ -15,11 +15,19 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+function isEmptyObject(obj) {
+  for (var key in obj) {
+    return false;
+  };
+  return true;
+};
+
 //md5&base64
 var md5 = require('md5.min.js'), base64 = require('base64.min.js')
 
 module.exports = {
   formatTime: formatTime,
+  isEmptyObject: isEmptyObject,
   md5: md5,
   base64: base64,
 }

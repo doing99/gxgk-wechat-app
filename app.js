@@ -75,11 +75,14 @@ App({
           if (_this.util.isEmptyObject(_this.user.auth_user)) {
             _this.initSchoolUser().then(function() {
               resolve();
-            })
+            }).catch(resolve)
+          } else {
+            resolve();
           }
-        })
+        }).catch(reject)
+      } else {
+        resolve();
       }
-      resolve();
     })
   },
   //判断是否有登录信息，让分享时自动登录

@@ -121,7 +121,12 @@ Page({
   //下拉更新
   onPullDownRefresh: function() {
     var _this = this;
-    _this.getCardData();
+    app.loginLoad().then(function () {
+      _this.getSchoolInfo().then(function () {
+        _this.initButton();
+        _this.getCardData();
+      })
+    });
   },
   onShow: function() {
     var _this = this;

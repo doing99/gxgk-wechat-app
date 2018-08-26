@@ -15,7 +15,7 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '莞香小喵微信小程序',
-      desc: '广科第一个并且唯一一个微信小程序',
+      desc: '分享你的大学生活',
       path: '/pages/more/about'
     }
   },

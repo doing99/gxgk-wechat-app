@@ -123,10 +123,11 @@ Page({
           icon: 'success',
           duration: 1500
         });
-        // 重新获取用户绑定信息
-        app.initSchoolUser();
         setTimeout(function () {
-          wx.navigateBack();
+          // 直接跳转回首页
+          wx.reLaunch({
+            url: '/pages/index/index'
+          })
         }, 1500)
         return
       }

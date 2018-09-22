@@ -24,6 +24,7 @@
 
 `AGPLv3` [GNU Affero General Public License v3.0](https://github.com/lanshan-studio/wecqupt/blob/master/LICENSE)
 
+Ps: 维护者为专业后端，业余前端，如有错漏敬请指正，目前维护人员均已毕业，后续维护....
 
 ---
 

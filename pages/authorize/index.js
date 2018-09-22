@@ -26,7 +26,6 @@ Page({
   },
   onShow: function() {
     const that = this
-    // 处理基础库等于或低于1.4.0版本,用户点击了授权，也授权成功但getUserInfo没有执行的情况,（open-type="getUserInfo"基础库1.3.0开始有效）
     var myinterval = setInterval(function() {
       wx.getUserInfo({
         success: function(res) {

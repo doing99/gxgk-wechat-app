@@ -28,7 +28,7 @@ Page({
       {
         id: 'kjs',
         name: '空教室',
-        disabled: true,
+        disabled: false,
         guest_view: true,
         student_disable: false,
         teacher_disabled: false,

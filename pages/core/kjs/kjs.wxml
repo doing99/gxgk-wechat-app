@@ -1,4 +1,3 @@
-
 <!--kjs.wxml-->
 <view class="container">
   <view wx:if="{{remind}}" class="remind-box">
@@ -9,17 +8,14 @@
     </block>
   </view>
   <block wx:else>
-
     <!--显示空教室信息-->
     <scroll-view scroll-y='true' class="main-roomUl" hidden="{{errObj.errorDisplay ? false : true}}">
-
       <!--楼层-->
       <block wx:for="{{testData}}" wx:key="">
         <view class="roomUl-floor">
-
           <!--楼层的空教室-->
           <view class="floor">
-            <block wx:for="{{item.room}}" wx:key="">
+            <block wx:for="{{item}}" wx:key="">
               <text>{{item}}</text>
             </block>
           </view>

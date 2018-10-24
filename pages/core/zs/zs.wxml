@@ -65,11 +65,11 @@
         <view class="item-ul" hidden="{{!item.display}}">
           <view class="item-ul-gendor item-ul-li">
             <text class="ul-li-label">出版社</text>
-            <text class="ul-li-content">{{item.press}}</text>
+            <text class="ul-li-content">{{item.publishing_house}}</text>
           </view>
           <view class="item-ul-college item-ul-li">
-            <text class="ul-li-label">出版年</text>
-            <text class="ul-li-content">{{item.pub_year}}</text>
+            <text class="ul-li-label">索书号</text>
+            <text class="ul-li-content">{{item.index}}</text>
           </view>
           <view class="item-ul-more item-ul-li">
             <text class="ul-li-label">详情</text>

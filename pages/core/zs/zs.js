@@ -213,22 +213,21 @@ Page({
     });
     app.showLoadToast();
     wx.request({
-      url: app.server + '/api/library/search_book',
-      method: 'POST',
+      url: 'https://library.gxgk.cc/library/',
+      method: 'GET',
       data: {
-        session_id: app.user.id,
-        key: inputValue,
+        keyword: inputValue,
         page: that.data.main.page
       },
       success: function(res) {
         
-        if(res.data && res.data.status === 200) {
+        if(res.data && res.data.code === 200) {
 
           doSuccess(res.data.data, true);
         }else{
 
-          app.showErrorModal(res.data.message);
-          doFail(res.data.message);
+          app.showErrorModal(res.data.msg);
+          doFail(res.data.msg);
         }
       },
       fail: function(res) {

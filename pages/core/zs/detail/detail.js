@@ -39,15 +39,14 @@ Page({
     }
     wx.showNavigationBarLoading();
     wx.request({
-      url: app.server + "/api/library/get_book_detail",
-      method: 'POST',
+      url: "https://library.gxgk.cc/library/book_detail",
+      method: 'GET',
       data: {
-        session_id: app.user.id,
         url: options.url
       },
       success: function (res) {
 
-        if (res.data && res.data.status === 200) {
+        if (res.data && res.data.code === 200) {
           var info = res.data.data;
           if (info) {
             xfRender(info);
@@ -83,7 +82,7 @@ Page({
 
     // 每次点击都将当前open换为相反的状态并更新到视图，视图根据open的值来切换css
     for (var i = 0, len = list.length; i < len; ++i) {
-      if (list[i].barcode == id) {
+      if (list[i].access_num == id) {
         list[i].open = !list[i].open;
       } else {
         list[i].open = false;

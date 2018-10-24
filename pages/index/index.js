@@ -78,7 +78,7 @@ Page({
       {
         id: 'zs',
         name: '我要找书',
-        disabled: true,
+        disabled: false,
         guest_view: true,
         student_disable: false,
         teacher_disabled: false,

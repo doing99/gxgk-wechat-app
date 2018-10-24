@@ -26,9 +26,9 @@
 
     <!-- 书籍详细信息 -->
     <view class="xf-types">
-      <block wx:for="{{xfData}}" wx:key="barcode" wx:for-item="itemName">
+      <block wx:for="{{xfData}}" wx:key="access_num" wx:for-item="itemName">
         <view class="xf-type-item {{itemName.open ? 'xf-item-show' : ''}}">
-          <view class="xf-head" id="{{itemName.barcode}}" bindtap="slideDetail">
+          <view class="xf-head" id="{{itemName.access_num}}" bindtap="slideDetail">
             <text class="xf-type-name">{{itemName.book_name}}</text>
             <image class="xf-item-icon" src="/images/core/common/down.png"></image>
           </view>

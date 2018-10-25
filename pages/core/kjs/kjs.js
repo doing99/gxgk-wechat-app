@@ -135,14 +135,16 @@ Page({
       // 对成功进行处理
       function doSuccess(data) {
         _this.setData({
-          'testData': data,
+          'testData': data.class_room_list,
+          'nowWeekNo': data.week_num,
+          'active.weekNo': data.week_num,
           'errObj.errorDisplay': true
         });
       }
 
       app.wx_request("/school_sys/api_empty_class_room", "POST", requestData).then(function(res) {
         if (res.data && res.data.status === 200) {
-          doSuccess(res.data.data.class_room_list);
+          doSuccess(res.data.data);
           resolve();
         } else {
           app.showErrorModal(res.data.msg);

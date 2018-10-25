@@ -35,7 +35,7 @@ scroll-view {
         padding: 0 0 0 65rpx;
         /*background: url('/images/core/kjs/classroom-icon.png') no-repeat;*/
         /*微信暂不支持静态bgimg文件，改用服务器url*/
-        background: url('https://wxapp.gxgk.cc/images/core/kjs/classroom-icon.png') no-repeat;
+        background: url('https://cdn.gxgk.cc/wxapp/core/kjs/classroom-icon.png') no-repeat;
         background-size: 30rpx 25rpx;
         background-position: 15rpx 8rpx;
     }
@@ -117,7 +117,7 @@ scroll-view {
 
         /*background: url('/images/core/kjs/week-icon.png') no-repeat;*/
         /*微信暂不支持静态bgimg文件，改用服务器url*/
-        background: url('https://wxapp.gxgk.cc/images/core/kjs/week-icon.png') no-repeat;
+        background: url('https://cdn.gxgk.cc/wxapp/core/kjs/week-icon.png') no-repeat;
         background-size: 100rpx 100rpx;
         background-position: 50% 50%;
     }
@@ -133,7 +133,7 @@ scroll-view {
 
         /*background: url('/images/core/kjs/day-icon.png') no-repeat;*/
         /*微信暂不支持静态bgimg文件，改用服务器url*/
-        background: url('https://wxapp.gxgk.cc/images/core/kjs/day-icon.png') no-repeat;
+        background: url('https://cdn.gxgk.cc/wxapp/core/kjs/day-icon.png') no-repeat;
         background-size: 100rpx 100rpx;
         background-position: 50% 50%;
     }
@@ -149,7 +149,7 @@ scroll-view {
 
         /*background: url('/images/core/kjs/classTime-icon.png') no-repeat;*/
         /*微信暂不支持静态bgimg文件，改用服务器url*/
-        background: url('https://wxapp.gxgk.cc/images/core/kjs/classTime-icon.png') no-repeat;
+        background: url('https://cdn.gxgk.cc/wxapp/core/kjs/classTime-icon.png') no-repeat;
         background-size: 100rpx 100rpx;
         background-position: 50% 50%;
     }
@@ -165,7 +165,7 @@ scroll-view {
 
         /*background: url('/images/core/kjs/building-icon.png') no-repeat;*/
         /*微信暂不支持静态bgimg文件，改用服务器url*/
-        background: url('https://wxapp.gxgk.cc/images/core/kjs/building-icon.png') no-repeat;
+        background: url('https://cdn.gxgk.cc/wxapp/core/kjs/building-icon.png') no-repeat;
         background-size: 100rpx 100rpx;
         background-position: 50% 50%;
     }

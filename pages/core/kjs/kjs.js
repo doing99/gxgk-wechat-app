@@ -6,7 +6,7 @@ var app = getApp();
 var WEEK_DATA = ['', '第一周', '第二周', '第三周', '第四周', '第五周', '第六周', '第七周', '第八周', '第九周', '第十周',
     '十一周', '十二周', '十三周', '十四周', '十五周', '十六周', '十七周', '十八周', '十九周', '二十周'
   ],
-  DAY_DATA = ['', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+  DAY_DATA = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
   CLASSTIME_DATA = ['', {
       time: '1-2节',
       index: 1
@@ -98,6 +98,7 @@ Page({
       };
     });
     var week_day = new Date().getDay();  
+    console.log(week_day)
     _this.setData({
       'nowWeekDay': week_day,
       'active.weekDay': week_day,
@@ -134,10 +135,15 @@ Page({
 
       // 对成功进行处理
       function doSuccess(data) {
+        var week_num = data.week_num
+        var week_day = new Date().getDay();  
+        if (week_day === 0) {
+          week_num = week_num - 1;
+        }
         _this.setData({
           'testData': data.class_room_list,
-          'nowWeekNo': data.week_num,
-          'active.weekNo': data.week_num,
+          'nowWeekNo': week_num,
+          'active.weekNo': week_num,
           'errObj.errorDisplay': true
         });
       }

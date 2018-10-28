@@ -334,6 +334,11 @@ Page({
       var today = parseInt(_data.now_week); //星期几，0周日,1周一
       today = today === 0 ? 6 : today - 1; //0周一,1周二...6周日
       var week = _data.week_num; //当前周
+      var toweek = week;
+      if (today === 6) {
+        toweek = toweek - 1;
+        week = week - 1;
+      }
       var lessons = _data.lessons.schedule;
       //各周日期计算
       var nowD = new Date(),
@@ -354,7 +359,7 @@ Page({
       _this.setData({
         today: today,
         week: week,
-        toweek: week,
+        toweek: toweek,
         lessons: lessons,
         dates: dates,
         remind: ''

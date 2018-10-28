@@ -5,6 +5,7 @@ App({
   scene: 1001, //场景值
   shareTicket: null, //分享获取相同信息所需ticket
   onLaunch: function(options) {
+    console.log(options)
     var _this = this;
     if (options.scene) {
       _this.scene = options.scene;
@@ -40,6 +41,9 @@ App({
       }
     } catch (e) {
       console.warn('获取缓存失败');
+    }
+    if (options.query.r) {
+      wx.navigateTo({ url: options.query.r })
     }
   },
   //保存缓存

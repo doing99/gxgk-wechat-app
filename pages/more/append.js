@@ -15,45 +15,31 @@ Page({
     passwd: '',
     angle: 0
   },
-
   onLoad: function (options) {
-    if (options.type == 'login') {
-      this.setData({
-        title: '绑定教务系统',
-        form_id: '账号',
-        form_pwd: '密码',
-        bind_type: 'login'
-      })
-    }
-    else if (options.type == 'mealcard') {
-      this.setData({
-        title: '绑定校园卡',
-        form_id: '校园卡卡号',
-        form_pwd: '校园卡密码',
-        bind_type: 'mealcard'
-      })
-    }
-    //else if (options.type == 'library') {
-    else {
-      this.setData({
+    var _this = this;
+    app.loginLoad().then(function () {
+      _this.setData({
         title: '绑定图书证',
         form_id: '图书证卡号',
         form_pwd: '图书证密码',
         bind_type: 'library'
       })
-    }
+    });
   },
-  onReady: function () {
+  onReady: function() {
     var _this = this;
-    setTimeout(function () {
+    setTimeout(function() {
       _this.setData({
         remind: ''
       });
     }, 1000);
-    wx.onAccelerometerChange(function (res) {
+    wx.onAccelerometerChange(function(res) {
       var angle = -(res.x * 30).toFixed(1);
-      if (angle > 14) { angle = 14; }
-      else if (angle < -14) { angle = -14; }
+      if (angle > 14) {
+        angle = 14;
+      } else if (angle < -14) {
+        angle = -14;
+      }
       if (_this.data.angle !== angle) {
         _this.setData({
           angle: angle
@@ -61,7 +47,7 @@ Page({
       }
     });
   },
-  bind: function () {
+  bind: function() {
     var _this = this;
     if (app.g_status) {
       app.showErrorModal(app.g_status, '绑定失败');
@@ -71,83 +57,45 @@ Page({
       app.showErrorModal('卡号及密码不能为空', '提醒');
       return false;
     }
-    if (!app.user.id) {
-      app.showErrorModal('未能成功登录', '错误');
-      return false;
-    }
     wx.showLoading({
       title: '绑定中',
     })
-    wx.request({
-      method: 'POST',
-      url: app.server + '/api/users/bind',
-      data: {
-        session_id: app.user.id,
-        from_id: _this.data.userid,
-        form_pwd: _this.data.passwd,
-        bind_type: _this.data.bind_type
-      },
-      success: function (res) {
-        if (res.data && res.data.status === 200) {
-          app.showLoadToast('请稍候');
-          //清除缓存
-          if (app.cache) {
-            app.removeCache('ykt');
-            app.removeCache('jy');
-          }
-          app.getUser(function () {
-            wx.showToast({
-              title: '绑定成功',
-              icon: 'success',
-              duration: 1500
-            });
-            var jump_url = '';
-            if (!app.user.is_teacher) {
-              if (!app.user.is_bind_mealcard) {
-                jump_url = 'append?type=mealcard';
-              } else if (!app.user.is_bind_library) {
-                jump_url = 'append?type=library';
-              }
-              else {
-                wx.navigateBack();
-                return;
-              }
-              setTimeout(function () {
-                wx.showModal({
-                  title: '提示',
-                  content: '部分功能需要完善信息才能正常使用，是否前往完善信息？',
-                  cancelText: '以后再说',
-                  confirmText: '完善信息',
-                  success: function (res) {
-                    if (res.confirm) {
-                      wx.redirectTo({
-                        url: jump_url
-                      });
-                    } else {
-                      wx.navigateBack();
-                    }
-                  }
-                });
-              }, 1500);
-            } else {
-              wx.navigateBack();
-            }
-          });
-        } else {
-          wx.hideToast();
-          app.showErrorModal(res.data.message, '绑定失败');
+    var data = {
+      account: _this.data.userid,
+      password: _this.data.passwd
+    };
+    app.wx_request("/library/xcx_login", 'POST', data).then(function(res) {
+      if (res.data && res.data.status === 200) {
+        app.showLoadToast('请稍候');
+        //清除缓存
+        if (app.cache) {
+          app.removeCache('ykt');
+          app.removeCache('jy');
         }
-      },
-      fail: function (res) {
-        wx.hideToast();
-        app.showErrorModal(res.errMsg, '绑定失败');
-      },
-      complete: function(res){
         wx.hideLoading();
+        wx.showToast({
+          title: '绑定成功',
+          icon: 'success',
+          duration: 1500
+        });
+        setTimeout(function() {
+          // 直接跳转回首页
+          wx.reLaunch({
+            url: '/pages/index/index'
+          })
+        }, 1500)
+      } else {
+        wx.hideToast();
+        wx.hideLoading();
+        app.showErrorModal(res.data.msg, '绑定失败');
       }
+    }).catch(function(res) {
+      wx.hideToast();
+      wx.hideLoading();
+      app.showErrorModal(res.errMsg, '绑定失败');
     });
   },
-  useridInput: function (e) {
+  useridInput: function(e) {
     this.setData({
       userid: e.detail.value
     });
@@ -155,12 +103,12 @@ Page({
       wx.hideKeyboard();
     }
   },
-  passwdInput: function (e) {
+  passwdInput: function(e) {
     this.setData({
       passwd: e.detail.value
     });
-  }, 
-  inputFocus: function (e) {
+  },
+  inputFocus: function(e) {
     if (e.target.id == 'userid') {
       this.setData({
         'userid_focus': true
@@ -171,7 +119,7 @@ Page({
       });
     }
   },
-  inputBlur: function (e) {
+  inputBlur: function(e) {
     if (e.target.id == 'userid') {
       this.setData({
         'userid_focus': false
@@ -182,17 +130,17 @@ Page({
       });
     }
   },
-  tapHelp: function (e) {
+  tapHelp: function(e) {
     if (e.target.id == 'help') {
       this.hideHelp();
     }
   },
-  showHelp: function (e) {
+  showHelp: function(e) {
     this.setData({
       'help_status': true
     });
   },
-  hideHelp: function (e) {
+  hideHelp: function(e) {
     this.setData({
       'help_status': false
     });

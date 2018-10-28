@@ -60,7 +60,7 @@ Page({
       {
         id: 'jy',
         name: '借阅信息',
-        disabled: true,
+        disabled: false,
         guest_view: false,
         student_disable: false,
         teacher_disabled: false,

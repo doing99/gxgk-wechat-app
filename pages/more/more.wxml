@@ -40,7 +40,7 @@
         </view>
       </view>
     </view>
-    <view class="more-info" wx:if="{{0}}">
+    <view class="more-info">
       <!--
       <navigator url="#">
         <view class="more-info-btn">
@@ -49,7 +49,7 @@
         </view>
       </navigator>
       -->
-      <navigator url="append?type=mealcard">
+      <!-- <navigator url="append?type=mealcard">
         <view class="more-info-btn" wx:if="{{!user.is_bind_mealcard}}">
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">绑定校园卡</text>
@@ -58,7 +58,7 @@
           <image class="btn-icon" src="/images/more/fanka.png"></image>
           <text class="btn-text">改绑校园卡</text>
         </view>
-      </navigator>
+      </navigator> -->
       <navigator url="append?type=library">
         <view class="more-info-btn" wx:if="{{!user.is_bind_library}}">
           <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
@@ -69,8 +69,6 @@
           <text class="btn-text">改绑图书证</text>
         </view>
       </navigator>
-    </view>
-    <view class="more-info">
       <!-- <navigator url="/pages/more/issues">
         <view class="more-info-btn">
           <image class="btn-icon" src="/images/more/envelope.png"></image>

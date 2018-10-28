@@ -22,6 +22,9 @@
   border-right: 1rpx solid #eee;
 }
 
+.user-jy-user {
+}
+
 .user-jy-dbet {
   border: none;
 }
@@ -33,6 +36,14 @@
 .user-jy-bd {
   display: flex;
   justify-content: center;
+}
+
+.user-jy-name {
+  font-size: 25px;
+  color: #73b4ef;
+  font-weight: bold;
+  line-height: 150%;
+  padding: 0 20rpx 0 30rpx;
 }
 
 .user-jy-value {

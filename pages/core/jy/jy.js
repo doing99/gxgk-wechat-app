@@ -27,6 +27,7 @@ Page({
     wx.showNavigationBarLoading();
     _this.getBookList();
     _this.getInfo();
+    wx.hideNavigationBarLoading();
   },
   getInfo: function () {
     var _this = this;

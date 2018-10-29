@@ -60,7 +60,7 @@
         </view>
       </navigator> -->
       <navigator url="append?type=library">
-        <view class="more-info-btn" wx:if="{{!user.is_bind_library}}">
+        <view class="more-info-btn" wx:if="{{!is_library}}">
           <image class="btn-icon" src="/images/more/tushuzheng.png"></image>
           <text class="btn-text">绑定图书证</text>
         </view>

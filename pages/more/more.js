@@ -14,7 +14,8 @@ Page({
   getData: function () {
     var _this = this;
     _this.setData({ 
-      'user': app.user
+      'user': app.user,
+      'is_library': app.cache.jy
     });
   }
 });

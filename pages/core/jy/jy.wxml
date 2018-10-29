@@ -1,4 +1,3 @@
-
 <!--jy.wxml-->
 <view class="container">
   <view wx:if="{{remind}}" class="remind-box">
@@ -11,7 +10,7 @@
   <block wx:else>
     <view class="user-jy">
       <view class="user-jy-item user-jy-user">
-        <text class="user-jy-hd">个人信息</text>
+        <text class="user-jy-hd">姓名</text>
         <view class="user-jy-bd">
           <text class="user-jy-name">{{jyData.real_name}}</text>
           <text class="user-jy-text"></text>
@@ -45,6 +44,16 @@
         <view class="book-wraper">
           <view class="book-name">
             {{itemName.title}}
+          </view>
+          <view class="book-info">
+            <view class="yhrq-value">
+              <text>图书条码：</text>
+              <text class="dept-name">{{itemName.barcode}}</text>
+            </view>
+            <view class="yhrq-value">
+              <text>流通状态：</text>
+              <text>{{itemName.circle_status}}</text>
+            </view>
           </view>
           <view class="book-date">
             <view class="yhrq-value">

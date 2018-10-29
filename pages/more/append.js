@@ -80,8 +80,8 @@ Page({
         });
         setTimeout(function() {
           // 直接跳转回首页
-          wx.reLaunch({
-            url: '/pages/index/index'
+          wx.redirectTo({
+            url: '/pages/core/jy/jy'
           })
         }, 1500)
       } else {

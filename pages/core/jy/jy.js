@@ -24,17 +24,11 @@ Page({
   },
   loadData: function() {
     var _this = this;
-    // if (!app.user.id || !app.user.is_bind_library) {
-    //   wx.redirectTo({
-    //     url: '/pages/more/append?type=library'
-    //   })
-    //   return false;
-    // }
     wx.showNavigationBarLoading();
     _this.getBookList();
     _this.getInfo();
   },
-  getInfo: function (renew = false) {
+  getInfo: function () {
     var _this = this;
     app.wx_request("/library/xcx_info", "GET").then(function (res) {
       if (res.data && res.data.status === 200) {
@@ -48,7 +42,16 @@ Page({
             remind: ''
           });
         }
-      } else {
+      } else if (res.data.status === 402) {
+        // 未绑定
+        _this.setData({
+          remind: "未绑定账号"
+        });
+        wx.redirectTo({
+          url: '/pages/more/append?type=library'
+        })
+      }
+       else {
         _this.setData({
           remind: res.data.msg || '未知错误'
         });
@@ -65,7 +68,7 @@ Page({
       wx.hideNavigationBarLoading();
     });
   },
-  getBookList: function(renew = false) {
+  getBookList: function() {
     var _this = this;
     app.wx_request("/library/xcx_record", "GET").then(function(res) {
       if (res.data && res.data.status === 200) {
@@ -101,6 +104,47 @@ Page({
       wx.hideNavigationBarLoading();
     });
   },
+  renew: function() {
+    var _this = this;
+    app.wx_request("/library/xcx_renew", "GET").then(function (res) {
+      if (res.data && res.data.status === 200) {
+        var rewnew_info = res.data.data;
+        var outdated_num = rewnew_info['outdated_num']
+        var renew_num = rewnew_info['renew_num']
+        var book_num = rewnew_info['book_num']
+        if (outdated_num === 0 && renew_num == 0) {
+          app.showErrorModal("还书期限大于7天，目前不需要续借", "续借提示");
+        } else if (outdated_num === book_num && renew_num === 0){
+          app.showErrorModal("续借失败！全部书籍逾期未还, 请尽快到图书馆还书", "续借提示");
+        } else if (renew_num === 0 && outdated_num > 0) {
+          app.showErrorModal(outdated_num + "本书籍逾期未还, 请尽快到图书馆还书, 其他图书目前不需要续借", "续借提示");
+        } else if (renew_num > 0 && outdate_books_times > 0) {
+          app.showErrorModal(outdated_num + "续借成功！部分书籍逾期未还，请尽快到图书馆还书", "续借提示");
+        } else if (renew_num > 0) {
+          app.showErrorModal(outdated_num + "续借成功！每本书只能续借一次", "续借提示");
+        }
+        console.log(rewnew_info)
+        _this.setData({
+          yjxjTap: false
+        });
+        wx.hideToast()
+      } else {
+        _this.setData({
+          remind: res.data.msg || '未知错误'
+        });
+      }
+      wx.hideNavigationBarLoading();
+    }).catch(function (res) {
+      console.log(res)
+      if (_this.data.remind == '加载中') {
+        _this.setData({
+          remind: '网络错误'
+        });
+      }
+      console.warn('网络错误');
+      wx.hideNavigationBarLoading();
+    })
+  },
   renewBook: function() {
     var _this = this;
     if (!_this.data.yjxjTap) {
@@ -110,9 +154,10 @@ Page({
       });
       app.showLoadToast("续借中")
       //续借
-      _this.getData(true);
+      _this.renew();
       //刷新用户信息
-      _this.getData(false);
+      _this.getBookList();
+      _this.getInfo();
     }
   }
 

@@ -86,14 +86,14 @@
           <navigator class="library-jy" url="/pages/core/jy/jy">
             <image class="jy-images" src="/images/index/book.png"></image>
             <text class="jsk">图书证：{{card.jy.data.account}}</text>
-            <text class="yjy">过期时间：{{card.jy.data.licence_end_time}}</text>
+            <text class="yjy">过期：{{card.jy.data.licence_end_time}}</text>
           </navigator>
         </view>
         <view class="sc-view">
           <navigator class="library-qf" url="/pages/core/jy/jy">
             <image class="jy-images" src="/images/index/qf.png"></image>
             <text class="jsk">逾期欠费：{{card.jy.data.arrears_money}}元</text>
-            <text class="yjy">读者类型：{{card.jy.data.user_type}}</text>
+            <text class="yjy">类型：{{card.jy.data.user_type}}</text>
           </navigator>
         </view>
         <view class="sc-view">

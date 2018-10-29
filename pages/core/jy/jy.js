@@ -21,13 +21,13 @@ Page({
   },
   onPullDownRefresh: function() {
     this.loadData();
+    wx.stopPullDownRefresh()
   },
   loadData: function() {
     var _this = this;
     wx.showNavigationBarLoading();
     _this.getBookList();
     _this.getInfo();
-    wx.hideNavigationBarLoading();
   },
   getInfo: function () {
     var _this = this;

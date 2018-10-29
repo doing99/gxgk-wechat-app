@@ -68,7 +68,7 @@
         </view>
       </block>
     </view>
-    <button class="yjxj" hover-class="yjxj-check" hover-stay-time="100" bindtap="renewBook">
+    <button wx:if="{{!jyData.nothing}}" class="yjxj" hover-class="yjxj-check" hover-stay-time="100" bindtap="renewBook">
       <text>一键续借</text>
     </button>
   </block>

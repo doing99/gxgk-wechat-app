@@ -11,7 +11,15 @@ Page({
       dbet: 0, //欠费
       nothing: true //当前是否有借阅
     },
-    yjxjTap: false, //点击一键续借
+    historyData: {
+      book_list: [], //当前借阅列表
+      books_num: 0, //当前借阅量
+      history: 0, //历史借阅量
+      dbet: 0, //欠费
+      nothing: true //当前是否有借阅
+    },
+    yjxjTap: false, //点击一键续借,
+    history: false
   },
   onLoad: function(options) {
     var _this = this;
@@ -27,6 +35,7 @@ Page({
     var _this = this;
     wx.showNavigationBarLoading();
     _this.getBookList();
+    _this.getBookHistory();
     _this.getInfo();
   },
   getInfo: function () {
@@ -53,6 +62,42 @@ Page({
         })
       }
        else {
+        _this.setData({
+          remind: res.data.msg || '未知错误'
+        });
+      }
+      wx.hideNavigationBarLoading();
+    }).catch(function (res) {
+      console.log(res)
+      if (_this.data.remind == '加载中') {
+        _this.setData({
+          remind: '网络错误'
+        });
+      }
+      console.warn('网络错误');
+      wx.hideNavigationBarLoading();
+    });
+  },
+  getBookHistory: function () {
+    var _this = this;
+    app.wx_request("/library/xcx_history", "GET").then(function (res) {
+      if (res.data && res.data.status === 200) {
+        var book_list = res.data.data;
+        if (book_list.length == 0) {
+          _this.setData({
+            nothing: true
+          });
+        } else {
+          var jyData = _this.data.jyData;
+          jyData.book_list = book_list;
+          jyData.books_num = book_list.length;
+          jyData.nothing = false
+          _this.setData({
+            historyData: jyData,
+            remind: ''
+          });
+        }
+      } else {
         _this.setData({
           remind: res.data.msg || '未知错误'
         });
@@ -160,6 +205,16 @@ Page({
       _this.getBookList();
       _this.getInfo();
     }
+  },
+  tapType: function(e) {
+    if (e.currentTarget.dataset.type == 'record') {
+      this.setData({
+        history: false
+      });
+    } else {
+      this.setData({
+        history: true
+      });
+    }
   }
-
 });

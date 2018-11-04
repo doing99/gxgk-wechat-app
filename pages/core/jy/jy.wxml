@@ -17,9 +17,11 @@
         </view>
       </view>
       <view class="user-jy-item user-jy-num">
-        <text class="user-jy-hd">当前借阅</text>
+        <text class="user-jy-hd" wx:if="{{!history}}">当前借阅</text>
+        <text class="user-jy-hd" wx:else>历史借阅</text>
         <view class="user-jy-bd">
-          <text class="user-jy-value">{{jyData.books_num}}</text>
+          <text class="user-jy-value" wx:if="{{!history}}">{{jyData.books_num}}</text>
+          <text class="user-jy-value" wx:else>{{historyData.books_num}}</text>
           <text class="user-jy-text">本</text>
         </view>
       </view>
@@ -31,45 +33,88 @@
         </view>
       </view>
     </view>
-    <view wx:if="{{jyData.nothing}}" class="remind-box">
-      <image class="remind-img" src="/images/index/nothing.png"></image>
-      <text class="remind-text">当前无借阅</text>
-    </view>
-    <view wx:else class="book-list">
-      <view wx:if="{{!message}}" class="current-type">
+    <view class="choose-type">
+      <view class="current-type" bindtap="tapType" data-type="record" style='background-color: {{!history?"#62adf5":"#929292"}}'>
         <text class="yuan-dian"></text>
         <text class="jyjl">借阅记录</text>
       </view>
-      <block wx:for="{{jyData.book_list}}" wx:key="title" wx:for-item="itemName">
-        <view class="book-wraper">
-          <view class="book-name">
-            {{itemName.title}}
-          </view>
-          <view class="book-info">
-            <view class="yhrq-value">
-              <text>图书条码：</text>
-              <text class="dept-name">{{itemName.barcode}}</text>
-            </view>
-            <view class="yhrq-value">
-              <text>流通状态：</text>
-              <text>{{itemName.circle_status}}</text>
-            </view>
-          </view>
-          <view class="book-date">
-            <view class="yhrq-value">
-              <text>收藏部门：</text>
-              <text class="dept-name">{{itemName.department}}</text>
-            </view>
-            <view class="yhrq-value">
-              <text>应还日期：</text>
-              <text>{{itemName.deadline}}</text>
-            </view>
-          </view>
-        </view>
-      </block>
+      <view class="current-type" bindtap="tapType" data-type="history" style='background-color: {{history?"#62adf5":"#929292"}}'>
+        <text class="yuan-dian"></text>
+        <text class="jyjl">历史借阅</text>
+      </view>
     </view>
-    <button wx:if="{{!jyData.nothing}}" class="yjxj" hover-class="yjxj-check" hover-stay-time="100" bindtap="renewBook">
-      <text>一键续借</text>
-    </button>
+    <view wx:if="{{!history && jyData.nothing}}" class="remind-box">
+      <image class="remind-img" src="/images/index/nothing.png"></image>
+      <text class="remind-text">当前无借阅</text>
+    </view>
+    <view wx:if="{{!history}}">
+      <view wx:if="{{!jyData.nothing}}" class="book-list">
+        <view class="current-type">
+          <text class="yuan-dian"></text>
+          <text class="jyjl">借阅记录</text>
+        </view>
+        <block wx:for="{{jyData.book_list}}" wx:key="title" wx:for-item="itemName">
+          <view class="book-wraper">
+            <view class="book-name">
+              {{itemName.title}}
+            </view>
+            <view class="book-info">
+              <view class="yhrq-value">
+                <text>图书条码：</text>
+                <text class="dept-name">{{itemName.barcode}}</text>
+              </view>
+              <view class="yhrq-value">
+                <text>流通状态：</text>
+                <text>{{itemName.circle_status}}</text>
+              </view>
+            </view>
+            <view class="book-date">
+              <view class="yhrq-value">
+                <text>收藏部门：</text>
+                <text class="dept-name">{{itemName.department}}</text>
+              </view>
+              <view class="yhrq-value">
+                <text>应还日期：</text>
+                <text>{{itemName.deadline}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <button wx:if="{{!jyData.nothing}}" class="yjxj" hover-class="yjxj-check" hover-stay-time="100" bindtap="renewBook">
+        <text>一键续借</text>
+      </button>
+    </view>
+    <view wx:if="{{history && historyData.nothing}}" class="remind-box">
+      <image class="remind-img" src="/images/index/nothing.png"></image>
+      <text class="remind-text">今年还没借过书哦</text>
+    </view>
+    <view wx:if="{{history}}">
+      <view wx:if="{{!historyData.nothing}}" class="book-list">
+        <block wx:for="{{historyData.book_list}}" wx:key="title" wx:for-item="itemName">
+          <view class="book-wraper">
+            <view class="book-name">
+              {{itemName.title}}
+            </view>
+            <view class="book-info">
+              <view class="yhrq-value">
+                <text>图书条码：</text>
+                <text class="dept-name">{{itemName.barcode}}</text>
+              </view>
+            </view>
+            <view class="book-date">
+              <view class="yhrq-value">
+                <text>操作类型：</text>
+                <text class="dept-name">{{itemName.operate_type}}</text>
+              </view>
+              <view class="yhrq-value">
+                <text>操作日期：</text>
+                <text>{{itemName.operate_time}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
   </block>
 </view>

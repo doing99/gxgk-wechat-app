@@ -49,10 +49,6 @@
     </view>
     <view wx:if="{{!history}}">
       <view wx:if="{{!jyData.nothing}}" class="book-list">
-        <view class="current-type">
-          <text class="yuan-dian"></text>
-          <text class="jyjl">借阅记录</text>
-        </view>
         <block wx:for="{{jyData.book_list}}" wx:key="title" wx:for-item="itemName">
           <view class="book-wraper">
             <view class="book-name">

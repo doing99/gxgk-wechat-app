@@ -203,7 +203,7 @@ Page({
       _this.renew();
       //刷新用户信息
       _this.getBookList();
-      _this.getInfo();
+      // _this.getInfo();
     }
   },
   tapType: function(e) {

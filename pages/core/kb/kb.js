@@ -299,7 +299,7 @@ Page({
   swiperChangeBtn: function(e) {
     var _this = this;
     if (_this.data.delayShow){
-      _this.setData({ delayShow: false });
+      _this.data.delayShow = false
       var dataset = e.currentTarget.dataset,
         i, data = {};
       if (_this.data[dataset.target] == 1 && dataset.direction == 'left') {
@@ -311,7 +311,7 @@ Page({
       }
       data[dataset.target] = parseInt(_this.data[dataset.target]) + i;
       _this.setData(data, () => {
-        _this.setData({ delayShow: true });
+        _this.data.delayShow = true
       });
     }
 

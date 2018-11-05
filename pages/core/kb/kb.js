@@ -98,7 +98,8 @@ Page({
     lessons: [], //课程data
     dates: [], //本周日期
     teacher: false, //是否为教师课表
-    share_id: null
+    share_id: null,
+    changeLock: false
   },
   //分享
   onShareAppMessage: function() {
@@ -252,10 +253,14 @@ Page({
   },
   currentChange: function(e) {
     // 更改底部周数时触发，修改当前选择的周数
-    var current = e.detail.current
-    this.setData({
-      week: current + 1
-    });
+    if (!this.data.changeLock) {
+      this.data.changeLock = true
+      var current = e.detail.current
+      this.setData({
+        week: current + 1
+      });
+      this.data.changeLock = false
+    }
   },
   catchMoveDetail: function() { /*阻止滑动穿透*/ },
   bindStartDetail: function(e) {

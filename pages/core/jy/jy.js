@@ -164,7 +164,7 @@ Page({
           app.showErrorModal("续借失败！全部书籍逾期未还, 请尽快到图书馆还书", "续借提示");
         } else if (renew_num === 0 && outdated_num > 0) {
           app.showErrorModal(outdated_num + "本书籍逾期未还, 请尽快到图书馆还书, 其他图书目前不需要续借", "续借提示");
-        } else if (renew_num > 0 && outdate_books_times > 0) {
+        } else if (renew_num > 0 && outdated_num > 0) {
           app.showErrorModal(outdated_num + "续借成功！部分书籍逾期未还，请尽快到图书馆还书", "续借提示");
         } else if (renew_num > 0) {
           app.showErrorModal(outdated_num + "续借成功！每本书只能续借一次", "续借提示");
